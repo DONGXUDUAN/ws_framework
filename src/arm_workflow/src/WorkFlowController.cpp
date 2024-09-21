@@ -73,8 +73,25 @@ private:
                 workflow_step.action_name = step["action_name"].get<std::string>();
 
                 // 遍历 parameters 节点并将其加入到 workflow_step 中
-                for (const auto& param : step["parameters"].items()) {
-                    workflow_step.parameters[param.key()] = param.value().get<std::string>();
+                for (const auto& param_pair : step["parameters"].items()) {
+                const std::string& param_name = param_pair.key();
+                const nlohmann::json& param_json = param_pair.value();
+                std::string type = param_json["type"];
+                    if (type == "PoseParameter") {
+                        double x = param_json["x"].get<double>();
+                        double y = param_json["y"].get<double>();
+                        double z = param_json["z"].get<double>();
+                        double qx = param_json["qx"].get<double>();
+                        double qy = param_json["qy"].get<double>();
+                        double qz = param_json["qz"].get<double>();
+                        double qw = param_json["qw"].get<double>();
+                        workflow_step.parameters[param_name] = std::make_shared<PoseParameter>(x, y, z, qx, qy, qz, qw);
+                    }else if (type== "StringParameter") {
+                        std::string value = param_json["value"];
+                        workflow_step.parameters[param_name] = std::make_shared<StringParameter>(value);
+                    }else {
+                        RCLCPP_ERROR(this->get_logger(), "未知参数类型: %s", type.c_str());
+                    }
                 }
 
                 workflow_steps_.push_back(workflow_step);
@@ -93,6 +110,7 @@ private:
         if (current_step_index_ >= workflow_steps_.size()) {
             RCLCPP_INFO(this->get_logger(), "工作流程已完成。");
             this->timer_->cancel();
+            rclcpp::shutdown();
             return;
         }
         WorkflowStep step = workflow_steps_[current_step_index_];
@@ -118,34 +136,51 @@ private:
             this->timer_->cancel();
         }
     }
-    void execute_move_arm(const std::map<std::string, std::string>& params)
+    void execute_move_arm(std::map<std::string, std::shared_ptr<BaseParameter>> parameters)
     {
         std::cout << "正在执行move_arm:" << std::endl;
-        for (const auto& param : params) {
-            std::cout << "Parameter: " << param.first << " = " << param.second << std::endl;
+        auto* pose_param = dynamic_cast<PoseParameter*>(parameters["position"].get());
+        if (pose_param) {
+            std::cout << "  Pose: (" << pose_param->x << ", " << pose_param->y << ", " 
+                        << pose_param->z << ") 旋转: (" 
+                        << pose_param->qx << ", " << pose_param->qy << ", " 
+                        << pose_param->qz << ", " << pose_param->qw << ")" << std::endl;
+        }else {
+            std::cout << "  未知的参数类型 或者参数没有内容" << std::endl;
         }
     }
-
-    void execute_attach(const std::map<std::string, std::string>& params)
+    void execute_attach(std::map<std::string, std::shared_ptr<BaseParameter>> parameters)
     {
         std::cout << "正在执行attach:" << std::endl;
-        for (const auto& param : params) {
-            std::cout << "Parameter: " << param.first << " = " << param.second << std::endl;
+        auto* link1_param = dynamic_cast<StringParameter*>(parameters["link1"].get());
+        auto* link2_param = dynamic_cast<StringParameter*>(parameters["link2"].get());
+        if (link1_param && link2_param) {
+            std::cout << "  连接: " << link1_param->value << " 和 " << link2_param->value << std::endl;
+        }else {
+            std::cout << "  未知的参数类型 或者参数没有内容" << std::endl;
         }
     }   
 
-    void execute_detach(const std::map<std::string, std::string>& params)
+    void execute_detach(std::map<std::string, std::shared_ptr<BaseParameter>> parameters)
     {
         std::cout << "正在执行detach:" << std::endl;
-        for (const auto& param : params) {
-            std::cout << "Parameter: " << param.first << " = " << param.second << std::endl;
+        auto* link1_param = dynamic_cast<StringParameter*>(parameters["link1"].get());
+        auto* link2_param = dynamic_cast<StringParameter*>(parameters["link2"].get());
+        if (link1_param && link2_param) {
+            std::cout << "  解开: " << link1_param->value << " 和 " << link2_param->value << std::endl;
+        }else {
+            std::cout << "  未知的参数类型 或者参数没有内容" << std::endl;
         }
+
     }
-    void execute_operate(const std::map<std::string, std::string>& params)
+    void execute_operate(std::map<std::string, std::shared_ptr<BaseParameter>> parameters)
     {
         std::cout << "正在执行operate:" << std::endl;
-        for (const auto& param : params) {
-            std::cout << "Parameter: " << param.first << " = " << param.second << std::endl;
+        auto* start_flag = dynamic_cast<StringParameter*>(parameters["start_flag"].get());
+        if (start_flag) {
+            std::cout << "  接收到到的指令是: " << start_flag->value << std::endl;
+        }else {
+            std::cout << "  未知的参数类型 或者参数没有内容" << std::endl;
         }
     }
 };

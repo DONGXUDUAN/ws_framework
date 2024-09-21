@@ -1,37 +1,69 @@
 {
-    "workflow_steps": [
+  "workflow_steps": [
       {
         "action_name": "move_arm",
         "parameters": {
-          "target_pose": "A"
+            "position": {
+              "type": "PoseParameter",
+              "x": 1.0,
+              "y": 2.0,
+              "z": 3.0,
+              "qx": 0.0,
+              "qy": 0.0,
+              "qz": 0.0,
+              "qw": 1.0
+            }
         }
       },
       {
         "action_name": "attach",
         "parameters": {
-          "link1": "bottle_link",
-          "link2": "tool_link"
-        }
-      },
-      {
-        "action_name": "move_arm",
-        "parameters": {
-          "target_pose": "B"
+          "link1": {
+            "type": "StringParameter",
+            "value": "tool0_link"
+          },
+          "link2": {
+            "type": "StringParameter",
+            "value": "bottle_link"
+          }
         }
       },
       {
         "action_name": "detach",
         "parameters": {
-          "link1": "bottle_link",
-          "link2": "tool_link"
+          "link1": {
+            "type": "StringParameter",
+            "value": "tool0_link"
+          },
+          "link2": {
+            "type": "StringParameter",
+            "value": "bottle_link"
+          }
         }
       },
       {
         "action_name": "operate",
         "parameters": {
-          "operation": "open_cap"
+          "start_flag": {
+            "type": "StringParameter",
+            "value": "start"
+          }
+        }
+      },
+      {
+        "action_name": "move_arm",
+        "parameters": {
+            "position": {
+              "type": "PoseParameter",
+              "x": 5.0,
+              "y": 2.0,
+              "z": 7.0,
+              "qx": 0.0,
+              "qy": 0.0,
+              "qz": 0.0,
+              "qw": 1.0
+            }
         }
       }
-    ]
-  }
-  
+  ]
+}
