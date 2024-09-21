@@ -1,0 +1,11 @@
+# Goal definition
+geometry_msgs/Pose target_pose
+
+---
+# Result definition
+bool success
+string message
+
+---
+# Feedback definition
+string current_pose

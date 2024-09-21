@@ -1,0 +1,12 @@
+# Goal definition
+string link1
+string link2
+
+---
+# Result definition
+bool success
+string message
+
+---
+# Feedback definition
+string status
