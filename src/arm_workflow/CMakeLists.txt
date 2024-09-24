@@ -28,7 +28,12 @@ ament_target_dependencies(detach_server rclcpp rclcpp_action std_msgs interfaces
 add_executable(operate_server src/OperateServer.cpp)
 ament_target_dependencies(operate_server rclcpp rclcpp_action std_msgs interfaces)
 
-add_executable(work_flow_controller src/WorkFlowController.cpp)
+add_executable(work_flow_controller 
+  src/WorkFlowController.cpp
+  src/client/MoveArmClient.cpp
+  src/client/AttachClient.cpp
+  src/client/DetachClient.cpp
+  src/client/OpennerClient.cpp)
 ament_target_dependencies(work_flow_controller rclcpp rclcpp_action std_msgs interfaces yaml-cpp)
 
 # Install executables

@@ -17,6 +17,10 @@
 #include "interfaces/action/operate.hpp"
 
 #include "arm_workflow/workflow_step.hpp"
+#include "arm_workflow/MoveArmClient.hpp" 
+#include "arm_workflow/AttachClient.hpp" 
+#include "arm_workflow/DetachClient.hpp"
+#include "arm_workflow/OpennerClient.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 
@@ -128,61 +132,15 @@ private:
             current_step_index_ += 1;
         }
         else if (step.action_name == "operate") {
-            execute_operate(step.parameters);
+            execute_openner(step.parameters);
             current_step_index_ += 1;
         }
         else {
             RCLCPP_ERROR(this->get_logger(), "未知的Action类型: %s", step.action_name.c_str());
             this->timer_->cancel();
         }
-    }
-    void execute_move_arm(std::map<std::string, std::shared_ptr<BaseParameter>> parameters)
-    {
-        std::cout << "正在执行move_arm:" << std::endl;
-        auto* pose_param = dynamic_cast<PoseParameter*>(parameters["position"].get());
-        if (pose_param) {
-            std::cout << "  Pose: (" << pose_param->x << ", " << pose_param->y << ", " 
-                        << pose_param->z << ") 旋转: (" 
-                        << pose_param->qx << ", " << pose_param->qy << ", " 
-                        << pose_param->qz << ", " << pose_param->qw << ")" << std::endl;
-        }else {
-            std::cout << "  未知的参数类型 或者参数没有内容" << std::endl;
-        }
-    }
-    void execute_attach(std::map<std::string, std::shared_ptr<BaseParameter>> parameters)
-    {
-        std::cout << "正在执行attach:" << std::endl;
-        auto* link1_param = dynamic_cast<StringParameter*>(parameters["link1"].get());
-        auto* link2_param = dynamic_cast<StringParameter*>(parameters["link2"].get());
-        if (link1_param && link2_param) {
-            std::cout << "  连接: " << link1_param->value << " 和 " << link2_param->value << std::endl;
-        }else {
-            std::cout << "  未知的参数类型 或者参数没有内容" << std::endl;
-        }
-    }   
+    } 
 
-    void execute_detach(std::map<std::string, std::shared_ptr<BaseParameter>> parameters)
-    {
-        std::cout << "正在执行detach:" << std::endl;
-        auto* link1_param = dynamic_cast<StringParameter*>(parameters["link1"].get());
-        auto* link2_param = dynamic_cast<StringParameter*>(parameters["link2"].get());
-        if (link1_param && link2_param) {
-            std::cout << "  解开: " << link1_param->value << " 和 " << link2_param->value << std::endl;
-        }else {
-            std::cout << "  未知的参数类型 或者参数没有内容" << std::endl;
-        }
-
-    }
-    void execute_operate(std::map<std::string, std::shared_ptr<BaseParameter>> parameters)
-    {
-        std::cout << "正在执行operate:" << std::endl;
-        auto* start_flag = dynamic_cast<StringParameter*>(parameters["start_flag"].get());
-        if (start_flag) {
-            std::cout << "  接收到到的指令是: " << start_flag->value << std::endl;
-        }else {
-            std::cout << "  未知的参数类型 或者参数没有内容" << std::endl;
-        }
-    }
 };
 
 int main(int argc, char ** argv)

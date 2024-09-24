@@ -7,7 +7,6 @@
             },
             "includePath": [
                 "/opt/ros/humble/include/**",
-                "/home/ws_framework/src/interfaces/include/**",
                 "/usr/include/**",
                 "./install/**",
                 "/home/ws_framework/src/arm_workflow/include/**",
