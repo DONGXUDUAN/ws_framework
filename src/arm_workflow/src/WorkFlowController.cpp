@@ -97,7 +97,6 @@ private:
                         RCLCPP_ERROR(this->get_logger(), "未知参数类型: %s", type.c_str());
                     }
                 }
-
                 workflow_steps_.push_back(workflow_step);
             }
             return true;
@@ -151,5 +150,4 @@ int main(int argc, char ** argv)
     rclcpp::shutdown();
     return 0;
 }
-
 

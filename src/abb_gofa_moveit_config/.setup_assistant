@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: abb_gofa_description
+    relative_path: urdf/abb_gofa/abb_gofa.urdf.xacro
+  srdf:
+    relative_path: config/abb_gofa.srdf
+  package_settings:
+    author_name: DONGXUDUAN
+    author_email: dongxuduan888@gmail.com
+    generated_timestamp: 1727156124
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity

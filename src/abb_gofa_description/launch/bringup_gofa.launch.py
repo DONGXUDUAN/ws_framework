@@ -4,14 +4,14 @@ import launch_ros
 from ament_index_python.packages import get_package_share_directory
 import launch_ros.parameter_descriptions 
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-
+from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
 
     robot_name_in_model = "abb_gofa"
     urdf_path = get_package_share_directory('abb_gofa_description')
     default_model_path = urdf_path + "/urdf/abb_gofa/abb_gofa.urdf.xacro"
-    # defult_rviz_config_path = urdf_path +'/config/display_gofa.rviz'
+    defult_rviz_config_path = urdf_path +'/config/display_gofa.rviz'
     default_world_path = urdf_path + '/world/gofa.world'
 
     # 申明一个参数model 表示xacro的路径
@@ -54,11 +54,48 @@ def generate_launch_description():
         arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
     )
 
+    moveit_path = get_package_share_directory("abb_gofa_moveit_config")
+    moveit_config = (
+            MoveItConfigsBuilder("abb_gofa")
+            .robot_description(file_path= urdf_path + "/urdf/abb_gofa/abb_gofa.urdf.xacro")
+            .trajectory_execution(file_path=moveit_path + "/config/moveit_controllers.yaml")
+            .planning_scene_monitor(
+                publish_robot_description=True, publish_robot_description_semantic=True
+            )
+            .planning_pipelines(
+                pipelines=["ompl", "chomp", "pilz_industrial_motion_planner"]
+            )
+            .to_moveit_configs()
+    )
+
+    run_move_group_node = launch_ros.actions.Node(
+        package="moveit_ros_move_group",
+        executable="move_group",
+        output="screen",
+        parameters=[moveit_config.to_dict(), {'use_sim_time': True}],
+    )
+
+    rviz_node = launch_ros.actions.Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output="log",
+        arguments=["-d", defult_rviz_config_path],
+        parameters=[
+            moveit_config.robot_description,
+            moveit_config.robot_description_semantic,
+            moveit_config.robot_description_kinematics,
+            moveit_config.planning_pipelines,
+            moveit_config.joint_limits,
+            {"use_sim_time": True},
+        ],
+    )
     return launch.LaunchDescription([
         action_declare_arg_model_path,
         robot_state_publisher_node,
         launch_gazebo,
         spawn_entity_node,
+        rviz_node,
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=spawn_entity_node,
@@ -71,6 +108,12 @@ def generate_launch_description():
                 on_exit=[joint_state_broadcaster_spawner]
             ),
         ),
-
-        
+        launch.actions.RegisterEventHandler(
+            event_handler=launch.event_handlers.OnProcessExit(
+                target_action=joint_state_broadcaster_spawner,
+                on_exit=[run_move_group_node]
+            ),
+        ),
     ])
+
+
