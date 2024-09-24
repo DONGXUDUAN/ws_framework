@@ -16,16 +16,16 @@ find_package(geometry_msgs REQUIRED)
 find_package(interfaces REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
-add_executable(move_arm_server src/MoveArmServer.cpp)
+add_executable(move_arm_server src/server/MoveArmServer.cpp)
 ament_target_dependencies(move_arm_server rclcpp rclcpp_action geometry_msgs std_msgs interfaces)
 
-add_executable(attach_server src/AttachServer.cpp)
+add_executable(attach_server src/server/AttachServer.cpp)
 ament_target_dependencies(attach_server rclcpp rclcpp_action std_msgs interfaces)
 
-add_executable(detach_server src/DetachServer.cpp)
+add_executable(detach_server src/server/DetachServer.cpp)
 ament_target_dependencies(detach_server rclcpp rclcpp_action std_msgs interfaces)
 
-add_executable(operate_server src/OperateServer.cpp)
+add_executable(operate_server src/server/OperateServer.cpp)
 ament_target_dependencies(operate_server rclcpp rclcpp_action std_msgs interfaces)
 
 add_executable(work_flow_controller 

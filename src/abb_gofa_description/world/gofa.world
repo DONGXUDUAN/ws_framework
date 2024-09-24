@@ -1,0 +1,145 @@
+<?xml version="1.0" ?>
+
+<sdf version="1.4">
+
+  <world name="default">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <gravity>0 0 -9.8</gravity>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <!-- <max_step_size>0.001</max_step_size> -->
+
+    <scene>
+        <shadows>false</shadows>
+    </scene>
+
+    <!-- 核磁仪 -->
+    <model name='NMR'>
+      <static>1</static>
+      <include>
+        <uri>model://NMR</uri>
+      </include>
+        <pose>0.1 -0.8  0.70 0 0 -1.570796</pose>
+    </model>
+
+    <!-- <model name='tube_rack'>
+      <static>1</static>
+      <include>
+        <uri>model://tube_rack</uri>
+      </include>
+        <pose>0.0 0.8  0.70 0 0 -1.570796</pose>
+    </model> -->
+
+    <!-- 瓶盘1 -->
+    <model name='bottle_plate_1'>
+      <static>1</static>
+      <include>
+        <uri>model://bottle_plate</uri>
+      </include>
+        <pose>0.3 1.0  0.70 0 0 0</pose>
+    </model>
+    <!-- 瓶子 -->
+    <model name='bottle_1'>
+      <static>0</static>
+      <include>
+        <uri>model://bottle</uri>
+      </include>
+        <pose>0.245 0.945  0.705 0 0 0</pose>
+    </model>
+
+    <model name='bottle_cap_1'>
+      <static>0</static>
+      <include>
+        <uri>model://bottle_cap</uri>
+      </include>
+        <pose>0.245 0.945  0.780 3.1415926 0 0</pose>
+    </model>
+
+    <!-- <model name='bottle_2'>
+      <static>1</static>
+      <include>
+        <uri>model://bottle</uri>
+      </include>
+        <pose>0.245 1.055  0.705 0 0 0</pose>
+    </model> -->
+
+    <!-- <model name='bottle_3'>
+      <static>0</static>
+      <include>
+        <uri>model://bottle</uri>
+      </include>
+        <pose>0.355 0.945  0.705 0 0 0</pose>
+    </model> -->
+
+    <!-- <model name='bottle_4'>
+      <static>1</static>
+      <include>
+        <uri>model://bottle</uri>
+      </include>
+        <pose>0.355 1.055  0.705 0 0 0</pose>
+    </model> -->
+
+    <!-- 瓶盘2 -->
+    <model name='bottle_plate_2'>
+      <static>1</static>
+      <include>
+        <uri>model://bottle_plate</uri>
+      </include>
+        <pose>0.55 1.0  0.70 0 0 0</pose>
+    </model>
+
+    <!-- 瓶子 -->
+    <!-- <model name='bottle_5'>
+      <static>0</static>
+      <include>
+        <uri>model://bottle</uri>
+      </include>
+        <pose>0.495 0.945  0.705 0 0 0</pose>
+    </model> -->
+
+    <!-- <model name='bottle_6'>
+      <static>1</static>
+      <include>
+        <uri>model://bottle</uri>
+      </include>
+        <pose>0.495 1.055  0.705 0 0 0</pose>
+    </model> -->
+
+    <!-- <model name='bottle_7'>
+      <static>0</static>
+      <include>
+        <uri>model://bottle</uri>
+      </include>
+        <pose>0.605 0.945  0.705 0 0 0</pose>
+    </model> -->
+
+    <!-- <model name='bottle_8'>
+      <static>1</static>
+      <include>
+        <uri>model://bottle</uri>
+      </include>
+        <pose>0.605 1.055  0.705 0 0 0</pose>
+    </model> -->
+
+    <!-- GAZEBO PLUGINS: -->
+    <!-- The following plugins must be activated for the ros2_grasping to effectively work: -->
+
+    <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so">
+      <ros>
+        <namespace>/gazebo_ros</namespace>
+        <argument>model_states:=model_states</argument>
+        <argument>link_states:=link_states</argument>
+      </ros>
+      <update_rate>1.0</update_rate>
+    </plugin>
+
+    <plugin name="gazebo_ros_properties" filename="libgazebo_ros_properties.so">
+      <ros>
+        <namespace>/gazebo_ros</namespace>
+      </ros>
+    </plugin>
+  </world>
+</sdf>

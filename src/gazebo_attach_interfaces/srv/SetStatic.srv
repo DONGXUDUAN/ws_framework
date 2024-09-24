@@ -1,0 +1,5 @@
+string model_name   # 模型名称
+bool is_static      # 是否将模型设置为静态
+---
+bool success        # 操作是否成功
+string message      # 返回的消息
