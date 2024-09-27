@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<robot name="egp64" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find abb_gofa_description)/urdf/egp64/egp64_ros2_control.urdf.xacro" />
+    <xacro:insert_egp64_ros2_control/>
+
+    <link name="connection">
+        <inertial>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <mass value="0.5" />
+            <inertia ixx="0.00" ixy="0.0" ixz="0.0" iyy="0.00" iyz="0.0" izz="0.00"/>
+        </inertial>
+        <visual>
+            <geometry>
+                <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/connection.dae" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/connection.dae" />
+            </geometry>
+        </collision>
+    </link>
+
+
+    <joint name="connection" type="fixed">
+        <parent link="connection"/>
+        <child link="schunk_coupler"/>
+        <origin xyz="0.0 0.0 0.04" rpy="0 0 0" />
+    </joint>
+
+    <link name="schunk_coupler">
+        <visual>
+            <geometry>
+                <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/egp64_Adapter.dae" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/egp64_Adapter.dae" />
+            </geometry>
+        </collision>
+        <inertial>
+        <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+        <mass value="0.1" />
+        <inertia ixx="0.00" ixy="0.0" ixz="0.0" iyy="0.000" iyz="0.0" izz="0.000"/>
+        </inertial>
+    </link>
+
+    <gazebo reference="schunk_coupler">
+        <mu1>0.9</mu1>
+        <mu2>0.9</mu2>
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <link name="egp64_gripper_base_link">
+        <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.05" />
+        <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.000" iyz="0.0" izz="0.000"/>
+        </inertial>
+        <visual>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/egp64_BaseNoAdapter.dae" />
+        </geometry>
+        <material name="blue">
+            <color rgba="0 0 1 1"/>
+        </material>
+        </visual>
+        <collision>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/egp64_BaseNoAdapter.dae" />
+        </geometry>
+        <material name="blue"/>
+        </collision>
+    </link>
+
+    <joint name="egp64_coupler" type="fixed">
+        <parent link="schunk_coupler"/>
+        <child link="egp64_gripper_base_link"/>
+        <origin xyz="-0.03205 0.01812 0.02047" rpy="0 0 0" />
+    </joint>
+
+    <link name="egp64_finger_left_link">
+        <inertial>
+        <origin xyz="0.01483 -0.00782 0" rpy="0 0 0" />
+        <mass value="0.05" />
+        <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.000" iyz="0.0" izz="0.000"/>
+        </inertial>
+        <visual>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/egp64_LeftFingerBase.dae" />
+        </geometry>
+        <material name="black">
+            <color rgba="0 0 0 1"/>
+        </material>
+        </visual>
+        <collision>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/egp64_LeftFingerBase.dae" />
+        </geometry>
+        <material name="black" />
+        </collision>
+    </link>
+    
+    <joint name="egp64_finger_left_joint" type="prismatic" >
+        <parent link="egp64_gripper_base_link" />
+        <child link="egp64_finger_left_link" />
+        <limit effort="100" lower="-0.01" upper="0.04" velocity="0.2"/>
+        <origin xyz="0.01483 -0.00782 0" rpy="0 0 0" />
+        <axis xyz="-1 0 0" />
+        <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+    
+    <!-- LEFT FINGERTIP -->
+    
+    <link name="egp64_fingertip_left_link">
+        <inertial>
+        <origin xyz="0.03869 -0.0005 0.00093" rpy="0 0 0" />
+        <mass value="0.05" />
+        <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.000" iyz="0.0" izz="0.000"/>
+        </inertial>
+        <visual>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/egp64_LeftFinger.dae" />
+        </geometry>
+        <material name="silver">
+            <color rgba="0.8 0.8 0.8 1"/>
+        </material>
+        </visual>
+        <collision>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/egp64_LeftFinger.dae" />
+        </geometry>
+        <material name="black"/>
+        </collision>
+    </link>
+    
+    <joint name="egp64_fingertip_left_joint" type="fixed" >
+        <parent link="egp64_finger_left_link" />
+        <child link="egp64_fingertip_left_link" />
+        <origin xyz="0.03869 -0.0005 0.00093" rpy="0 0 0"/>
+    </joint>
+
+    
+    <!-- RIGHT FINGER BASE -->
+
+    <link name="egp64_finger_right_link">
+        <inertial>
+        <origin xyz="-0.0153 -0.00602 0" rpy="0 0 0" />
+        <mass value="0.05" />
+        <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.000" iyz="0.0" izz="0.000"/>
+        </inertial>
+        <visual>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/egp64_RightFingerBase.dae" />
+        </geometry>
+        <material name="black"/>
+        </visual>
+        <collision>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/egp64_RightFingerBase.dae" />
+        </geometry>
+        <material name="black"/>
+        </collision>
+    </link>
+    
+    <joint name="egp64_finger_right_joint" type="prismatic" >
+        <parent link="egp64_gripper_base_link" />
+        <child link="egp64_finger_right_link" />
+        <limit effort="100" lower="-0.01" upper="0.04" velocity="0.2"/>
+        <origin xyz="-0.0153 -0.00602 0" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+        <dynamics damping="1.0" friction="1.0"/>
+    </joint>
+    
+    <!-- RIGHT FINGERTIP -->
+
+    <link name="egp64_fingertip_right_link">
+        <inertial>
+        <origin xyz="-0.01211 -0.00197 0.00093" rpy="0 0 0" />
+        <mass value="0.05" />
+        <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.00" iyz="0.0" izz="0.00"/>
+        </inertial>
+        <visual>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/egp64_RightFinger.dae" />
+        </geometry>
+        <material name="silver" />
+        </visual>
+        <collision>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/egp64/egp64_RightFinger.dae" />
+        </geometry>
+        <material name="black"/>
+    </collision>
+    </link>
+    
+    <joint name="egp64_fingertip_right_joint" type="fixed" >
+        <parent link="egp64_finger_right_link" />
+        <child link="egp64_fingertip_right_link" />
+        <origin xyz="-0.01211 -0.00197 0.00093" rpy="0 0 0"/>
+    </joint>
+
+    <!-- SMALL CUBE FOR GRIPPER PLUGIN -->
+
+    <link name="EE_egp64">
+        <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.05" />
+        <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.00" iyz="0.0" izz="0.0"/>
+        </inertial>
+        <visual>
+        <geometry>
+            <box size= "0.001 0.001 0.001" />
+        </geometry>
+        </visual>
+    </link>
+    
+    <joint name="EE_egp64_joint" type="fixed" >
+        <parent link="egp64_gripper_base_link" />
+        <child link="EE_egp64" />
+        <axis xyz="1 0 0" />
+        <origin xyz="0.033 -0.018 0.15" rpy="0 0 0"/>
+    </joint>
+
+    <!-- 夹爪传动 -->
+
+    <transmission name="egp64_left_finger_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="egp64_finger_left_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="egp64_left_finger_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="egp64_right_finger_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="egp64_finger_right_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="egp64_right_finger_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>  
+
+</robot>

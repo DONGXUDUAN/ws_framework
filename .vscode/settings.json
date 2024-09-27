@@ -11,5 +11,6 @@
         "iostream": "cpp",
         "fstream": "cpp",
         "ostream": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/ws_framework/build/gazebo_attach_interfaces/gazebo_attach_interfaces__py"
 }

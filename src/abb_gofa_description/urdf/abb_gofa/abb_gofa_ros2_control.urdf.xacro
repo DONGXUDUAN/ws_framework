@@ -6,11 +6,10 @@
 
         <!-- ===== Gazebo ROS2_CONTROL plugin ===== -->
         <gazebo>
-            <plugin name="link_attacher_plugin" filename="liblink_attacher_plugin.so"></plugin>
+            <!-- <plugin name="link_attacher_plugin" filename="liblink_attacher_plugin.so"></plugin> -->
             <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
                 <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
                 <parameters>$(find abb_gofa_description)/config/abb_gofa_controller.yaml</parameters>
-                <!-- <namespace>/gofa</namespace> -->
             </plugin>
         </gazebo>
 

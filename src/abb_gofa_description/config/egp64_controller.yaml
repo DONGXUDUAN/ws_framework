@@ -1,0 +1,24 @@
+/egp64/controller_manager:
+  ros__parameters:
+    update_rate: 100 #Hz
+    use_sim_time: true
+
+    egp64_joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    egp64_joint_controllers:
+      type: position_controllers/JointGroupPositionController
+      
+      
+egp64/egp64_joint_controllers:
+  ros__parameters:
+    joints:
+      - egp64_finger_left_joint
+      - egp64_finger_right_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 50.0
+    action_monitor_rate: 20.0
