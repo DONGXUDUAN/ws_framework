@@ -69,7 +69,6 @@ def generate_launch_description():
         arguments=["joint_state_broadcaster", "--controller-manager", "controller_manager"],
     )
 
-
     # 请求加载egp64执行器以及其控制器
     spawn_egp64_node = launch_ros.actions.Node(
         package='gazebo_ros',
@@ -161,22 +160,22 @@ def generate_launch_description():
         ),
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
-                target_action=egp64_position_controller_spawner,
+                target_action=spawn_gofa_node,
                 on_exit=[abb_gofa_joint_state_broadcaster_spawner]
             )
         ),
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=abb_gofa_joint_state_broadcaster_spawner,
-                on_exit=[abb_gofa_joint_trajectory_controller_spawner,]
+                on_exit=[abb_gofa_joint_trajectory_controller_spawner]
             ),
         ),
-        # launch.actions.RegisterEventHandler(
-        #     event_handler=launch.event_handlers.OnProcessExit(
-        #         target_action=abb_gofa_joint_state_broadcaster_spawner,
-        #         on_exit=[run_move_group_node]
-        #     ),
-        # ),
+        launch.actions.RegisterEventHandler(
+            event_handler=launch.event_handlers.OnProcessExit(
+                target_action=abb_gofa_joint_trajectory_controller_spawner,
+                on_exit=[run_move_group_node]
+            ),
+        ),
     ])
 
 

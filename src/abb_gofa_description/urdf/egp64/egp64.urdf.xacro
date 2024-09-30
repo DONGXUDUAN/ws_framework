@@ -2,7 +2,7 @@
 <robot name="egp64" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:include filename="$(find abb_gofa_description)/urdf/egp64/egp64_ros2_control.urdf.xacro" />
-    <xacro:insert_egp64_ros2_control/>
+    <xacro:egp64_ros2_control/>
 
     <link name="connection">
         <inertial>

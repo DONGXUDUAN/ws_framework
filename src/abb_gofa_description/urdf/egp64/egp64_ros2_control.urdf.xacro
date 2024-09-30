@@ -1,46 +1,36 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:macro name="insert_egp64_ros2_control">
-
-        <xacro:property name="name" value="GazeboSystem" />
+    <xacro:macro name="egp64_ros2_control">
         <gazebo>
-            <plugin name="link_attacher_plugin" filename="liblink_attacher_plugin.so"></plugin>
+            <!-- <plugin name="link_attacher_plugin" filename="liblink_attacher_plugin.so"></plugin> -->
             <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
                 <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
-                <parameters>$(find abb_gofa_description)/config/egp64_controller.yaml</parameters>
                 <namespace>/egp64</namespace>
+                <parameters>$(find abb_gofa_description)/config/egp64_controller.yaml</parameters>
             </plugin>
         </gazebo>
 
-        <ros2_control name="${name}" type="system">
+        <ros2_control name="egp64_robot" type="system">
             <hardware>
                 <plugin>gazebo_ros2_control/GazeboSystem</plugin>
             </hardware>
 
             <joint name="egp64_finger_left_joint">
-            <command_interface name="position">
-                <param name="min">-0.01</param>
-                <param name="max">0.04</param>
-            </command_interface>
-            <command_interface name="velocity">
-                <param name="min">-0.2</param>
-                <param name="max">0.2</param>
-            </command_interface>
-            <state_interface name="position"/>
-            <state_interface name="velocity"/>
+                <command_interface name="position">
+                    <param name="min">-0.01</param>
+                    <param name="max">0.04</param>
+                </command_interface>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
             </joint>
 
             <joint name="egp64_finger_right_joint">
-            <command_interface name="position">
-                <param name="min">-0.01</param>
-                <param name="max">0.04</param>
-            </command_interface>
-            <command_interface name="velocity">
-                <param name="min">-0.2</param>
-                <param name="max">0.2</param>
-            </command_interface>
-            <state_interface name="position"/>
-            <state_interface name="velocity"/>
+                <command_interface name="position">
+                    <param name="min">-0.01</param>
+                    <param name="max">0.04</param>
+                </command_interface>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
             </joint>
         </ros2_control>
     </xacro:macro>

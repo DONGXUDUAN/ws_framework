@@ -1,0 +1,23 @@
+/openner/controller_manager:
+  ros__parameters:
+    update_rate: 100 #Hz
+
+    openner_joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    openner_joint_controllers:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+/openner/openner_joint_controllers:
+  ros__parameters:
+    joints:
+      - base2link
+      - link2base
+      - left_gripper2base
+      - right_gripper2base
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 50.0
+    action_monitor_rate: 20.0
