@@ -7,8 +7,8 @@
     <link name="connection">
         <inertial>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-            <mass value="0.5" />
-            <inertia ixx="0.00" ixy="0.0" ixz="0.0" iyy="0.00" iyz="0.0" izz="0.00"/>
+            <mass value="0.001" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
         <visual>
             <geometry>
@@ -42,8 +42,8 @@
         </collision>
         <inertial>
         <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
-        <mass value="0.1" />
-        <inertia ixx="0.00" ixy="0.0" ixz="0.0" iyy="0.000" iyz="0.0" izz="0.000"/>
+        <mass value="0.001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
     </link>
 
@@ -56,8 +56,8 @@
     <link name="egp64_gripper_base_link">
         <inertial>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="0.05" />
-        <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.000" iyz="0.0" izz="0.000"/>
+        <mass value="0.005" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
         <visual>
         <geometry>
@@ -84,8 +84,8 @@
     <link name="egp64_finger_left_link">
         <inertial>
         <origin xyz="0.01483 -0.00782 0" rpy="0 0 0" />
-        <mass value="0.05" />
-        <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.000" iyz="0.0" izz="0.000"/>
+        <mass value="0.002" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
         <visual>
         <geometry>
@@ -117,8 +117,8 @@
     <link name="egp64_fingertip_left_link">
         <inertial>
         <origin xyz="0.03869 -0.0005 0.00093" rpy="0 0 0" />
-        <mass value="0.05" />
-        <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.000" iyz="0.0" izz="0.000"/>
+        <mass value="0.001" />
+        <inertia ixx="0.001" ixy="0.001" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
         <visual>
         <geometry>
@@ -148,8 +148,8 @@
     <link name="egp64_finger_right_link">
         <inertial>
         <origin xyz="-0.0153 -0.00602 0" rpy="0 0 0" />
-        <mass value="0.05" />
-        <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.000" iyz="0.0" izz="0.000"/>
+        <mass value="0.002" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
         <visual>
         <geometry>
@@ -179,8 +179,8 @@
     <link name="egp64_fingertip_right_link">
         <inertial>
         <origin xyz="-0.01211 -0.00197 0.00093" rpy="0 0 0" />
-        <mass value="0.05" />
-        <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.00" iyz="0.0" izz="0.00"/>
+        <mass value="0.001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
         <visual>
         <geometry>
@@ -204,25 +204,25 @@
 
     <!-- SMALL CUBE FOR GRIPPER PLUGIN -->
 
-    <link name="EE_egp64">
+    <!-- <link name="EE_egp64">
         <inertial>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="0.05" />
-        <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.00" iyz="0.0" izz="0.0"/>
+        <mass value="0.00001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
         <visual>
         <geometry>
             <box size= "0.001 0.001 0.001" />
         </geometry>
         </visual>
-    </link>
+    </link> -->
     
-    <joint name="EE_egp64_joint" type="fixed" >
+    <!-- <joint name="EE_egp64_joint" type="fixed" >
         <parent link="egp64_gripper_base_link" />
         <child link="EE_egp64" />
         <axis xyz="1 0 0" />
         <origin xyz="0.033 -0.018 0.15" rpy="0 0 0"/>
-    </joint>
+    </joint> -->
 
     <!-- 夹爪传动 -->
 

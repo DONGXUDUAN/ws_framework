@@ -17,7 +17,6 @@ install(
     launch
     config
     world
-    Materials
   DESTINATION share/${PROJECT_NAME}
 )
 

@@ -5,6 +5,7 @@ from ament_index_python.packages import get_package_share_directory
 import launch_ros.parameter_descriptions 
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from moveit_configs_utils import MoveItConfigsBuilder
+from launch.actions import ExecuteProcess
 def generate_launch_description():
 
     robot_name_in_model = "abb_gofa"
@@ -83,7 +84,6 @@ def generate_launch_description():
                     '-Y', '0.0',
         ]
     )
-
     egp64_joint_state_broadcaster_spawner = launch_ros.actions.Node(
     package="controller_manager",
     executable="spawner",
@@ -144,38 +144,24 @@ def generate_launch_description():
         launch_gazebo,
         spawn_gofa_node,
         spawn_egp64_node,
+        ExecuteProcess(
+        cmd=[
+            'ros2', 'service', 'call', '/attach', 'gazebo_attach_interfaces/srv/Attach',
+            "{model_name_1: 'executor_bracket', link_name_1: 'executor_bracket::link', model_name_2: 'egp64', link_name_2: 'connection'}"
+        ],
+        output='screen'),
+        ExecuteProcess(
+        cmd=[
+            'ros2', 'service', 'call', '/attach', 'gazebo_attach_interfaces/srv/Attach',
+            "{model_name_1: 'bottle_1', link_name_1: 'bottle::link', model_name_2: 'bottle_cap_1', link_name_2: 'bottle_cap::link'}"
+        ],
+        output='screen'),
         rviz_node,
-        launch.actions.RegisterEventHandler(
-            event_handler=launch.event_handlers.OnProcessExit(
-                target_action=spawn_egp64_node,
-                on_exit=[egp64_joint_state_broadcaster_spawner]
-            )
-        ),
-        
-        launch.actions.RegisterEventHandler(
-            event_handler=launch.event_handlers.OnProcessExit(
-                target_action=egp64_joint_state_broadcaster_spawner,
-                on_exit=[egp64_position_controller_spawner]
-            ),
-        ),
-        launch.actions.RegisterEventHandler(
-            event_handler=launch.event_handlers.OnProcessExit(
-                target_action=spawn_gofa_node,
-                on_exit=[abb_gofa_joint_state_broadcaster_spawner]
-            )
-        ),
-        launch.actions.RegisterEventHandler(
-            event_handler=launch.event_handlers.OnProcessExit(
-                target_action=abb_gofa_joint_state_broadcaster_spawner,
-                on_exit=[abb_gofa_joint_trajectory_controller_spawner]
-            ),
-        ),
-        launch.actions.RegisterEventHandler(
-            event_handler=launch.event_handlers.OnProcessExit(
-                target_action=abb_gofa_joint_trajectory_controller_spawner,
-                on_exit=[run_move_group_node]
-            ),
-        ),
+        egp64_joint_state_broadcaster_spawner,
+        egp64_position_controller_spawner,
+        abb_gofa_joint_state_broadcaster_spawner,
+        abb_gofa_joint_trajectory_controller_spawner,
+        run_move_group_node,
     ])
 
 

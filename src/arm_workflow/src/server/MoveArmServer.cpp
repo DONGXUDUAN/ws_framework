@@ -6,7 +6,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
-#include "interfaces/action/move_arm.hpp"  // 确保路径正确
+#include "interfaces/action/move_arm.hpp"  
 #include "geometry_msgs/msg/pose.hpp"
 
 using namespace std::chrono_literals;

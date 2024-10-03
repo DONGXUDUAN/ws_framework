@@ -1,19 +1,31 @@
 #include "arm_workflow/MoveArmClient.hpp"
 #include <iostream>
 
-// 函数实现
 void execute_move_arm(const std::map<std::string, std::shared_ptr<BaseParameter>>& parameters)
 {
     std::cout << "正在执行move_arm:" << std::endl;
     
     // 动态转换参数为 PoseParameter 类型
-    auto* pose_param = dynamic_cast<PoseParameter*>(parameters.at("position").get());
+    auto it = parameters.find("position");
+    if (it == parameters.end()) {
+        std::cout << "  参数中缺少 'position' 键." << std::endl;
+        return;
+    }
+
+    auto* pose_param = dynamic_cast<PoseParameter*>(it->second.get());
     if (pose_param) {
-        // 输出位姿信息
-        std::cout << "  Pose: (" << pose_param->x << ", " << pose_param->y << ", " 
-                  << pose_param->z << ") 旋转: (" 
-                  << pose_param->qx << ", " << pose_param->qy << ", " 
-                  << pose_param->qz << ", " << pose_param->qw << ")" << std::endl;
+        // 构建命令行字符串
+        std::string command = "ros2 action send_goal /move_arm interfaces/action/MoveArm \"{target_pose: {position: {x: ";
+        command += std::to_string(pose_param->x) + ", y: " + std::to_string(pose_param->y) + ", z: " + std::to_string(pose_param->z) + "}, orientation: {x: ";
+        command += std::to_string(pose_param->qx) + ", y: " + std::to_string(pose_param->qy) + ", z: " + std::to_string(pose_param->qz) + ", w: " + std::to_string(pose_param->qw) + "}}}\"";
+
+        std::cout << "执行命令: " << command << std::endl;
+
+        // 执行命令
+        int ret = system(command.c_str());
+        if (ret != 0) {
+            std::cerr << "  执行命令失败，返回码: " << ret << std::endl;
+        }
     } else {
         std::cout << "  未知的参数类型 或者参数没有内容" << std::endl;
     }
