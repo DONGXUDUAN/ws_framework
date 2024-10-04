@@ -10,7 +10,8 @@
                 "/usr/include/**",
                 "./install/**",
                 "/home/ws_framework/src/arm_workflow/include/**",
-                "${workspaceFolder}/src/arm_workflow/include"
+                "${workspaceFolder}/src/arm_workflow/include",
+                "/home/ws_moveit/install/**"
             ],
             "name": "ROS",
             "intelliSenseMode": "gcc-x64",

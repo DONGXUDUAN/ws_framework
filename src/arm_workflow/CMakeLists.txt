@@ -15,10 +15,18 @@ find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(interfaces REQUIRED)
 find_package(yaml-cpp REQUIRED)
+find_package(moveit_core REQUIRED)
+find_package(moveit_ros_planning_interface REQUIRED)
+find_package(moveit_ros_planning REQUIRED)
+find_package(moveit_ros_move_group REQUIRED)
 
 add_executable(move_arm_server src/server/MoveArmServer.cpp)
-ament_target_dependencies(move_arm_server rclcpp rclcpp_action geometry_msgs std_msgs interfaces)
-
+ament_target_dependencies(move_arm_server rclcpp rclcpp_action geometry_msgs std_msgs interfaces   
+  moveit_core
+  moveit_ros_planning_interface
+  moveit_ros_planning
+  moveit_ros_move_group)
+  
 add_executable(attach_server src/server/AttachServer.cpp)
 ament_target_dependencies(attach_server rclcpp rclcpp_action std_msgs interfaces)
 

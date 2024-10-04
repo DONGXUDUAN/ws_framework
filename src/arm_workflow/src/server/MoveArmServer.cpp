@@ -8,6 +8,9 @@
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "interfaces/action/move_arm.hpp"  
 #include "geometry_msgs/msg/pose.hpp"
+#include "moveit/move_group_interface/move_group_interface.h"
+#include "moveit/planning_scene_interface/planning_scene_interface.h"
+
 
 using namespace std::chrono_literals;
 
@@ -31,8 +34,21 @@ public:
     RCLCPP_INFO(this->get_logger(), "Move Arm Action Server 已启动.");
   }
 
+  void init_move_group()
+  {
+    try {
+      move_group_ = std::make_shared<moveit::planning_interface::MoveGroupInterface>(shared_from_this(), "abb_gofa_arm");
+      RCLCPP_INFO(this->get_logger(), "MoveGroupInterface 初始化成功。");
+    }
+    catch (const std::runtime_error &e) {
+      RCLCPP_ERROR(this->get_logger(), "MoveGroupInterface 初始化失败: %s", e.what());
+      throw;
+    }
+  }
+
 private:
   rclcpp_action::Server<MoveArm>::SharedPtr action_server_;
+  std::shared_ptr<moveit::planning_interface::MoveGroupInterface> move_group_; 
 
   // 处理接收到的目标请求
   rclcpp_action::GoalResponse handle_goal(
@@ -72,25 +88,47 @@ private:
     const auto goal = goal_handle->get_goal();
     const geometry_msgs::msg::Pose target_pose = goal->target_pose;
 
-    // 在这里，你可以添加实际控制机械臂移动的逻辑。
-    // 目前，只是模拟执行过程。
+    // 使用moveit2库中的move_group接口移动机械臂到目标位置
+    move_group_->setPoseTarget(target_pose);
+    moveit::planning_interface::MoveGroupInterface::Plan plan;
+    bool success = (move_group_->plan(plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    auto result = std::make_shared<MoveArm::Result>();
+    if (!success) {
+      RCLCPP_WARN(this->get_logger(), "轨迹规划失败。");
+      result->success = false;
+      result->message = "机械臂规划失败";
+      goal_handle->abort(result);
+      return;
+    }else {
+      RCLCPP_INFO(this->get_logger(), "轨迹规划成功。");
+    }
 
-    // 模拟机械臂移动到目标位置所需的时间
-    std::this_thread::sleep_for(2s);  // 模拟延迟
-
+    // 执行目标
+    moveit::planning_interface::MoveItErrorCode exec_status = move_group_->execute(plan);
+    if (exec_status != moveit::planning_interface::MoveItErrorCode::SUCCESS) {
+      RCLCPP_WARN(this->get_logger(), "轨迹执行失败.");
+      result->success = false;
+      result->message = "机械臂执行轨迹失败";
+      goal_handle->abort(result);
+      return;
+    }else
+    {
+      RCLCPP_INFO(this->get_logger(), "轨迹执行成功。");
+      result->success = true;
+      result->message = "机械臂执行轨迹成功";
+      goal_handle->succeed(result);
+    }
+    
     // 打印机械臂已到达目标位置的消息
-    RCLCPP_INFO(this->get_logger(), "机械臂已到达目标位置: Position(x: %.2f, y: %.2f, z: %.2f)",
+    RCLCPP_INFO(this->get_logger(), "机械臂已到达目标位置: Position(x: %.2f, y: %.2f, z: %.2f, qx: %.2f, qy: %.2f, qz: %.2f, qw: %.2f)",
                 target_pose.position.x,
                 target_pose.position.y,
-                target_pose.position.z);
-
-    // 设置结果
-    auto result = std::make_shared<MoveArm::Result>();
-    result->success = true;
-    result->message = "机械臂成功到达目标位置。";
-
+                target_pose.position.z,
+                target_pose.orientation.x,
+                target_pose.orientation.y,
+                target_pose.orientation.x,
+                target_pose.orientation.w);
     // 成功完成目标
-    goal_handle->succeed(result);
   }
 };
 
@@ -99,6 +137,8 @@ int main(int argc, char ** argv)
   rclcpp::init(argc, argv);
 
   auto node = std::make_shared<MoveArmActionServer>();
+
+  node->init_move_group();
 
   rclcpp::spin(node);
 
