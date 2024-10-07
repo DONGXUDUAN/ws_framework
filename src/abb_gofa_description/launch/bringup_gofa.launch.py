@@ -150,13 +150,13 @@ def generate_launch_description():
             "{model_name_1: 'executor_bracket', link_name_1: 'executor_bracket::link', model_name_2: 'egp64', link_name_2: 'connection'}"
         ],
         output='screen'),
+        rviz_node,
         ExecuteProcess(
         cmd=[
             'ros2', 'service', 'call', '/attach', 'gazebo_attach_interfaces/srv/Attach',
             "{model_name_1: 'bottle_1', link_name_1: 'bottle::link', model_name_2: 'bottle_cap_1', link_name_2: 'bottle_cap::link'}"
         ],
         output='screen'),
-        rviz_node,
         egp64_joint_state_broadcaster_spawner,
         egp64_position_controller_spawner,
         abb_gofa_joint_state_broadcaster_spawner,

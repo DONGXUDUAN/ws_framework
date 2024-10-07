@@ -90,6 +90,12 @@ private:
                         double qz = param_json["qz"].get<double>();
                         double qw = param_json["qw"].get<double>();
                         workflow_step.parameters[param_name] = std::make_shared<PoseParameter>(x, y, z, qx, qy, qz, qw);
+                    }else if (type == "ConstrainParameter") {
+                        bool is_constrain = param_json["is_constrain"].get<bool>();
+                        double x_axis_tolerance = param_json["x_axis_tolerance"].get<double>();
+                        double y_axis_tolerance = param_json["y_axis_tolerance"].get<double>();
+                        double z_axis_tolerance = param_json["z_axis_tolerance"].get<double>();
+                        workflow_step.parameters[param_name] = std::make_shared<ConstrainParameter>(is_constrain, x_axis_tolerance, y_axis_tolerance, z_axis_tolerance);
                     }else if (type== "StringParameter") {
                         std::string value = param_json["value"];
                         workflow_step.parameters[param_name] = std::make_shared<StringParameter>(value);

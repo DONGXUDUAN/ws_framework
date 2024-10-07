@@ -1,5 +1,9 @@
 # Goal definition
 geometry_msgs/Pose target_pose
+bool is_constrain
+float32 x_axis_tolerance
+float32 y_axis_tolerance
+float32 z_axis_tolerance
 
 ---
 # Result definition

@@ -20,6 +20,14 @@ public:
         : x(_x), y(_y), z(_z), qx(_qx), qy(_qy), qz(_qz), qw(_qw) {}
 };
 
+class ConstrainParameter : public BaseParameter {
+public:
+    bool is_constrain;
+    double x_axis_tolerance, y_axis_tolerance, z_axis_tolerance;
+    ConstrainParameter(bool _is_constrain, double _x_axis_tolerance, double _y_axis_tolerance, double _z_axis_tolerance) 
+        : is_constrain(_is_constrain), x_axis_tolerance(_x_axis_tolerance), y_axis_tolerance(_y_axis_tolerance), z_axis_tolerance(_z_axis_tolerance) {}
+};
+
 class StringParameter : public BaseParameter {
 public:
     std::string value;
