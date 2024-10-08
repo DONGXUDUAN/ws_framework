@@ -144,12 +144,6 @@ def generate_launch_description():
         launch_gazebo,
         spawn_gofa_node,
         spawn_egp64_node,
-        ExecuteProcess(
-        cmd=[
-            'ros2', 'service', 'call', '/attach', 'gazebo_attach_interfaces/srv/Attach',
-            "{model_name_1: 'executor_bracket', link_name_1: 'executor_bracket::link', model_name_2: 'egp64', link_name_2: 'connection'}"
-        ],
-        output='screen'),
         rviz_node,
         ExecuteProcess(
         cmd=[
@@ -162,6 +156,18 @@ def generate_launch_description():
         abb_gofa_joint_state_broadcaster_spawner,
         abb_gofa_joint_trajectory_controller_spawner,
         run_move_group_node,
+        launch.actions.RegisterEventHandler(
+            event_handler=launch.event_handlers.OnProcessExit(
+                target_action=spawn_egp64_node,
+                on_exit=[ExecuteProcess(
+            cmd=[
+                'ros2', 'service', 'call', '/attach', 'gazebo_attach_interfaces/srv/Attach',
+                "{model_name_1: 'executor_bracket', link_name_1: 'executor_bracket::link', model_name_2: 'egp64', link_name_2: 'connection'}"
+            ],
+            output='screen'),]
+            )
+        ),
+
     ])
 
 

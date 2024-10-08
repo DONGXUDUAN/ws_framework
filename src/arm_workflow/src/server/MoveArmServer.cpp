@@ -1,5 +1,3 @@
-// move_arm_action_server.cpp
-
 #include <memory>
 #include <string>
 #include <thread>
@@ -117,7 +115,7 @@ private:
     // 使用moveit2库中的move_group接口移动机械臂到目标位置
     move_group_->setPoseTarget(target_pose);
 
-    const int max_attempts = 10;
+    const int max_attempts = 20;
     int attempt_count = 0;
     bool plan_success = false;
     moveit::planning_interface::MoveGroupInterface::Plan plan;
@@ -140,9 +138,11 @@ private:
       result->success = false;
       result->message = "机械臂规划失败";
       goal_handle->abort(result);
+      move_group_->clearPathConstraints(); // 清除约束
       return;
     }else {
       RCLCPP_INFO(this->get_logger(), "轨迹规划成功。");
+      move_group_->clearPathConstraints(); // 清除约束
     }
 
     // 执行目标
