@@ -98,6 +98,15 @@ def generate_launch_description():
         arguments=["egp64_joint_controllers", "--controller-manager", "/egp64/controller_manager"],
     ) 
 
+     # *********************** 更加详细地配置MoveIt!2 *********************** #
+    # robot_description_path = PathJoinSubstitution([moveit_config_package_path, "config", "robot.urdf.xacro"])
+    # moveit_controllers_path = PathJoinSubstitution([moveit_config_package_path, "config", "moveit_controllers.yaml"])
+    # ompl_planning_path = PathJoinSubstitution([moveit_config_package_path, "config", "ompl_planning.yaml"])
+    # planning_pipelines_path = PathJoinSubstitution([moveit_config_package_path, "config", "planning_pipelines.yaml"])
+    # joint_limits_path = PathJoinSubstitution([moveit_config_package_path, "config", "joint_limits.yaml"])
+    # kinematics_path = PathJoinSubstitution([moveit_config_package_path, "config", "kinematics.yaml"])
+
+
     moveit_path = get_package_share_directory("abb_gofa_moveit_config")
     moveit_config = (
             MoveItConfigsBuilder("abb_gofa")
@@ -125,13 +134,7 @@ def generate_launch_description():
         name="rviz2",
         output="log",
         arguments=["-d", defult_rviz_config_path],
-        parameters=[
-            moveit_config.robot_description,
-            moveit_config.robot_description_semantic,
-            moveit_config.robot_description_kinematics,
-            moveit_config.planning_pipelines,
-            moveit_config.joint_limits,
-            {"use_sim_time": True},
+        parameters=[{"use_sim_time": True},
         ],
     )
 

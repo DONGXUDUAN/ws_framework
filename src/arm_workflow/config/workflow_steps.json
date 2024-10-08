@@ -69,7 +69,7 @@
         "parameters": {
         "position": {
           "type": "PoseParameter",
-          "x": -0.455,
+          "x": -0.40,
           "y": 0.09,
           "z": 1.121,
           "qx": 0.0,
@@ -80,11 +80,55 @@
         "constrain": {
           "type": "ConstrainParameter",
           "is_constrain": true,
-          "x_axis_tolerance": 0.3,
-          "y_axis_tolerance": 0.3,
-          "z_axis_tolerance": 0.3
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
         }
       }
+    },
+    {
+    "action_name": "move_arm",
+        "parameters": {
+        "position": {
+          "type": "PoseParameter",
+          "x": 0.201,
+          "y": 0.776,
+          "z": 0.905,
+          "qx": 0.0,
+          "qy": 0.0,
+          "qz": 0.612079,
+          "qw": 0.790796
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 6.286
+        }
+      }
+    },
+    {
+      "action_name": "move_arm",
+          "parameters": {
+          "position": {
+            "type": "PoseParameter",
+            "x": -0.40,
+            "y": 0.09,
+            "z": 1.121,
+            "qx": 0.0,
+            "qy": 0.7071,
+            "qz": 0.0,
+            "qw": 0.7071
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
     },
     {
       "action_name": "move_arm",
@@ -155,7 +199,7 @@
           "parameters": {
           "position": {
             "type": "PoseParameter",
-            "x": -0.455,
+            "x": -0.40,
             "y": 0.09,
             "z": 1.121,
             "qx": 0.0,
@@ -166,9 +210,9 @@
           "constrain": {
             "type": "ConstrainParameter",
             "is_constrain": true,
-            "x_axis_tolerance": 0.3,
-            "y_axis_tolerance": 0.3,
-            "z_axis_tolerance": 0.3
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
           }
         }
       },
