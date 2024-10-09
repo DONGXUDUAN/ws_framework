@@ -22,6 +22,11 @@
         </collision>
     </link>
 
+    <gazebo reference="connection">
+        <mu1>0.99</mu1>
+        <mu2>0.99</mu2>
+        <material>Gazebo/Black</material>
+    </gazebo>
 
     <joint name="connection" type="fixed">
         <parent link="connection"/>
@@ -118,7 +123,7 @@
         <inertial>
         <origin xyz="0.03869 -0.0005 0.00093" rpy="0 0 0" />
         <mass value="0.001" />
-        <inertia ixx="0.001" ixy="0.001" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        <inertia ixx="0.001" ixy="0.00" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
         <visual>
         <geometry>

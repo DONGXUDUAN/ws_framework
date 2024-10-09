@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<robot name="pipettle" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- <link name="world"></link> -->
+    <xacro:include filename="$(find abb_gofa_description)/urdf/pipettle/pipettle_ros2_control.urdf.xacro" />
+    <xacro:pipettle_ros2_control/>
+
+    <link name="pipettle_base">
+        <inertial>
+        <mass value="10"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+        </inertial>
+        <visual>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/pipettle/pipettle_base.dae"/>
+        </geometry>
+        </visual>
+        <collision>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/pipettle/pipettle_base.dae"/>
+        </geometry>
+        </collision>
+    </link>
+
+    <link name="pipettle_link">
+        <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+        </inertial>
+        <visual>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/pipettle/pipettle_link.dae"/>
+        </geometry>
+        </visual>
+        <collision>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/pipettle/pipettle_link.dae"/>
+        </geometry>
+        </collision>
+    </link>
+
+    <link name="pipettle_clicker">
+        <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+        </inertial>
+        <visual>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/pipettle/pipettle_clicker.dae"/>
+        </geometry>
+        </visual>
+        <collision>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/pipettle/pipettle_clicker.dae"/>
+        </geometry>
+        </collision>
+    </link>
+
+    <link name="pipettle_body">
+        <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+        </inertial>
+        <visual>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/pipettle/pipettle_body.dae"/>
+        </geometry>
+        </visual>
+        <collision>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/pipettle/pipettle_body.dae"/>
+        </geometry>
+        </collision>
+    </link>
+
+    <link name="pipettle_nib">
+        <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+        </inertial>
+        <visual>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/pipettle/pipettle_nib.dae"/>
+        </geometry>
+        </visual>
+        <collision>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/pipettle/pipettle_nib.dae"/>
+        </geometry>
+        </collision>
+    </link>
+
+    <!-- <joint name="world2base" type="fixed">
+        <origin xyz="0.0 0.0 0.135" rpy="3.1415926 0.0 0.0"/>
+        <parent link="world"/>
+        <child link="pipettle_base"/>
+    </joint> -->
+
+    <joint name="pipettle_base2link" type="prismatic">
+        <origin xyz="0.044 0.0 0.060" rpy="3.1415926 0.0 1.5707"/>
+        <parent link="pipettle_base"/>
+        <child link="pipettle_link"/>
+        <axis xyz="0.0 0.0 1"/>
+        <limit lower="-0.02" upper="-0.01" effort="1" velocity="0.5"/>
+    </joint>
+
+    <joint name="link2clicker" type="fixed">
+        <origin xyz="0.0 0.0375 -0.027" rpy="0.0 0.0 0.0"/>
+        <parent link="pipettle_link"/>
+        <child link="pipettle_clicker"/>
+    </joint>
+
+    <joint name="base2body" type="fixed">
+        <origin xyz="0.082 0.0 0.10" rpy="0.0 3.1415926 0.0"/>
+        <parent link="pipettle_base"/>
+        <child link="pipettle_body"/>
+    </joint>
+
+    <joint name="body2nib" type="fixed">
+        <origin xyz="0.0 0.0 -0.075" rpy="0.0 3.1415926 0.0"/>
+        <parent link="pipettle_body"/>
+        <child link="pipettle_nib"/>
+    </joint>
+
+</robot>

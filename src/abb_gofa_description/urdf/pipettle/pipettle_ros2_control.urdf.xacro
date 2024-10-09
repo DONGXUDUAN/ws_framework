@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- 传递机器人控制参数 -->
+    <xacro:macro name="pipettle_ros2_control">
+        <gazebo>
+            <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+                <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+                <namespace>/pipettle</namespace>
+                <parameters>$(find abb_gofa_description)/config/pipettle_controller.yaml</parameters>
+            </plugin>
+        </gazebo>
+
+        <ros2_control name="pipettle_robot" type="system">
+            <hardware>
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+            </hardware>
+
+            <joint name="pipettle_base2link">
+                <command_interface name="position"/>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+            </joint>
+        </ros2_control>
+    </xacro:macro>
+</robot>
