@@ -35,11 +35,11 @@
         },
         "model_2": {
           "type": "StringParameter",
-          "value": "executor_bracket"
+          "value": "ground_plane"
         },
         "link_2": {
           "type": "StringParameter",
-          "value": "executor_bracket::link"
+          "value": "link"
         }
       }
     },
@@ -48,19 +48,19 @@
         "parameters": {
         "model_1": {
           "type": "StringParameter",
-          "value": "abb_gofa"
+          "value": "egp64"
         },
         "link_1": {
           "type": "StringParameter",
-          "value": "link_6"
+          "value": "connection"
         },
         "model_2": {
           "type": "StringParameter",
-          "value": "egp64"
+          "value": "abb_gofa"
         },
         "link_2": {
           "type": "StringParameter",
-          "value": "connection"
+          "value": "link_6"
         }
       }
     },
@@ -173,16 +173,17 @@
         }
       }
     },
+
     {
       "action_name": "attach",
         "parameters": {
         "model_1": {
           "type": "StringParameter",
-          "value": "executor_bracket"
+          "value": "ground_plane"
         },
         "link_1": {
           "type": "StringParameter",
-          "value": "executor_bracket::link"
+          "value": "link"
         },
         "model_2": {
           "type": "StringParameter",
@@ -210,28 +211,6 @@
           "constrain": {
             "type": "ConstrainParameter",
             "is_constrain": true,
-            "x_axis_tolerance": 0.1,
-            "y_axis_tolerance": 0.1,
-            "z_axis_tolerance": 0.1
-          }
-        }
-      },
-      {
-        "action_name": "move_arm",
-        "parameters": {
-          "position": {
-            "type": "PoseParameter",
-            "x": -0.585,
-            "y": -0.09,
-            "z": 1.121,
-            "qx": 0.5,
-            "qy": 0.5,
-            "qz": -0.5,
-            "qw": 0.5
-          },
-          "constrain": {
-            "type": "ConstrainParameter",
-            "is_constrain": false,
             "x_axis_tolerance": 0.1,
             "y_axis_tolerance": 0.1,
             "z_axis_tolerance": 0.1

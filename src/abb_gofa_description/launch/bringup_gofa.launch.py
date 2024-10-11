@@ -114,7 +114,7 @@ def generate_launch_description():
                     '-entity', "egp64",
                     '-x', '-0.585',
                     '-y', '0.09',
-                    '-z', '1.115',
+                    '-z', '1.12',
                     '-R', '3.1415926',
                     '-P', '0.0',
                     '-Y', '1.5708',
@@ -169,7 +169,6 @@ def generate_launch_description():
         ]
     )
 
-        
     pipettle_joint_state_broadcaster_spawner = launch_ros.actions.Node(
     package="controller_manager",
     executable="spawner",
@@ -243,7 +242,7 @@ def generate_launch_description():
                 on_exit=[ExecuteProcess(
             cmd=[
                 'ros2', 'service', 'call', '/attach', 'gazebo_attach_interfaces/srv/Attach',
-                "{model_name_1: 'executor_bracket', link_name_1: 'executor_bracket::link', model_name_2: 'pipettle', link_name_2: 'pipettle_base'}"
+                "{model_name_1: 'ground_plane', link_name_1: 'link', model_name_2: 'pipettle', link_name_2: 'pipettle_base'}"
             ],
             output='screen'),]
             )
@@ -254,7 +253,7 @@ def generate_launch_description():
                 on_exit=[ExecuteProcess(
             cmd=[
                 'ros2', 'service', 'call', '/attach', 'gazebo_attach_interfaces/srv/Attach',
-                "{model_name_1: 'executor_bracket', link_name_1: 'executor_bracket::link', model_name_2: 'egp64', link_name_2: 'connection'}"
+                "{model_name_1: 'ground_plane', link_name_1: 'link', model_name_2: 'egp64', link_name_2: 'connection'}"
             ],
             output='screen'),]
             )

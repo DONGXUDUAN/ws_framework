@@ -24,16 +24,7 @@
       </include>
         <pose>-0.6 0  0.72 0 0 1.570796</pose>
     </model>
-
-    <!-- 核磁仪 -->
-    <model name='NMR'>
-      <static>1</static>
-      <include>
-        <uri>model://NMR</uri>
-      </include>
-        <pose>0.1 -0.8  0.70 0 0 -1.570796</pose>
-    </model>
-<!-- 
+    <!-- 
     <model name='tube_rack'>
       <static>1</static>
       <include>

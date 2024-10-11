@@ -134,7 +134,7 @@ private:
     
     auto result = std::make_shared<MoveArm::Result>();
     if (!plan_success) {
-      RCLCPP_INFO(this->get_logger(), "重试10次后, 轨迹规划失败。");
+      RCLCPP_INFO(this->get_logger(), "重试20次后, 轨迹规划失败。");
       result->success = false;
       result->message = "机械臂规划失败";
       goal_handle->abort(result);
@@ -179,6 +179,7 @@ int main(int argc, char ** argv)
   rclcpp::init(argc, argv);
 
   auto node = std::make_shared<MoveArmActionServer>();
+  node->set_parameter(rclcpp::Parameter("use_sim_time", true));
 
   node->init_move_group();
 

@@ -20,7 +20,6 @@ abb_gofa_arm_controller:
       - joint_5
       - joint_6
     command_interfaces:
-      - position
+      []
     state_interfaces:
-      - position
-      - velocity
+      []

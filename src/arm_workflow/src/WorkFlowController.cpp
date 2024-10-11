@@ -31,11 +31,17 @@ using namespace std::chrono_literals;
 class WorkflowController : public rclcpp::Node
 {
 public:
-    WorkflowController() : Node("workflow_controller")
+    WorkflowController(const rclcpp::NodeOptions & options) : Node("workflow_controller", options)
     {
         // 加载工作流程步骤
+        this->declare_parameter<std::string>("json_name", "default_value");
+        std::string json_name = this->get_parameter("json_name").as_string();
+        std::cout << "json_name: " << json_name << std::endl;
+
         std::string package_share_directory = ament_index_cpp::get_package_share_directory("arm_workflow");
-        if (!load_workflow_steps(package_share_directory + "/config/workflow_steps.json")) {
+        std::string config_file_path = package_share_directory + "/config/workflow_steps_" + json_name + ".json";
+
+        if (!load_workflow_steps(config_file_path)) {
             RCLCPP_ERROR(this->get_logger(), "无法加载工作流程步骤配置文件");
             rclcpp::shutdown();
             return;
@@ -151,7 +157,9 @@ private:
 int main(int argc, char ** argv)
 {
     rclcpp::init(argc, argv);
-    auto node = std::make_shared<WorkflowController>();
+    rclcpp::NodeOptions options;
+    options.arguments({"--ros-args"});
+    auto node = std::make_shared<WorkflowController>(options);
     rclcpp::spin(node);
     rclcpp::shutdown();
     return 0;

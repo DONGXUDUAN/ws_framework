@@ -39,4 +39,56 @@
       <origin xyz="-0.2 -0.0 0.355" rpy="0.0 0.0 0.0" />
     </joint>
 
+    <link name="NMR">
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/NMR/NMR.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/NMR/NMR.dae"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <mass value="50"/>
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+      </inertial>
+    </link>
+
+    <joint name="world2NMR" type="fixed">
+      <parent link="world" />
+      <child link = "NMR" />
+      <origin xyz="0.1 -0.8 0.70" rpy="0.0 0.0 -1.570796"/>
+    </joint>
+
+    <!-- <link name="executor_bracket">
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/executor_bracket/executor_bracket.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <mesh filename="file://$(find abb_gofa_description)/meshes/executor_bracket/executor_bracket.dae"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <mass value="50"/>
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+      </inertial>
+    </link>
+
+    <joint name="world2bracket" type="fixed">
+      <parent link="world" />
+      <child link = "executor_bracket" />
+      <origin xyz="-0.6  0.0  0.72" rpy="0.0 0.0 1.570796"/>
+    </joint> -->
+
 </robot>

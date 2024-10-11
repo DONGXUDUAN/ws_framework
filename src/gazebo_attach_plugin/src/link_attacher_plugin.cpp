@@ -71,8 +71,11 @@ namespace gazebo
 
     // 创建固定关节
     physics::JointPtr joint = physics_engine_->CreateJoint("fixed", model1);
-    auto end_effector_pose = link1->WorldPose();
-    joint->Load(link1, link2, end_effector_pose);
+    auto pose1 = link1->WorldPose();
+    auto pose2 = link2->WorldPose();
+    auto relative_pose = pose1.Inverse() * pose2;
+
+    joint->Load(link1, link2, relative_pose);
     joint->Attach(link1, link2);
     joint->SetModel(model1);
     joint->Init();
@@ -119,7 +122,7 @@ namespace gazebo
 
     response->success = false;
   }
-
+  
   void LinkAttacherPlugin::OnListLinksRequest(
     const std::shared_ptr<std_srvs::srv::Trigger::Request> request,
     std::shared_ptr<std_srvs::srv::Trigger::Response> response)
@@ -137,7 +140,6 @@ namespace gazebo
         link_list += "  Link: " + link->GetName() + "\n";
       }
     }
-
     // 输出链接信息到日志
     RCLCPP_INFO(ros_node_->get_logger(), link_list.c_str());
 

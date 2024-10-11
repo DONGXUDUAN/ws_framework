@@ -32,7 +32,7 @@ void execute_move_arm(const std::map<std::string, std::shared_ptr<BaseParameter>
         std::cout << "执行命令: " << command << std::endl;
 
         // 执行命令
-        int ret = system(command.c_str());
+        int ret = system(command.c_str());;
         if (ret != 0) {
             std::cerr << "  执行命令失败，返回码: " << ret << std::endl;
         }
