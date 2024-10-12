@@ -28,6 +28,14 @@ public:
         : is_constrain(_is_constrain), x_axis_tolerance(_x_axis_tolerance), y_axis_tolerance(_y_axis_tolerance), z_axis_tolerance(_z_axis_tolerance) {}
 };
 
+class CartesianPathParameter : public BaseParameter {
+public:
+    bool is_constrain;
+    double delta_x, delta_y, delta_z;
+    CartesianPathParameter(bool _is_constrain, double delta_x, double delta_y, double delta_z) 
+        : is_constrain(_is_constrain), delta_x(delta_x), delta_y(delta_y), delta_z(delta_z) {}
+};
+
 class StringParameter : public BaseParameter {
 public:
     std::string value;

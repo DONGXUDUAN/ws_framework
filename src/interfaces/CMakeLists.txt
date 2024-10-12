@@ -18,6 +18,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/Attach.action"
   "action/Detach.action"
   "action/Operate.action"
+  "action/MoveArmCartesian.action"
   DEPENDENCIES geometry_msgs std_msgs
 )
 

@@ -1,0 +1,16 @@
+bool is_constrain
+float32 delta_x
+float32 delta_y
+float32 delta_z
+float32 x_axis_tolerance
+float32 y_axis_tolerance
+float32 z_axis_tolerance
+
+---
+# Result definition
+bool success
+string message
+
+---
+# Feedback definition
+string current_pose

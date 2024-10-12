@@ -9,7 +9,7 @@ def generate_launch_description():
             name='attach_server', 
             output='screen',
             arguments=['--ros-args', '--log-level', 'info'],
-            # parameters=[{}]
+            parameters=[{'use_sim_time': True}]
         ),
         Node(
             package='arm_workflow',  
@@ -17,7 +17,7 @@ def generate_launch_description():
             name='detach_server', 
             output='screen',
             arguments=['--ros-args', '--log-level', 'info'],
-            # parameters=[{}]
+            parameters=[{'use_sim_time': True}]
         ),
         Node(
             package='arm_workflow', 
@@ -25,7 +25,15 @@ def generate_launch_description():
             name='move_workflow_server',  
             output='screen',
             arguments=['--ros-args', '--log-level', 'info'],
-            # parameters=[{}]
+            parameters=[{'use_sim_time': True}]
+        ),
+        Node(
+            package='arm_workflow', 
+            executable='move_arm_cartesian_server',  
+            name='move_cartesian_workflow_server',  
+            output='screen',
+            arguments=['--ros-args', '--log-level', 'info'],
+            parameters=[{'use_sim_time': True}]
         ),
         Node(
             package='arm_workflow',  
@@ -33,6 +41,6 @@ def generate_launch_description():
             name='operate_server', 
             output='screen',
             arguments=['--ros-args', '--log-level', 'info'],
-            # parameters=[{}]
+            parameters=[{'use_sim_time': True}]
         ),
     ])

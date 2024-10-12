@@ -6,9 +6,9 @@
 
     <link name="pipettle_base">
         <inertial>
-        <mass value="1"/>
+        <mass value="2"/>
         <origin xyz="0 0 0"/>
-        <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+        <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.05" iyz="0" izz="0.05"/>
         </inertial>
         <visual>
         <geometry>

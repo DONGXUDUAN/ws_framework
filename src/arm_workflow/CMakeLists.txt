@@ -26,7 +26,14 @@ ament_target_dependencies(move_arm_server rclcpp rclcpp_action geometry_msgs std
   moveit_ros_planning_interface
   moveit_ros_planning
   moveit_ros_move_group)
-  
+
+add_executable(move_arm_cartesian_server src/server/MoveArmCartesianServer.cpp)
+ament_target_dependencies(move_arm_cartesian_server rclcpp rclcpp_action geometry_msgs std_msgs interfaces   
+  moveit_core
+  moveit_ros_planning_interface
+  moveit_ros_planning
+  moveit_ros_move_group)
+
 add_executable(attach_server src/server/AttachServer.cpp)
 ament_target_dependencies(attach_server rclcpp rclcpp_action std_msgs interfaces)
 
@@ -36,17 +43,20 @@ ament_target_dependencies(detach_server rclcpp rclcpp_action std_msgs interfaces
 add_executable(operate_server src/server/OperateServer.cpp)
 ament_target_dependencies(operate_server rclcpp rclcpp_action std_msgs interfaces)
 
+
 add_executable(work_flow_controller 
   src/WorkFlowController.cpp
   src/client/MoveArmClient.cpp
   src/client/AttachClient.cpp
   src/client/DetachClient.cpp
-  src/client/OpennerClient.cpp)
+  src/client/OpennerClient.cpp
+  src/client/MoveArmCartesianClient.cpp)
 ament_target_dependencies(work_flow_controller rclcpp rclcpp_action std_msgs interfaces yaml-cpp)
 
 # Install executables
 install(TARGETS
   move_arm_server
+  move_arm_cartesian_server
   attach_server
   detach_server
   operate_server
