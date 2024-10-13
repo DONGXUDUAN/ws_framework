@@ -21,6 +21,7 @@
 #include "arm_workflow/AttachClient.hpp" 
 #include "arm_workflow/DetachClient.hpp"
 #include "arm_workflow/OpennerClient.hpp"
+#include "arm_workflow/MoveArmCartesianClient.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 
@@ -103,11 +104,10 @@ private:
                         double z_axis_tolerance = param_json["z_axis_tolerance"].get<double>();
                         workflow_step.parameters[param_name] = std::make_shared<ConstrainParameter>(is_constrain, x_axis_tolerance, y_axis_tolerance, z_axis_tolerance);
                     }else if (type == "CartesianPathParameter") {
-                        bool is_constrain = param_json["is_constrain"].get<bool>();
                         double delta_x = param_json["delta_x"].get<double>();
                         double delta_y = param_json["delta_y"].get<double>();
                         double delta_z = param_json["delta_z"].get<double>();
-                        workflow_step.parameters[param_name] = std::make_shared<CartesianPathParameter>(is_constrain, delta_x, delta_y, delta_z);
+                        workflow_step.parameters[param_name] = std::make_shared<CartesianPathParameter>(delta_x, delta_y, delta_z);
                     }else if (type== "StringParameter") {
                         std::string value = param_json["value"];
                         workflow_step.parameters[param_name] = std::make_shared<StringParameter>(value);
@@ -141,7 +141,7 @@ private:
             current_step_index_ += 1;
         }
         else if (step.action_name == "move_arm_cartesian") {
-            execute_openner(step.parameters);
+            execute_move_arm_cartesian(step.parameters);
             current_step_index_ += 1;
         }
         else if (step.action_name == "attach") {

@@ -23,6 +23,24 @@
       }
     },
     {
+      "action_name": "move_arm_cartesian",
+      "parameters": {
+        "displacement": {
+          "type": "CartesianPathParameter",
+          "delta_x": 0.0,
+          "delta_y": 0.0,
+          "delta_z": 0.0
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
       "action_name": "detach",
       "parameters": {
         "model_1": {

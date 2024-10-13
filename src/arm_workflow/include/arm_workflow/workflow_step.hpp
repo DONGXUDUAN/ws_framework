@@ -30,10 +30,9 @@ public:
 
 class CartesianPathParameter : public BaseParameter {
 public:
-    bool is_constrain;
     double delta_x, delta_y, delta_z;
-    CartesianPathParameter(bool _is_constrain, double delta_x, double delta_y, double delta_z) 
-        : is_constrain(_is_constrain), delta_x(delta_x), delta_y(delta_y), delta_z(delta_z) {}
+    CartesianPathParameter(double delta_x, double delta_y, double delta_z) 
+        : delta_x(delta_x), delta_y(delta_y), delta_z(delta_z) {}
 };
 
 class StringParameter : public BaseParameter {
