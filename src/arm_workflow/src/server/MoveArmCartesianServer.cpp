@@ -144,6 +144,7 @@ private:
       result->success = false;
       result->message = "机械臂执行轨迹失败";
       goal_handle->abort(result);
+      move_group_->clearPathConstraints(); // 清除约束
       return;
     }else
     {
@@ -151,6 +152,7 @@ private:
       result->success = true;
       result->message = "机械臂执行轨迹成功";
       goal_handle->succeed(result);
+      move_group_->clearPathConstraints(); // 清除约束
     }
 
     geometry_msgs::msg::PoseStamped now_pose_stamp = move_group_->getCurrentPose("tool0");

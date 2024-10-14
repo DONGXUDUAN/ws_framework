@@ -22,6 +22,7 @@
 #include "arm_workflow/DetachClient.hpp"
 #include "arm_workflow/OpennerClient.hpp"
 #include "arm_workflow/MoveArmCartesianClient.hpp"
+#include "arm_workflow/MoveArmJointClient.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 
@@ -47,7 +48,6 @@ public:
             rclcpp::shutdown();
             return;
         }
-
         // 开始执行工作流程
         this->timer_ = this->create_wall_timer(
             500ms,
@@ -108,6 +108,14 @@ private:
                         double delta_y = param_json["delta_y"].get<double>();
                         double delta_z = param_json["delta_z"].get<double>();
                         workflow_step.parameters[param_name] = std::make_shared<CartesianPathParameter>(delta_x, delta_y, delta_z);
+                    }else if (type == "JointPathParameter") {
+                        double joint_0 = param_json["joint_0"].get<double>();
+                        double joint_1 = param_json["joint_1"].get<double>();
+                        double joint_2 = param_json["joint_2"].get<double>();
+                        double joint_3 = param_json["joint_3"].get<double>();
+                        double joint_4 = param_json["joint_4"].get<double>();
+                        double joint_5 = param_json["joint_5"].get<double>();
+                        workflow_step.parameters[param_name] = std::make_shared<JointPathParameter>(joint_0, joint_1, joint_2, joint_3, joint_4, joint_5);
                     }else if (type== "StringParameter") {
                         std::string value = param_json["value"];
                         workflow_step.parameters[param_name] = std::make_shared<StringParameter>(value);
@@ -144,6 +152,11 @@ private:
             execute_move_arm_cartesian(step.parameters);
             current_step_index_ += 1;
         }
+        else if (step.action_name == "move_arm_joint")
+        {
+            execute_move_arm_joint(step.parameters);
+            current_step_index_ += 1;
+        }
         else if (step.action_name == "attach") {
             execute_attach(step.parameters);
             current_step_index_ += 1;
@@ -161,7 +174,6 @@ private:
             this->timer_->cancel();
         }
     } 
-
 };
 
 int main(int argc, char ** argv)

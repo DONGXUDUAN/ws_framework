@@ -36,6 +36,14 @@ def generate_launch_description():
             parameters=[{'use_sim_time': True}]
         ),
         Node(
+            package='arm_workflow', 
+            executable='move_arm_joint_server',  
+            name='move_joint_workflow_server',  
+            output='screen',
+            arguments=['--ros-args', '--log-level', 'info'],
+            parameters=[{'use_sim_time': True}]
+        ),
+        Node(
             package='arm_workflow',  
             executable='operate_server',  
             name='operate_server', 

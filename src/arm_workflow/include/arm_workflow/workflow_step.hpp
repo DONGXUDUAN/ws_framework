@@ -31,8 +31,15 @@ public:
 class CartesianPathParameter : public BaseParameter {
 public:
     double delta_x, delta_y, delta_z;
-    CartesianPathParameter(double delta_x, double delta_y, double delta_z) 
-        : delta_x(delta_x), delta_y(delta_y), delta_z(delta_z) {}
+    CartesianPathParameter(double _delta_x, double _delta_y, double _delta_z) 
+        : delta_x(_delta_x), delta_y(_delta_y), delta_z(_delta_z) {}
+};
+
+class JointPathParameter : public BaseParameter {
+public:
+    double joint_0, joint_1, joint_2, joint_3, joint_4, joint_5;
+    JointPathParameter(double _joint_0, double _joint_1, double _joint_2, double _joint_3, double _joint_4, double _joint_5)
+        :joint_0(_joint_0), joint_1(_joint_1), joint_2(_joint_2), joint_3(_joint_3), joint_4(_joint_4), joint_5(_joint_5) {}
 };
 
 class StringParameter : public BaseParameter {
