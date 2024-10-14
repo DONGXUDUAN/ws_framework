@@ -8,7 +8,7 @@
       type: joint_state_broadcaster/JointStateBroadcaster
 
     egp64_joint_controllers:
-      type: position_controllers/JointGroupPositionController
+      type: joint_trajectory_controller/JointTrajectoryController
 
 /egp64/egp64_joint_controllers:
   ros__parameters:

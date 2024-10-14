@@ -58,7 +58,9 @@ add_executable(work_flow_controller
   src/client/DetachClient.cpp
   src/client/OpennerClient.cpp
   src/client/MoveArmCartesianClient.cpp
-  src/client/MoveArmJointClient.cpp)
+  src/client/MoveArmJointClient.cpp
+  src/client/Egp64Client.cpp
+  src/client/PipettleClient.cpp)
 ament_target_dependencies(work_flow_controller rclcpp rclcpp_action std_msgs interfaces yaml-cpp)
 
 # Install executables

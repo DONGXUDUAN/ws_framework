@@ -10,7 +10,6 @@
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
-// 引入你的 Action 接口
 #include "interfaces/action/move_arm.hpp"
 #include "interfaces/action/attach.hpp"
 #include "interfaces/action/detach.hpp"
@@ -23,6 +22,8 @@
 #include "arm_workflow/OpennerClient.hpp"
 #include "arm_workflow/MoveArmCartesianClient.hpp"
 #include "arm_workflow/MoveArmJointClient.hpp"
+#include "arm_workflow/Egp64Client.hpp"
+#include "arm_workflow/PipettleClient.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 
@@ -116,6 +117,19 @@ private:
                         double joint_4 = param_json["joint_4"].get<double>();
                         double joint_5 = param_json["joint_5"].get<double>();
                         workflow_step.parameters[param_name] = std::make_shared<JointPathParameter>(joint_0, joint_1, joint_2, joint_3, joint_4, joint_5);
+                    }else if (type == "OpennerJointParameter") {
+                        double base2link = param_json["base2link"].get<double>();
+                        double link2base = param_json["link2base"].get<double>();
+                        double left_gripper2base = param_json["left_gripper2base"].get<double>();
+                        double right_gripper2base = param_json["right_gripper2base"].get<double>();
+                        workflow_step.parameters[param_name] = std::make_shared<OpennerJointParameter>(base2link, link2base, left_gripper2base, right_gripper2base);
+                    }else if (type == "Egp64JointParameter") {
+                        double egp64_finger_left_joint = param_json["egp64_finger_left_joint"].get<double>();
+                        double egp64_finger_right_joint = param_json["egp64_finger_right_joint"].get<double>();
+                        workflow_step.parameters[param_name] = std::make_shared<Egp64JointParameter>(egp64_finger_left_joint, egp64_finger_right_joint);
+                    }else if (type == "PipettleJointParameter") {
+                        double pipettle_base2link = param_json["pipettle_base2link"].get<double>();
+                        workflow_step.parameters[param_name] = std::make_shared<PipettleJointParameter>(pipettle_base2link);
                     }else if (type== "StringParameter") {
                         std::string value = param_json["value"];
                         workflow_step.parameters[param_name] = std::make_shared<StringParameter>(value);
@@ -165,8 +179,16 @@ private:
             execute_detach(step.parameters);
             current_step_index_ += 1;
         }
-        else if (step.action_name == "operate") {
+        else if (step.action_name == "openner") {
             execute_openner(step.parameters);
+            current_step_index_ += 1;
+        }
+        else if (step.action_name == "egp64") {
+            execute_egp64(step.parameters);
+            current_step_index_ += 1;
+        }
+        else if (step.action_name == "pipettle") {
+            execute_pipettle(step.parameters);
             current_step_index_ += 1;
         }
         else {

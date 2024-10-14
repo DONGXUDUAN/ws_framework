@@ -223,14 +223,72 @@
         }
       }
     },
-      {
-        "action_name": "operate",
-          "parameters": {
-            "start_flag": {
-            "type": "StringParameter",
-            "value": "start"
-            }
+    {
+      "action_name": "openner",
+        "parameters": {
+          "openner_joints": {
+            "type": "OpennerJointParameter",
+            "base2link": -0.08,
+            "link2base": 0.0,
+            "left_gripper2base": 0.0,
+            "right_gripper2base": 0.0
           }
-      }
+        }
+    },
+    {
+      "action_name": "openner",
+        "parameters": {
+          "openner_joints": {
+            "type": "OpennerJointParameter",
+            "base2link": -0.08,
+            "link2base": 0.0,
+            "left_gripper2base": 0.01,
+            "right_gripper2base": 0.01
+          }
+        }
+    },
+    {
+      "action_name": "openner",
+        "parameters": {
+          "openner_joints": {
+            "type": "OpennerJointParameter",
+            "base2link": -0.08,
+            "link2base": 6.28,
+            "left_gripper2base": 0.0,
+            "right_gripper2base": 0.0
+          }
+        }
+    },
+    {
+      "action_name": "openner",
+        "parameters": {
+          "openner_joints": {
+            "type": "OpennerJointParameter",
+            "base2link": 0.01,
+            "link2base": 6.28,
+            "left_gripper2base": 0.0,
+            "right_gripper2base": 0.0
+          }
+        }
+    },
+    {
+      "action_name": "egp64",
+        "parameters": {
+          "egp64_joints": {
+            "type": "Egp64JointParameter",
+            "egp64_finger_left_joint": 0.02,
+            "egp64_finger_right_joint": 0.02
+          }
+        }
+    },
+    {
+      "action_name": "pipettle",
+        "parameters": {
+          "pipettle_joints": {
+            "type": "PipettleJointParameter",
+            "pipettle_base2link": -0.01
+          }
+        }
+    }
   ]
 }

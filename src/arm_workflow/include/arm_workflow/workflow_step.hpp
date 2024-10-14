@@ -42,6 +42,27 @@ public:
         :joint_0(_joint_0), joint_1(_joint_1), joint_2(_joint_2), joint_3(_joint_3), joint_4(_joint_4), joint_5(_joint_5) {}
 };
 
+class OpennerJointParameter : public BaseParameter {
+public:
+    double base2link, link2base, left_gripper2base, right_gripper2base;
+    OpennerJointParameter(double _base2link, double _link2base, double _left_gripper2base, double _right_gripper2base)
+        :base2link(_base2link), link2base(_link2base), left_gripper2base(_left_gripper2base), right_gripper2base(_right_gripper2base) {}
+};
+
+class Egp64JointParameter : public BaseParameter {
+public:
+    double egp64_finger_left_joint, egp64_finger_right_joint;
+    Egp64JointParameter(double _egp64_finger_left_joint, double _egp64_finger_right_joint)
+        :egp64_finger_left_joint(_egp64_finger_left_joint), egp64_finger_right_joint(_egp64_finger_right_joint) {}
+};
+
+class PipettleJointParameter : public BaseParameter {
+public:
+    double pipettle_base2link;
+    PipettleJointParameter(double _pipettle_base2link)
+        :pipettle_base2link(_pipettle_base2link) {}
+};
+
 class StringParameter : public BaseParameter {
 public:
     std::string value;
