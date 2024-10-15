@@ -143,24 +143,25 @@ private:
       RCLCPP_INFO(this->get_logger(), "轨迹执行失败.");
       result->success = false;
       result->message = "机械臂执行轨迹失败";
-      goal_handle->abort(result);
       move_group_->clearPathConstraints(); // 清除约束
+      goal_handle->abort(result);
       return;
     }else
     {
       RCLCPP_INFO(this->get_logger(), "轨迹执行成功。");
       result->success = true;
       result->message = "机械臂执行轨迹成功";
-      goal_handle->succeed(result);
       move_group_->clearPathConstraints(); // 清除约束
+      goal_handle->succeed(result);
     }
 
-    geometry_msgs::msg::PoseStamped now_pose_stamp = move_group_->getCurrentPose("tool0");
-    geometry_msgs::msg::Pose now_pose = now_pose_stamp.pose;
-    RCLCPP_INFO(this->get_logger(), "机械臂到达目标位置 - Position(x: %.2f, y: %.2f, z: %.2f)",
-        now_pose.position.x,
-        now_pose.position.y,
-        now_pose.position.z);
+    // geometry_msgs::msg::PoseStamped now_pose_stamp = move_group_->getCurrentPose("tool0");
+    // geometry_msgs::msg::Pose now_pose = now_pose_stamp.pose;
+    // RCLCPP_INFO(this->get_logger(), "机械臂到达目标位置 - Position(x: %.2f, y: %.2f, z: %.2f)",
+    //     now_pose.position.x,
+    //     now_pose.position.y,
+    //     now_pose.position.z);
+    return;
   }
 };
 

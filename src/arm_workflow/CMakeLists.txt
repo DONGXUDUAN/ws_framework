@@ -34,6 +34,9 @@ ament_target_dependencies(move_arm_cartesian_server rclcpp rclcpp_action geometr
   moveit_ros_planning
   moveit_ros_move_group)
 
+add_executable(move_arm_cartesian_client src/client/TestClient.cpp)
+  ament_target_dependencies(move_arm_cartesian_client rclcpp rclcpp_action geometry_msgs std_msgs interfaces)
+
 add_executable(move_arm_joint_server src/server/MoveArmJointServer.cpp)
 ament_target_dependencies(move_arm_joint_server rclcpp rclcpp_action geometry_msgs std_msgs interfaces   
   moveit_core
@@ -72,6 +75,7 @@ install(TARGETS
   detach_server
   operate_server
   work_flow_controller
+  move_arm_cartesian_client
   DESTINATION lib/${PROJECT_NAME}
 )
 
