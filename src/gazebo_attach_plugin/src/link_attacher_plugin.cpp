@@ -73,7 +73,7 @@ namespace gazebo
     physics::JointPtr joint = physics_engine_->CreateJoint("fixed", model1);
     auto pose1 = link1->WorldPose();
     auto pose2 = link2->WorldPose();
-    auto relative_pose = pose1.Inverse() * pose2;
+    auto relative_pose = pose2 * pose1.Inverse();
 
     joint->Load(link1, link2, relative_pose);
     joint->Attach(link1, link2);
