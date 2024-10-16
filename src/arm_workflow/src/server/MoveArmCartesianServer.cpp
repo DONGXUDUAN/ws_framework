@@ -114,6 +114,14 @@ private:
     const double eef_step = 0.01;
     double fraction = move_group_->computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
     RCLCPP_INFO(this->get_logger(), "(Cartesian path) (%.2f%% achieved)", fraction * 100.0);
+    if (fraction < 0.9) {
+      RCLCPP_INFO(this->get_logger(), "目标位置不可达.");
+      auto result = std::make_shared<MoveArmCartesian::Result>();
+      result->success = false;
+      result->message = "目标位置不可达";
+      goal_handle->abort(result);
+      return;
+    }
 
     if (!is_constrain) {
       RCLCPP_INFO(this->get_logger(), "不约束轨迹的姿态.");

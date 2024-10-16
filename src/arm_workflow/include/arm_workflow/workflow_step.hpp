@@ -44,9 +44,9 @@ public:
 
 class OpennerJointParameter : public BaseParameter {
 public:
-    double base2link, link2base, left_gripper2base, right_gripper2base;
-    OpennerJointParameter(double _base2link, double _link2base, double _left_gripper2base, double _right_gripper2base)
-        :base2link(_base2link), link2base(_link2base), left_gripper2base(_left_gripper2base), right_gripper2base(_right_gripper2base) {}
+    double base2link, link2base, left_gripper2base, right_gripper2base, duration;
+    OpennerJointParameter(double _base2link, double _link2base, double _left_gripper2base, double _right_gripper2base, double _duration) 
+        :base2link(_base2link), link2base(_link2base), left_gripper2base(_left_gripper2base), right_gripper2base(_right_gripper2base), duration(_duration) {}
 };
 
 class Egp64JointParameter : public BaseParameter {

@@ -16,14 +16,8 @@
 #include "interfaces/action/operate.hpp"
 
 #include "arm_workflow/workflow_step.hpp"
-#include "arm_workflow/MoveArmClient.hpp" 
-#include "arm_workflow/AttachClient.hpp" 
 #include "arm_workflow/DetachClient.hpp"
-#include "arm_workflow/OpennerClient.hpp"
-#include "arm_workflow/MoveArmCartesianClient.hpp"
-#include "arm_workflow/MoveArmJointClient.hpp"
-#include "arm_workflow/Egp64Client.hpp"
-#include "arm_workflow/PipettleClient.hpp"
+#include "arm_workflow/utiles.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 
@@ -53,6 +47,7 @@ public:
         this->timer_ = this->create_wall_timer(
             500ms,
             std::bind(&WorkflowController::execute_workflow, this));
+        // this->execute_workflow();
     }
 
 private:
@@ -122,7 +117,8 @@ private:
                         double link2base = param_json["link2base"].get<double>();
                         double left_gripper2base = param_json["left_gripper2base"].get<double>();
                         double right_gripper2base = param_json["right_gripper2base"].get<double>();
-                        workflow_step.parameters[param_name] = std::make_shared<OpennerJointParameter>(base2link, link2base, left_gripper2base, right_gripper2base);
+                        double duration = param_json["duration"].get<double>();
+                        workflow_step.parameters[param_name] = std::make_shared<OpennerJointParameter>(base2link, link2base, left_gripper2base, right_gripper2base, duration);
                     }else if (type == "Egp64JointParameter") {
                         double egp64_finger_left_joint = param_json["egp64_finger_left_joint"].get<double>();
                         double egp64_finger_right_joint = param_json["egp64_finger_right_joint"].get<double>();
@@ -159,36 +155,85 @@ private:
         WorkflowStep step = workflow_steps_[current_step_index_];
         RCLCPP_INFO(this->get_logger(), "执行步骤 %zu: %s", current_step_index_ + 1, step.action_name.c_str());
         if (step.action_name == "move_arm") {
-            execute_move_arm(step.parameters);
+            bool res = execute_move_arm(step.parameters);
+            if (!res){
+                RCLCPP_ERROR(this->get_logger(), "move_arm 执行失败");
+                rclcpp::shutdown();
+                return;
+            }else{
+                RCLCPP_INFO(this->get_logger(), "move_arm 执行成功");
+            }
             current_step_index_ += 1;
         }
         else if (step.action_name == "move_arm_cartesian") {
-            execute_move_arm_cartesian(step.parameters);
+            bool res = execute_move_arm_cartesian(step.parameters);
+            if (!res){
+                RCLCPP_ERROR(this->get_logger(), "move_arm_cartesian 执行失败");
+                rclcpp::shutdown();
+                return;
+            }else{
+                RCLCPP_INFO(this->get_logger(), "move_arm_cartesian 执行成功");
+            }
             current_step_index_ += 1;
         }
         else if (step.action_name == "move_arm_joint")
         {
-            execute_move_arm_joint(step.parameters);
+            bool res = execute_move_arm_joint(step.parameters);
+            if (!res){
+                RCLCPP_ERROR(this->get_logger(), "move_arm_joint 执行失败");
+                rclcpp::shutdown();
+                return;
+            }else{
+                RCLCPP_INFO(this->get_logger(), "move_arm_joint 执行成功");
+            }
+            current_step_index_ += 1;
+        }
+        else if (step.action_name == "openner") {
+            bool res = execute_openner(step.parameters);
+            if (!res){
+                RCLCPP_ERROR(this->get_logger(), "execute openner 执行失败");
+                rclcpp::shutdown();
+                return;
+            }else{
+                RCLCPP_INFO(this->get_logger(), "execute openner 执行成功");
+            }
+            current_step_index_ += 1;
+        }
+        else if (step.action_name == "pipettle") {
+            bool res = execute_pipettle(step.parameters);
+            if (!res){
+                RCLCPP_ERROR(this->get_logger(), "execute pipettle 执行失败");
+                rclcpp::shutdown();
+                return;
+            }else{
+                RCLCPP_INFO(this->get_logger(), "execute pipettle 执行成功");
+            }
+            current_step_index_ += 1;
+        }
+        else if (step.action_name == "egp64") {
+            bool res = execute_egp64(step.parameters);
+            if (!res){
+                RCLCPP_ERROR(this->get_logger(), "execute egp64 执行失败");
+                rclcpp::shutdown();
+                return;
+            }else{
+                RCLCPP_INFO(this->get_logger(), "execute egp64 执行成功");
+            }
             current_step_index_ += 1;
         }
         else if (step.action_name == "attach") {
-            execute_attach(step.parameters);
+            bool res = execute_attach(step.parameters);
+            if (!res){
+                RCLCPP_ERROR(this->get_logger(), "execute attach 执行失败");
+                rclcpp::shutdown();
+                return;
+            }else{
+                RCLCPP_INFO(this->get_logger(), "execute attach 执行成功");
+            }
             current_step_index_ += 1;
         }
         else if (step.action_name == "detach") {
             execute_detach(step.parameters);
-            current_step_index_ += 1;
-        }
-        else if (step.action_name == "openner") {
-            execute_openner(step.parameters);
-            current_step_index_ += 1;
-        }
-        else if (step.action_name == "egp64") {
-            execute_egp64(step.parameters);
-            current_step_index_ += 1;
-        }
-        else if (step.action_name == "pipettle") {
-            execute_pipettle(step.parameters);
             current_step_index_ += 1;
         }
         else {

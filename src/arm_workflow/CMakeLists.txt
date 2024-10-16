@@ -19,6 +19,8 @@ find_package(moveit_core REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(moveit_ros_planning REQUIRED)
 find_package(moveit_ros_move_group REQUIRED)
+find_package(control_msgs REQUIRED)
+find_package(trajectory_msgs REQUIRED)
 
 add_executable(move_arm_server src/server/MoveArmServer.cpp)
 ament_target_dependencies(move_arm_server rclcpp rclcpp_action geometry_msgs std_msgs interfaces   
@@ -27,6 +29,9 @@ ament_target_dependencies(move_arm_server rclcpp rclcpp_action geometry_msgs std
   moveit_ros_planning
   moveit_ros_move_group)
 
+add_executable(move_arm_client src/client/MoveArmClient.cpp)
+ament_target_dependencies(move_arm_client rclcpp rclcpp_action geometry_msgs std_msgs interfaces)
+
 add_executable(move_arm_cartesian_server src/server/MoveArmCartesianServer.cpp)
 ament_target_dependencies(move_arm_cartesian_server rclcpp rclcpp_action geometry_msgs std_msgs interfaces   
   moveit_core
@@ -34,8 +39,9 @@ ament_target_dependencies(move_arm_cartesian_server rclcpp rclcpp_action geometr
   moveit_ros_planning
   moveit_ros_move_group)
 
-add_executable(move_arm_cartesian_client src/client/TestClient.cpp)
+add_executable(move_arm_cartesian_client src/client/MoveArmCartesianClient.cpp)
   ament_target_dependencies(move_arm_cartesian_client rclcpp rclcpp_action geometry_msgs std_msgs interfaces)
+
 
 add_executable(move_arm_joint_server src/server/MoveArmJointServer.cpp)
 ament_target_dependencies(move_arm_joint_server rclcpp rclcpp_action geometry_msgs std_msgs interfaces   
@@ -44,26 +50,29 @@ ament_target_dependencies(move_arm_joint_server rclcpp rclcpp_action geometry_ms
   moveit_ros_planning
   moveit_ros_move_group)
 
+add_executable(move_arm_joint_client src/client/MoveArmJointClient.cpp)
+ament_target_dependencies(move_arm_joint_client rclcpp rclcpp_action geometry_msgs std_msgs interfaces)
+
 add_executable(attach_server src/server/AttachServer.cpp)
 ament_target_dependencies(attach_server rclcpp rclcpp_action std_msgs interfaces)
 
 add_executable(detach_server src/server/DetachServer.cpp)
 ament_target_dependencies(detach_server rclcpp rclcpp_action std_msgs interfaces)
 
-add_executable(operate_server src/server/OperateServer.cpp)
-ament_target_dependencies(operate_server rclcpp rclcpp_action std_msgs interfaces)
+add_executable(openner_client src/client/OpennerClient.cpp)
+ament_target_dependencies(openner_client rclcpp rclcpp_action geometry_msgs std_msgs interfaces control_msgs trajectory_msgs)
 
+add_executable(pipettle_client src/client/PipettleClient.cpp)
+ament_target_dependencies(pipettle_client rclcpp rclcpp_action geometry_msgs std_msgs interfaces control_msgs trajectory_msgs)
+
+add_executable(egp64_client src/client/Egp64Client.cpp)
+ament_target_dependencies(egp64_client rclcpp rclcpp_action geometry_msgs std_msgs interfaces control_msgs trajectory_msgs)
 
 add_executable(work_flow_controller 
   src/WorkFlowController.cpp
-  src/client/MoveArmClient.cpp
   src/client/AttachClient.cpp
   src/client/DetachClient.cpp
-  src/client/OpennerClient.cpp
-  src/client/MoveArmCartesianClient.cpp
-  src/client/MoveArmJointClient.cpp
-  src/client/Egp64Client.cpp
-  src/client/PipettleClient.cpp)
+  src/utiles.cpp)
 ament_target_dependencies(work_flow_controller rclcpp rclcpp_action std_msgs interfaces yaml-cpp)
 
 # Install executables
@@ -73,9 +82,13 @@ install(TARGETS
   move_arm_joint_server
   attach_server
   detach_server
-  operate_server
   work_flow_controller
+  move_arm_client
   move_arm_cartesian_client
+  move_arm_joint_client
+  openner_client
+  pipettle_client
+  egp64_client
   DESTINATION lib/${PROJECT_NAME}
 )
 

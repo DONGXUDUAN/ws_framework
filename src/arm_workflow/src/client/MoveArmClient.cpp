@@ -1,42 +1,123 @@
-#include "arm_workflow/MoveArmClient.hpp"
-#include <iostream>
+#include <chrono>
+#include <functional>
+#include <memory>
 
-void execute_move_arm(const std::map<std::string, std::shared_ptr<BaseParameter>>& parameters)
+#include "rclcpp/rclcpp.hpp"
+#include "rclcpp_action/rclcpp_action.hpp"
+
+#include "interfaces/action/move_arm.hpp"
+
+using namespace std::placeholders;
+
+class MoveArmActionClient : public rclcpp::Node
 {
-    std::cout << "正在执行move_arm:" << std::endl;
-    
-    // 动态转换参数为 PoseParameter 类型
-    auto it_pose = parameters.find("position");
-    if (it_pose == parameters.end()) {
-        std::cout << "  参数中缺少 'position' 键." << std::endl;
+public:
+  using MoveArm = interfaces::action::MoveArm;
+  using GoalHandleMoveArm = rclcpp_action::ClientGoalHandle<MoveArm>;
+
+  explicit MoveArmActionClient(const rclcpp::NodeOptions & node_options = rclcpp::NodeOptions())
+  : Node("move_arm_client", node_options)
+  {
+    this->client_ptr_ = rclcpp_action::create_client<MoveArm>(
+      this,
+      "move_arm");
+    // 读取参数
+    this->declare_parameter<double>("position_x", 0.8);
+    this->declare_parameter<double>("position_y", 0.0);
+    this->declare_parameter<double>("position_z", 1.3);
+    this->declare_parameter<double>("orientation_x", 0.0);
+    this->declare_parameter<double>("orientation_y", 0.0);
+    this->declare_parameter<double>("orientation_z", 0.0);
+    this->declare_parameter<double>("orientation_w", 1.0);
+    this->declare_parameter<bool>("is_constrain", false);
+    this->declare_parameter<double>("x_axis_tolerance", 0.1);
+    this->declare_parameter<double>("y_axis_tolerance", 0.1);
+    this->declare_parameter<double>("z_axis_tolerance", 0.1);
+
+    this->send_goal();
+  }
+
+void send_goal()
+{
+    using namespace std::chrono_literals;
+
+    if (!this->client_ptr_->wait_for_action_server(10s)) {
+        RCLCPP_ERROR(this->get_logger(), "在等待后操作服务器不可用");
+        rclcpp::shutdown();
         return;
     }
 
-    auto it_cons = parameters.find("constrain");
-    if (it_cons == parameters.end()) {
-        std::cout << "  参数中缺少 'constrain' 键." << std::endl;
-        return;
-    }
+    auto goal_msg = MoveArm::Goal();
+    // 设置目标参数
+    this->get_parameter("position_x", goal_msg.target_pose.position.x);
+    this->get_parameter("position_y", goal_msg.target_pose.position.y);
+    this->get_parameter("position_z", goal_msg.target_pose.position.z);
+    this->get_parameter("orientation_x", goal_msg.target_pose.orientation.x);
+    this->get_parameter("orientation_y", goal_msg.target_pose.orientation.y);
+    this->get_parameter("orientation_z", goal_msg.target_pose.orientation.z);
+    this->get_parameter("orientation_w", goal_msg.target_pose.orientation.w);
+    this->get_parameter("is_constrain", goal_msg.is_constrain);
+    this->get_parameter("x_axis_tolerance", goal_msg.x_axis_tolerance);
+    this->get_parameter("y_axis_tolerance", goal_msg.y_axis_tolerance);
+    this->get_parameter("z_axis_tolerance", goal_msg.z_axis_tolerance);
 
-    auto* pose_param = dynamic_cast<PoseParameter*>(it_pose->second.get());
-    auto* cons_param = dynamic_cast<ConstrainParameter*>(it_cons->second.get());
-    if (pose_param) {
+    RCLCPP_INFO(this->get_logger(), "发送目标");
 
-        // 构建命令行字符串
-        std::string command = "ros2 action send_goal /move_arm interfaces/action/MoveArm \"{target_pose: {position: {x: ";
-        command += std::to_string(pose_param->x) + ", y: " + std::to_string(pose_param->y) + ", z: " + std::to_string(pose_param->z) + "}, orientation: {x: ";
-        command += std::to_string(pose_param->qx) + ", y: " + std::to_string(pose_param->qy) + ", z: " + std::to_string(pose_param->qz) + ", w: " + std::to_string(pose_param->qw) + "}}" + ", is_constrain: "; 
-        command += std::to_string(cons_param->is_constrain) + ", x_axis_tolerance: " + std::to_string(cons_param->x_axis_tolerance) + ", y_axis_tolerance: ";
-        command += std::to_string(cons_param->y_axis_tolerance) + ", z_axis_tolerance: " + std::to_string(cons_param->z_axis_tolerance) + "}\"";
+    auto send_goal_options = rclcpp_action::Client<MoveArm>::SendGoalOptions();
+    send_goal_options.goal_response_callback = std::bind(&MoveArmActionClient::goal_response_callback, this, std::placeholders::_1);
+    send_goal_options.result_callback = std::bind(&MoveArmActionClient::result_callback, this, std::placeholders::_1);
 
-        std::cout << "执行命令: " << command << std::endl;
+    auto future_goal_handle = this->client_ptr_->async_send_goal(goal_msg, send_goal_options);  
+}
 
-        // 执行命令
-        int ret = system(command.c_str());;
-        if (ret != 0) {
-            std::cerr << "  执行命令失败，返回码: " << ret << std::endl;
-        }
+private:
+  rclcpp_action::Client<MoveArm>::SharedPtr client_ptr_;
+
+void goal_response_callback(GoalHandleMoveArm::SharedPtr goal_handle)
+{
+    if (!goal_handle) {
+        RCLCPP_ERROR(this->get_logger(), "目标被服务器拒绝");
     } else {
-        std::cout << "  未知的参数类型 或者参数没有内容" << std::endl;
+        RCLCPP_INFO(this->get_logger(), "目标已被服务器接受，等待结果");
     }
+}
+
+
+  void result_callback(const GoalHandleMoveArm::WrappedResult & result)
+  {
+    switch (result.code) {
+      case rclcpp_action::ResultCode::SUCCEEDED:
+        break;
+      case rclcpp_action::ResultCode::ABORTED:
+        RCLCPP_ERROR(this->get_logger(), "Goal was aborted");
+        rclcpp::shutdown();
+        return;
+      case rclcpp_action::ResultCode::CANCELED:
+        RCLCPP_ERROR(this->get_logger(), "Goal was canceled");
+        rclcpp::shutdown();
+        return;
+      default:
+        RCLCPP_ERROR(this->get_logger(), "Unknown result code");
+        rclcpp::shutdown();
+        return;
+    }
+
+    RCLCPP_INFO(this->get_logger(), "Result received");
+    RCLCPP_INFO(this->get_logger(), "Success: %s", result.result->success ? "true" : "false");
+    RCLCPP_INFO(this->get_logger(), "Message: %s", result.result->message.c_str());
+
+    rclcpp::shutdown();
+  }
+};
+
+int main(int argc, char ** argv)
+{
+  rclcpp::init(argc, argv);
+
+  auto node = std::make_shared<MoveArmActionClient>();
+
+  rclcpp::spin(node);
+
+  rclcpp::shutdown();
+  return 0;
 }

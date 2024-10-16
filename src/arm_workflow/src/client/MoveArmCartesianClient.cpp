@@ -1,40 +1,116 @@
-#include "arm_workflow/MoveArmCartesianClient.hpp"
-#include <iostream>
+#include <chrono>
+#include <functional>
+#include <memory>
 
-void execute_move_arm_cartesian(const std::map<std::string, std::shared_ptr<BaseParameter>>& parameters)
+#include "rclcpp/rclcpp.hpp"
+#include "rclcpp_action/rclcpp_action.hpp"
+
+#include "interfaces/action/move_arm_cartesian.hpp"
+
+using namespace std::placeholders;
+
+class MoveArmCartesianActionClient : public rclcpp::Node
 {
-    std::cout << "正在执行move_arm_cartesian:" << std::endl;
-    
-    // 动态转换参数为 PoseParameter 类型
-    auto it_dis = parameters.find("displacement");
-    if (it_dis == parameters.end()) {
-        std::cout << "  参数中缺少 'displacement' 键." << std::endl;
+public:
+  using MoveArmCartesian = interfaces::action::MoveArmCartesian;
+  using GoalHandleMoveArmCartesian = rclcpp_action::ClientGoalHandle<MoveArmCartesian>;
+
+  explicit MoveArmCartesianActionClient(const rclcpp::NodeOptions & node_options = rclcpp::NodeOptions())
+  : Node("move_arm_cartesian_client", node_options)
+  {
+    this->client_ptr_ = rclcpp_action::create_client<MoveArmCartesian>(
+      this,
+      "move_arm_cartesian");
+    // 读取参数
+    this->declare_parameter<double>("delta_x", 0.0);
+    this->declare_parameter<double>("delta_y", 0.0);
+    this->declare_parameter<double>("delta_z", 0.0);
+    this->declare_parameter<bool>("is_constrain", false);
+    this->declare_parameter<double>("x_axis_tolerance", 0.0);
+    this->declare_parameter<double>("y_axis_tolerance", 0.0);
+    this->declare_parameter<double>("z_axis_tolerance", 0.0);
+
+    this->send_goal();
+  }
+
+void send_goal()
+{
+    using namespace std::chrono_literals;
+
+    if (!this->client_ptr_->wait_for_action_server(10s)) {
+        RCLCPP_ERROR(this->get_logger(), "在等待后操作服务器不可用");
+        rclcpp::shutdown();
         return;
     }
 
-    auto it_cons = parameters.find("constrain");
-    if (it_cons == parameters.end()) {
-        std::cout << "  参数中缺少 'constrain' 键." << std::endl;
-        return;
-    }
+    auto goal_msg = MoveArmCartesian::Goal();
+    // 设置目标参数
+    this->get_parameter("delta_x", goal_msg.delta_x);
+    this->get_parameter("delta_y", goal_msg.delta_y);
+    this->get_parameter("delta_z", goal_msg.delta_z);
+    this->get_parameter("is_constrain", goal_msg.is_constrain);
+    this->get_parameter("x_axis_tolerance", goal_msg.x_axis_tolerance);
+    this->get_parameter("y_axis_tolerance", goal_msg.y_axis_tolerance);
+    this->get_parameter("z_axis_tolerance", goal_msg.z_axis_tolerance);
 
-    auto* dis_param = dynamic_cast<CartesianPathParameter*>(it_dis->second.get());
-    auto* cons_param = dynamic_cast<ConstrainParameter*>(it_cons->second.get());
-    if (dis_param) {
+    RCLCPP_INFO(this->get_logger(), "发送目标");
 
-        // 构建命令行字符串
-        std::string command = "ros2 action send_goal /move_arm_cartesian interfaces/action/MoveArmCartesian \"{delta_x: ";
-        command += std::to_string(dis_param->delta_x) + ", delta_y: " + std::to_string(dis_param->delta_y);
-        command += ", delta_z: " + std::to_string(dis_param->delta_z) + ", is_constrain: " ;
-        command += std::to_string(cons_param->is_constrain) + ", x_axis_tolerance: " + std::to_string(cons_param->x_axis_tolerance) + ", y_axis_tolerance: ";
-        command += std::to_string(cons_param->y_axis_tolerance) + ", z_axis_tolerance: " + std::to_string(cons_param->z_axis_tolerance) + "}\"";
+    auto send_goal_options = rclcpp_action::Client<MoveArmCartesian>::SendGoalOptions();
+    send_goal_options.goal_response_callback = std::bind(&MoveArmCartesianActionClient::goal_response_callback, this, std::placeholders::_1);
+    send_goal_options.result_callback = std::bind(&MoveArmCartesianActionClient::result_callback, this, std::placeholders::_1);
 
-        // 执行命令
-        int ret = system(command.c_str());;
-        if (ret != 0) {
-            std::cerr << "  执行命令失败，返回码: " << ret << std::endl;
-        }
+    auto future_goal_handle = this->client_ptr_->async_send_goal(goal_msg, send_goal_options);  
+}
+
+private:
+  rclcpp_action::Client<MoveArmCartesian>::SharedPtr client_ptr_;
+  rclcpp::TimerBase::SharedPtr timer_;
+
+void goal_response_callback(GoalHandleMoveArmCartesian::SharedPtr goal_handle)
+{
+    if (!goal_handle) {
+        RCLCPP_ERROR(this->get_logger(), "目标被服务器拒绝");
     } else {
-        std::cout << "  未知的参数类型 或者参数没有内容" << std::endl;
+        RCLCPP_INFO(this->get_logger(), "目标已被服务器接受，等待结果");
     }
+}
+
+
+  void result_callback(const GoalHandleMoveArmCartesian::WrappedResult & result)
+  {
+    switch (result.code) {
+      case rclcpp_action::ResultCode::SUCCEEDED:
+        break;
+      case rclcpp_action::ResultCode::ABORTED:
+        RCLCPP_ERROR(this->get_logger(), "Goal was aborted");
+        rclcpp::shutdown();
+        return;
+      case rclcpp_action::ResultCode::CANCELED:
+        RCLCPP_ERROR(this->get_logger(), "Goal was canceled");
+        rclcpp::shutdown();
+        return;
+      default:
+        RCLCPP_ERROR(this->get_logger(), "Unknown result code");
+        rclcpp::shutdown();
+        return;
+    }
+
+    RCLCPP_INFO(this->get_logger(), "Result received");
+    RCLCPP_INFO(this->get_logger(), "Success: %s", result.result->success ? "true" : "false");
+    RCLCPP_INFO(this->get_logger(), "Message: %s", result.result->message.c_str());
+
+    rclcpp::shutdown();
+  }
+};
+
+int main(int argc, char ** argv)
+{
+  rclcpp::init(argc, argv);
+
+  auto node = std::make_shared<MoveArmCartesianActionClient>();
+
+  rclcpp::spin(node);
+
+  rclcpp::shutdown();
+  return 0;
 }

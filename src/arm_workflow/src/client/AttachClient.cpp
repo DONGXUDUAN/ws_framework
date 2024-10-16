@@ -1,49 +1,70 @@
-#include "arm_workflow/AttachClient.hpp"
+#include "rclcpp/rclcpp.hpp"
+#include "gazebo_attach_interfaces/srv/attach.hpp"
+#include <memory>
 #include <iostream>
 
-void execute_attach(std::map<std::string, std::shared_ptr<BaseParameter>> parameters)
+class AttachClient : public rclcpp::Node
 {
-        std::cout << "正在执行 attach:" << std::endl;
+public:
+  AttachClient() : Node("attach_client")
+  {
+    client_ = this->create_client<gazebo_attach_interfaces::srv::Attach>("attach");
 
-    // 查找 "model_1" 和 "model_2" 参数
-    auto it_model_1 = parameters.find("model_1");
-    auto it_model_2 = parameters.find("model_2");
+    // 提取参数
+    model_name_1_ = this->declare_parameter<std::string>("model_name_1", "default_model_1");
+    link_name_1_ = this->declare_parameter<std::string>("link_name_1", "default_link_1");
+    model_name_2_ = this->declare_parameter<std::string>("model_name_2", "default_model_2");
+    link_name_2_ = this->declare_parameter<std::string>("link_name_2", "default_link_2");
 
-    if (it_model_1 == parameters.end() || it_model_2 == parameters.end()) {
-        std::cerr << "  参数中缺少 'mdoel_1' 或 'model_2' 键." << std::endl;
-        return;
+    // 发送请求
+    this->send_request();
+  }
+
+private:
+  void send_request()
+  {
+    if (!client_->wait_for_service(std::chrono::seconds(1))) {
+      RCLCPP_ERROR(this->get_logger(), "服务未准备好.");
+      return;
     }
 
-    // 查找 "link1" 和 "link2" 参数
-    auto it_link1 = parameters.find("link_1");
-    auto it_link2 = parameters.find("link_2");
+    auto request = std::make_shared<gazebo_attach_interfaces::srv::Attach::Request>();
+    request->model_name_1 = model_name_1_;
+    request->link_name_1 = link_name_1_;
+    request->model_name_2 = model_name_2_;
+    request->link_name_2 = link_name_2_;
 
-    if (it_link1 == parameters.end() || it_link2 == parameters.end()) {
-        std::cerr << "  参数中缺少 'link1' 或 'link2' 键." << std::endl;
-        return;
-    }
+    auto result_future = client_->async_send_request(request);
 
-
-    // 尝试将参数转换为 StringParameter
-    auto* model_1_param = dynamic_cast<StringParameter*>(it_model_1->second.get());
-    auto* model_2_param = dynamic_cast<StringParameter*>(it_model_2->second.get());
-    auto* link1_param = dynamic_cast<StringParameter*>(it_link1->second.get());
-    auto* link2_param = dynamic_cast<StringParameter*>(it_link2->second.get());
-
-    if (link1_param && link2_param) {
-        // 构建命令行字符串
-        std::string command = "ros2 service call /attach gazebo_attach_interfaces/srv/Attach \"{model_name_1: ";
-        command += model_1_param->value + ", link_name_1: " + link1_param->value + ", model_name_2: ";
-        command += model_2_param->value + ", link_name_2: " + link2_param->value + "}\"";
-
-        std::cout << "  执行命令: " << command << std::endl;
-
-        // 执行命令
-        int ret = system(command.c_str());
-        if (ret != 0) {
-            std::cerr << "  执行命令失败，返回码: " << ret << std::endl;
-        }
+    // 等待响应
+    if (rclcpp::spin_until_future_complete(this->get_node_base_interface(), result_future) ==
+        rclcpp::FutureReturnCode::SUCCESS)
+    {
+      auto result = result_future.get();
+      if (result->success) {
+        RCLCPP_INFO(this->get_logger(), "模型 %s 的 %s 链接已与模型 %s 的 %s 链接附着成功.",
+                    model_name_1_.c_str(), link_name_1_.c_str(),
+                    model_name_2_.c_str(), link_name_2_.c_str());
+      } else {
+        RCLCPP_ERROR(this->get_logger(), "附着失败");
+      }
     } else {
-        std::cerr << "  参数 'link1' 或 'link2' 类型无效或为空." << std::endl;
+      RCLCPP_ERROR(this->get_logger(), "服务调用失败");
     }
+  }
+
+  std::string model_name_1_;
+  std::string link_name_1_;
+  std::string model_name_2_;
+  std::string link_name_2_;
+  rclcpp::Client<gazebo_attach_interfaces::srv::Attach>::SharedPtr client_;
+};
+
+int main(int argc, char **argv)
+{
+  rclcpp::init(argc, argv);
+  auto attach_client = std::make_shared<AttachClient>();
+  rclcpp::spin(attach_client);  // 进入事件循环
+  rclcpp::shutdown();
+  return 0;
 }
