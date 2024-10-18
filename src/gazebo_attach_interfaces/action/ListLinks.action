@@ -1,0 +1,11 @@
+# 目标（Goal）
+# 无需额外参数
+---
+# 结果（Result）
+bool success
+string message
+string[] models_and_links  # 返回模型和链接的列表
+---
+# 反馈（Feedback）
+# 如果需要，可以添加反馈字段，例如：
+# float32 progress

@@ -1,17 +1,16 @@
 {
   "workflow_steps": [
     {
-      "action_name": "move_arm",
+      "action_name": "move_arm_joint",
       "parameters": {
-        "position": {
-          "type": "PoseParameter",
-          "x": -0.585,
-          "y": 0.09,
-          "z": 1.121,
-          "qx": 0.5,
-          "qy": 0.5,
-          "qz": -0.5,
-          "qw": 0.5
+        "joints_value": {
+          "type": "JointPathParameter",
+          "joint_0": -0.4538,
+          "joint_1": -0.6283,
+          "joint_2": -2.4958,
+          "joint_3": 0.0,
+          "joint_4": -1.5882,
+          "joint_5": 1.1170
         },
         "constrain": {
           "type": "ConstrainParameter",
@@ -231,7 +230,8 @@
             "base2link": -0.08,
             "link2base": 0.0,
             "left_gripper2base": 0.0,
-            "right_gripper2base": 0.0
+            "right_gripper2base": 0.0,
+            "duration": 1.0
           }
         }
     },
@@ -243,7 +243,8 @@
             "base2link": -0.08,
             "link2base": 0.0,
             "left_gripper2base": 0.01,
-            "right_gripper2base": 0.01
+            "right_gripper2base": 0.01,
+            "duration": 1.0
           }
         }
     },
@@ -255,7 +256,8 @@
             "base2link": -0.08,
             "link2base": 6.28,
             "left_gripper2base": 0.0,
-            "right_gripper2base": 0.0
+            "right_gripper2base": 0.0,
+            "duration": 1.0
           }
         }
     },
@@ -267,7 +269,8 @@
             "base2link": 0.01,
             "link2base": 6.28,
             "left_gripper2base": 0.0,
-            "right_gripper2base": 0.0
+            "right_gripper2base": 0.0,
+            "duration": 1.0
           }
         }
     },

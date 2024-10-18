@@ -21,6 +21,7 @@ find_package(moveit_ros_planning REQUIRED)
 find_package(moveit_ros_move_group REQUIRED)
 find_package(control_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
+find_package(gazebo_attach_interfaces REQUIRED)
 
 add_executable(move_arm_server src/server/MoveArmServer.cpp)
 ament_target_dependencies(move_arm_server rclcpp rclcpp_action geometry_msgs std_msgs interfaces   
@@ -53,12 +54,6 @@ ament_target_dependencies(move_arm_joint_server rclcpp rclcpp_action geometry_ms
 add_executable(move_arm_joint_client src/client/MoveArmJointClient.cpp)
 ament_target_dependencies(move_arm_joint_client rclcpp rclcpp_action geometry_msgs std_msgs interfaces)
 
-add_executable(attach_server src/server/AttachServer.cpp)
-ament_target_dependencies(attach_server rclcpp rclcpp_action std_msgs interfaces)
-
-add_executable(detach_server src/server/DetachServer.cpp)
-ament_target_dependencies(detach_server rclcpp rclcpp_action std_msgs interfaces)
-
 add_executable(openner_client src/client/OpennerClient.cpp)
 ament_target_dependencies(openner_client rclcpp rclcpp_action geometry_msgs std_msgs interfaces control_msgs trajectory_msgs)
 
@@ -68,10 +63,14 @@ ament_target_dependencies(pipettle_client rclcpp rclcpp_action geometry_msgs std
 add_executable(egp64_client src/client/Egp64Client.cpp)
 ament_target_dependencies(egp64_client rclcpp rclcpp_action geometry_msgs std_msgs interfaces control_msgs trajectory_msgs)
 
+add_executable(attach_client src/client/AttachClient.cpp)
+ament_target_dependencies(attach_client rclcpp rclcpp_action geometry_msgs std_msgs gazebo_attach_interfaces)
+
+add_executable(detach_client src/client/DetachClient.cpp)
+ament_target_dependencies(detach_client rclcpp rclcpp_action geometry_msgs std_msgs gazebo_attach_interfaces)
+
 add_executable(work_flow_controller 
   src/WorkFlowController.cpp
-  src/client/AttachClient.cpp
-  src/client/DetachClient.cpp
   src/utiles.cpp)
 ament_target_dependencies(work_flow_controller rclcpp rclcpp_action std_msgs interfaces yaml-cpp)
 
@@ -80,8 +79,6 @@ install(TARGETS
   move_arm_server
   move_arm_cartesian_server
   move_arm_joint_server
-  attach_server
-  detach_server
   work_flow_controller
   move_arm_client
   move_arm_cartesian_client
@@ -89,6 +86,8 @@ install(TARGETS
   openner_client
   pipettle_client
   egp64_client
+  attach_client
+  detach_client
   DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -1,18 +1,18 @@
-#ifndef GAZEBO_ATTACH_PLUGIN__LINK_ATTACHER_PLUGIN_H_
-#define GAZEBO_ATTACH_PLUGIN__LINK_ATTACHER_PLUGIN_H_
+#ifndef LINK_ATTACHER_PLUGIN_H
+#define LINK_ATTACHER_PLUGIN_H
 
 #include <gazebo/common/Plugin.hh>
-#include <gazebo/physics/physics.hh>
-#include <gazebo_ros/node.hpp>
 #include <rclcpp/rclcpp.hpp>
-#include <memory>
-#include <string>
-#include <vector>
+#include <gazebo_ros/node.hpp>
+#include <gazebo/physics/physics.hh>
 
-#include "gazebo_attach_interfaces/srv/attach.hpp"
-#include "gazebo_attach_interfaces/srv/detach.hpp"
-#include "std_srvs/srv/trigger.hpp"
-#include "gazebo_attach_interfaces/srv/set_static.hpp"
+// 包含Action消息头文件
+#include "gazebo_attach_interfaces/action/attach.hpp"
+#include "gazebo_attach_interfaces/action/detach.hpp"
+#include "gazebo_attach_interfaces/action/set_static.hpp"
+#include "gazebo_attach_interfaces/action/list_links.hpp"
+
+#include <rclcpp_action/rclcpp_action.hpp>
 
 namespace gazebo
 {
@@ -22,46 +22,87 @@ namespace gazebo
     LinkAttacherPlugin();
     virtual ~LinkAttacherPlugin();
 
-    // 插件加载函数
-    void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) override;
+    virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf);
 
   private:
-    // 附着服务回调
-    void OnAttachRequest(
-      const std::shared_ptr<gazebo_attach_interfaces::srv::Attach::Request> request,
-      std::shared_ptr<gazebo_attach_interfaces::srv::Attach::Response> response);
+    // 定义Action类型别名
+    using AttachAction = gazebo_attach_interfaces::action::Attach;
+    using DetachAction = gazebo_attach_interfaces::action::Detach;
+    using SetStaticAction = gazebo_attach_interfaces::action::SetStatic;
+    using ListLinksAction = gazebo_attach_interfaces::action::ListLinks;
 
-    // 分离服务回调
-    void OnDetachRequest(
-      const std::shared_ptr<gazebo_attach_interfaces::srv::Detach::Request> request,
-      std::shared_ptr<gazebo_attach_interfaces::srv::Detach::Response> response);
+    // Action服务器成员变量
+    rclcpp_action::Server<AttachAction>::SharedPtr attach_action_server_;
+    rclcpp_action::Server<DetachAction>::SharedPtr detach_action_server_;
+    rclcpp_action::Server<SetStaticAction>::SharedPtr set_static_action_server_;
+    rclcpp_action::Server<ListLinksAction>::SharedPtr list_links_action_server_;
 
-    // 列出模型和链接的服务回调
-    void OnListLinksRequest(
-      const std::shared_ptr<std_srvs::srv::Trigger::Request> request,
-      std::shared_ptr<std_srvs::srv::Trigger::Response> response);
-    
-    // 设置is_static的服务回调
-    void OnSetStaticRequest(
-      const std::shared_ptr<gazebo_attach_interfaces::srv::SetStatic::Request> request,
-      std::shared_ptr<gazebo_attach_interfaces::srv::SetStatic::Response> response);
+    // Attach Action的回调函数
+    rclcpp_action::GoalResponse HandleAttachGoal(
+      const rclcpp_action::GoalUUID & uuid,
+      std::shared_ptr<const AttachAction::Goal> goal);
 
-    // Gazebo 物理世界和引擎的指针
+    rclcpp_action::CancelResponse HandleAttachCancel(
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<AttachAction>> goal_handle);
+
+    void HandleAttachAccepted(
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<AttachAction>> goal_handle);
+
+    void ExecuteAttach(
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<AttachAction>> goal_handle);
+
+    // Detach Action的回调函数
+    rclcpp_action::GoalResponse HandleDetachGoal(
+      const rclcpp_action::GoalUUID & uuid,
+      std::shared_ptr<const DetachAction::Goal> goal);
+
+    rclcpp_action::CancelResponse HandleDetachCancel(
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<DetachAction>> goal_handle);
+
+    void HandleDetachAccepted(
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<DetachAction>> goal_handle);
+
+    void ExecuteDetach(
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<DetachAction>> goal_handle);
+
+    // SetStatic Action的回调函数
+    rclcpp_action::GoalResponse HandleSetStaticGoal(
+      const rclcpp_action::GoalUUID & uuid,
+      std::shared_ptr<const SetStaticAction::Goal> goal);
+
+    rclcpp_action::CancelResponse HandleSetStaticCancel(
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<SetStaticAction>> goal_handle);
+
+    void HandleSetStaticAccepted(
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<SetStaticAction>> goal_handle);
+
+    void ExecuteSetStatic(
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<SetStaticAction>> goal_handle);
+
+    // ListLinks Action的回调函数
+    rclcpp_action::GoalResponse HandleListLinksGoal(
+      const rclcpp_action::GoalUUID & uuid,
+      std::shared_ptr<const ListLinksAction::Goal> goal);
+
+    rclcpp_action::CancelResponse HandleListLinksCancel(
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<ListLinksAction>> goal_handle);
+
+    void HandleListLinksAccepted(
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<ListLinksAction>> goal_handle);
+
+    void ExecuteListLinks(
+      const std::shared_ptr<rclcpp_action::ServerGoalHandle<ListLinksAction>> goal_handle);
+
+    // ROS节点
+    gazebo_ros::Node::SharedPtr ros_node_;
+
+    // Gazebo指针
     physics::WorldPtr world_;
     physics::PhysicsEnginePtr physics_engine_;
 
-    // ROS2 节点的指针
-    gazebo_ros::Node::SharedPtr ros_node_;
-
-    // 服务的共享指针
-    rclcpp::Service<gazebo_attach_interfaces::srv::Attach>::SharedPtr attach_service_;
-    rclcpp::Service<gazebo_attach_interfaces::srv::Detach>::SharedPtr detach_service_;
-    rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr list_links_service_;
-    rclcpp::Service<gazebo_attach_interfaces::srv::SetStatic>::SharedPtr set_static_service_;
-
-    // 存储已附着的关节列表
+    // 已附着的关节列表
     std::vector<physics::JointPtr> attached_joints_;
   };
 }
 
-#endif  // GAZEBO_ATTACH_PLUGIN__LINK_ATTACHER_PLUGIN_H_
+#endif // LINK_ATTACHER_PLUGIN_H

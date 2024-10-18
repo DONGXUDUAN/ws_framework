@@ -113,8 +113,8 @@ def generate_launch_description():
         arguments=['-topic', '/egp64/robot_description',
                     '-entity', "egp64",
                     '-x', '-0.585',
-                    '-y', '0.09',
-                    '-z', '1.13',
+                    '-y', '0.29',
+                    '-z', '1.122',
                     '-R', '3.1415926',
                     '-P', '0.0',
                     '-Y', '1.5708',
@@ -161,7 +161,7 @@ def generate_launch_description():
         arguments=['-topic', '/pipettle/robot_description',
                     '-entity', "pipettle",
                     '-x', '-0.585',
-                    '-y', '-0.09',
+                    '-y', '0.11',
                     '-z', '1.13',
                     '-R', '3.1415926',
                     '-P', '0.0',
@@ -214,6 +214,45 @@ def generate_launch_description():
         ],
     )
 
+    attach_bottle_node = launch_ros.actions.Node(
+        package='arm_workflow',
+        executable='attach_client',
+        name='attach_bottle_node',
+        output='screen',
+        parameters=[
+            {'model_name_1': 'bottle_1'},
+            {'link_name_1': 'bottle::link'},
+            {'model_name_2': 'bottle_cap_1'},
+            {'link_name_2': 'bottle_cap::link'}
+        ]
+    )
+
+    attach_egp64_node = launch_ros.actions.Node(
+        package='arm_workflow',
+        executable='attach_client',
+        name='attach_egp64_node',
+        output='screen',
+        parameters=[
+            {'model_name_1': 'egp64'},
+            {'link_name_1': 'connection'},
+            {'model_name_2': 'ground_plane'},
+            {'link_name_2': 'link'}
+        ]
+    )
+
+    attach_pipettle_node = launch_ros.actions.Node(
+        package='arm_workflow',
+        executable='attach_client',
+        name='attach_pipettle_node',
+        output='screen',
+        parameters=[
+            {'model_name_1': 'pipettle'},
+            {'link_name_1': 'pipettle_base'},
+            {'model_name_2': 'ground_plane'},
+            {'link_name_2': 'link'}
+        ]
+    )
+
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument('attempts', default_value='5'),
         action_declare_arg_model_path,
@@ -230,32 +269,17 @@ def generate_launch_description():
         spawn_openner_node,
         spawn_pipettle_node,
         rviz_node,
-        ExecuteProcess(
-        cmd=[
-            'ros2', 'service', 'call', '/attach', 'gazebo_attach_interfaces/srv/Attach',
-            "{model_name_1: 'bottle_1', link_name_1: 'bottle::link', model_name_2: 'bottle_cap_1', link_name_2: 'bottle_cap::link'}"
-        ],
-        output='screen'),
+        attach_bottle_node,
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=spawn_pipettle_node,
-                on_exit=[ExecuteProcess(
-            cmd=[
-                'ros2', 'service', 'call', '/attach', 'gazebo_attach_interfaces/srv/Attach',
-                "{model_name_1: 'ground_plane', link_name_1: 'link', model_name_2: 'pipettle', link_name_2: 'pipettle_base'}"
-            ],
-            output='screen'),]
+                on_exit=[attach_pipettle_node]
             )
         ),
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=spawn_egp64_node,
-                on_exit=[ExecuteProcess(
-            cmd=[
-                'ros2', 'service', 'call', '/attach', 'gazebo_attach_interfaces/srv/Attach',
-                "{model_name_1: 'ground_plane', link_name_1: 'link', model_name_2: 'egp64', link_name_2: 'connection'}"
-            ],
-            output='screen'),]
+                on_exit=[attach_egp64_node]
             )
         ),
         egp64_joint_state_broadcaster_spawner,

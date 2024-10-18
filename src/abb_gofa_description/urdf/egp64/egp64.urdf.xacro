@@ -7,7 +7,7 @@
     <link name="connection">
         <inertial>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-            <mass value="0.01" />
+            <mass value="0.001" />
             <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
         <visual>
@@ -22,11 +22,11 @@
         </collision>
     </link>
 
-    <gazebo reference="connection">
+    <!-- <gazebo reference="connection">
         <mu1>0.8</mu1>
         <mu2>0.8</mu2>
         <material>Gazebo/Black</material>
-    </gazebo>
+    </gazebo> -->
 
     <joint name="connection" type="fixed">
         <parent link="connection"/>
@@ -47,7 +47,7 @@
         </collision>
         <inertial>
         <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
-        <mass value="0.01" />
+        <mass value="0.001" />
         <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
     </link>

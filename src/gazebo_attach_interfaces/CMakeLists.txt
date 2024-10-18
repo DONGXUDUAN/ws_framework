@@ -18,6 +18,11 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/Attach.srv"
   "srv/Detach.srv"
   "srv/SetStatic.srv"
+  "action/Attach.action"
+  "action/Detach.action"
+  "action/SetStatic.action"
+  "action/ListLinks.action"
+  DEPENDENCIES builtin_interfaces
 )
 
 if(BUILD_TESTING)

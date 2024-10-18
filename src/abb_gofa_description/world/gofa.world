@@ -12,6 +12,11 @@
     </include>
     <!-- <max_step_size>0.001</max_step_size> -->
 
+  <physics type="ode">
+    <max_step_size>0.001</max_step_size>
+    <real_time_update_rate>1000</real_time_update_rate>
+  </physics>
+
     <scene>
         <shadows>false</shadows>
     </scene>
@@ -22,7 +27,7 @@
       <include>
         <uri>model://executor_bracket</uri>
       </include>
-        <pose>-0.6 0  0.72 0 0 1.570796</pose>
+        <pose>-0.6 0.2  0.72 0 0 1.570796</pose>
     </model>
     <!-- 
     <model name='tube_rack'>

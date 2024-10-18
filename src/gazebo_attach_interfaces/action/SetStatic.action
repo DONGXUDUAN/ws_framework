@@ -1,0 +1,11 @@
+# 目标（Goal）
+string model_name
+bool is_static
+---
+# 结果（Result）
+bool success
+string message
+---
+# 反馈（Feedback）
+# 如果需要，可以添加反馈字段，例如：
+# float32 progress

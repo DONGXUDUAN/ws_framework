@@ -14,4 +14,5 @@ bool execute_openner(const std::map<std::string, std::shared_ptr<BaseParameter>>
 bool execute_pipettle(const std::map<std::string, std::shared_ptr<BaseParameter>>& parameters);
 bool execute_egp64(const std::map<std::string, std::shared_ptr<BaseParameter>>& parameters);
 bool execute_attach(std::map<std::string, std::shared_ptr<BaseParameter>> parameters);
+bool execute_detach(std::map<std::string, std::shared_ptr<BaseParameter>> parameters);
 #endif 

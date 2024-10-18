@@ -18,6 +18,7 @@ find_package(gazebo_dev REQUIRED)
 find_package(gazebo_msgs REQUIRED)
 find_package(gazebo_attach_interfaces REQUIRED)
 find_package(std_srvs REQUIRED)
+find_package(rclcpp_action REQUIRED)
 
 add_library(link_attacher_plugin SHARED
   src/link_attacher_plugin.cpp
@@ -30,6 +31,7 @@ ament_target_dependencies(link_attacher_plugin
   gazebo_msgs
   gazebo_attach_interfaces
   std_srvs
+  rclcpp_action
 )
 
 target_link_libraries(link_attacher_plugin

@@ -397,18 +397,117 @@ bool execute_attach(std::map<std::string, std::shared_ptr<BaseParameter>> parame
 
     if (link1_param && link2_param) {
         // 构建命令行字符串
-        std::string command = "ros2 service call /attach gazebo_attach_interfaces/srv/Attach \"{model_name_1: ";
-        command += model_1_param->value + ", link_name_1: " + link1_param->value + ", model_name_2: ";
-        command += model_2_param->value + ", link_name_2: " + link2_param->value + "}\"";
+        std::string command = "ros2 run arm_workflow attach_client --ros-args ";
+        command += " -p model_name_1:=" + model_1_param->value;
+        command += " -p model_name_2:=" + model_2_param->value;
+        command += " -p link_name_1:=" + link1_param->value;
+        command += " -p link_name_2:=" + link2_param->value;
 
-        std::cout << "  执行命令: " << command << std::endl;
+        std::string full_command = "bash -c 'source /opt/ros/humble/setup.bash && ";
+        full_command += command + " 2>&1'";
+
 
         // 执行命令
-        int ret = system(command.c_str());
-        if (ret != 0) {
-            std::cerr << "  执行命令失败，返回码: " << ret << std::endl;
+        FILE* pipe = popen(full_command.c_str(), "r");
+        if (!pipe) {
+            std::cerr << "无法执行命令！" << std::endl;
+            return false;
         }
-        return true;
+
+        char buffer[128];
+        std::string result = "";
+        while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+            result += buffer;
+        }
+
+        int returnCode = pclose(pipe);
+        if (returnCode != 0) {
+            std::cerr << "执行命令失败，返回码: " << returnCode << std::endl;
+        }
+        // 输出命令执行的结果
+        std::cout << "execute attach 命令输出：" << std::endl;
+        std::cout << result << std::endl;
+
+        std::string success_marker = "成功";
+        if (result.find(success_marker) != std::string::npos) {
+            return true; 
+        } else {
+            return false; 
+        }
+    } else {
+        std::cerr << "  参数 'link1' 或 'link2' 类型无效或为空." << std::endl;
+        return false;
+    }
+}
+
+bool execute_detach(std::map<std::string, std::shared_ptr<BaseParameter>> parameters)
+{
+    std::cout << "正在执行 detach:" << std::endl;
+
+    // 查找 "model_1" 和 "model_2" 参数
+    auto it_model_1 = parameters.find("model_1");
+    auto it_model_2 = parameters.find("model_2");
+
+    if (it_model_1 == parameters.end() || it_model_2 == parameters.end()) {
+        std::cerr << "  参数中缺少 'mdoel_1' 或 'model_2' 键." << std::endl;
+        return false;
+    }
+
+    // 查找 "link1" 和 "link2" 参数
+    auto it_link1 = parameters.find("link_1");
+    auto it_link2 = parameters.find("link_2");
+
+    if (it_link1 == parameters.end() || it_link2 == parameters.end()) {
+        std::cerr << "  参数中缺少 'link1' 或 'link2' 键." << std::endl;
+        return false;
+    }
+
+
+    // 尝试将参数转换为 StringParameter
+    auto* model_1_param = dynamic_cast<StringParameter*>(it_model_1->second.get());
+    auto* model_2_param = dynamic_cast<StringParameter*>(it_model_2->second.get());
+    auto* link1_param = dynamic_cast<StringParameter*>(it_link1->second.get());
+    auto* link2_param = dynamic_cast<StringParameter*>(it_link2->second.get());
+
+    if (link1_param && link2_param) {
+        // 构建命令行字符串
+        std::string command = "ros2 run arm_workflow detach_client --ros-args ";
+        command += " -p model_name_1:=" + model_1_param->value;
+        command += " -p model_name_2:=" + model_2_param->value;
+        command += " -p link_name_1:=" + link1_param->value;
+        command += " -p link_name_2:=" + link2_param->value;
+
+        std::string full_command = "bash -c 'source /opt/ros/humble/setup.bash && ";
+        full_command += command + " 2>&1'";
+
+
+        // 执行命令
+        FILE* pipe = popen(full_command.c_str(), "r");
+        if (!pipe) {
+            std::cerr << "无法执行命令！" << std::endl;
+            return false;
+        }
+
+        char buffer[128];
+        std::string result = "";
+        while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+            result += buffer;
+        }
+
+        int returnCode = pclose(pipe);
+        if (returnCode != 0) {
+            std::cerr << "执行命令失败，返回码: " << returnCode << std::endl;
+        }
+        // 输出命令执行的结果
+        std::cout << "execute detach 命令输出：" << std::endl;
+        std::cout << result << std::endl;
+
+        std::string success_marker = "成功";
+        if (result.find(success_marker) != std::string::npos) {
+            return true; 
+        } else {
+            return false; 
+        }
     } else {
         std::cerr << "  参数 'link1' 或 'link2' 类型无效或为空." << std::endl;
         return false;

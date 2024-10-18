@@ -16,7 +16,6 @@
 #include "interfaces/action/operate.hpp"
 
 #include "arm_workflow/workflow_step.hpp"
-#include "arm_workflow/DetachClient.hpp"
 #include "arm_workflow/utiles.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -233,7 +232,14 @@ private:
             current_step_index_ += 1;
         }
         else if (step.action_name == "detach") {
-            execute_detach(step.parameters);
+            bool res = execute_detach(step.parameters);
+            if (!res){
+                RCLCPP_ERROR(this->get_logger(), "execute detach 执行失败");
+                rclcpp::shutdown();
+                return;
+            }else{
+                RCLCPP_INFO(this->get_logger(), "execute detach 执行成功");
+            }
             current_step_index_ += 1;
         }
         else {

@@ -35,11 +35,11 @@
             },
             "model_2": {
                 "type": "StringParameter",
-                "value": "executor_bracket"
+                "value": "ground_plane"
             },
             "link_2": {
                 "type": "StringParameter",
-                "value": "executor_bracket::link"
+                "value": "link"
             }
             }
         },
@@ -65,25 +65,39 @@
             }
         },
         {
-            "action_name": "move_arm",
+            "action_name": "move_arm_cartesian",
             "parameters": {
-            "position": {
-                "type": "PoseParameter",
-                "x": -0.40,
-                "y": -0.09,
-                "z": 1.125,
-                "qx": 0.5,
-                "qy": 0.5,
-                "qz": -0.5,
-                "qw": 0.5
-            },
-            "constrain": {
+              "displacement": {
+                "type": "CartesianPathParameter",
+                "delta_x": 0.185,
+                "delta_y": 0.0,
+                "delta_z": 0.0
+              },
+              "constrain": {
                 "type": "ConstrainParameter",
-                "is_constrain": true,
+                "is_constrain": false,
                 "x_axis_tolerance": 0.1,
                 "y_axis_tolerance": 0.1,
                 "z_axis_tolerance": 0.1
+              }
             }
+        },
+        {
+            "action_name": "move_arm_cartesian",
+            "parameters": {
+              "displacement": {
+                "type": "CartesianPathParameter",
+                "delta_x": 0.0,
+                "delta_y": 0.18,
+                "delta_z": 0.10
+              },
+              "constrain": {
+                "type": "ConstrainParameter",
+                "is_constrain": false,
+                "x_axis_tolerance": 0.1,
+                "y_axis_tolerance": 0.1,
+                "z_axis_tolerance": 0.1
+              }
             }
         },
         {
@@ -114,8 +128,8 @@
             "position": {
                 "type": "PoseParameter",
                 "x": -0.40,
-                "y": -0.09,
-                "z": 1.121,
+                "y": 0.11,
+                "z": 1.221,
                 "qx": 0.5,
                 "qy": 0.5,
                 "qz": -0.5,
@@ -131,48 +145,41 @@
             }
         },
         {
-            "action_name": "move_arm",
+            "action_name": "move_arm_cartesian",
             "parameters": {
-            "position": {
-                "type": "PoseParameter",
-                "x": -0.585,
-                "y": -0.09,
-                "z": 1.121,
-                "qx": 0.5,
-                "qy": 0.5,
-                "qz": -0.5,
-                "qw": 0.5
-            },
-            "constrain": {
+              "displacement": {
+                "type": "CartesianPathParameter",
+                "delta_x": 0.0,
+                "delta_y": -0.18,
+                "delta_z": -0.10
+              },
+              "constrain": {
                 "type": "ConstrainParameter",
-                "is_constrain": true,
+                "is_constrain": false,
                 "x_axis_tolerance": 0.1,
                 "y_axis_tolerance": 0.1,
                 "z_axis_tolerance": 0.1
-            }
+              }
             }
         },
         {
-            "action_name": "attach",
+            "action_name": "move_arm_cartesian",
             "parameters": {
-            "model_1": {
-                "type": "StringParameter",
-                "value": "pipettle"
-            },
-            "link_1": {
-                "type": "StringParameter",
-                "value": "pipettle_base"
-            },
-            "model_2": {
-                "type": "StringParameter",
-                "value": "executor_bracket"
-            },
-            "link_2": {
-                "type": "StringParameter",
-                "value": "executor_bracket::link"
+              "displacement": {
+                "type": "CartesianPathParameter",
+                "delta_x": -0.185,
+                "delta_y": 0.0,
+                "delta_z": 0.0
+              },
+              "constrain": {
+                "type": "ConstrainParameter",
+                "is_constrain": false,
+                "x_axis_tolerance": 0.1,
+                "y_axis_tolerance": 0.1,
+                "z_axis_tolerance": 0.1
+              }
             }
-            }
-        },
+          },
         {
             "action_name": "datach",
             "parameters": {
@@ -195,34 +202,42 @@
             }
         },
         {
-            "action_name": "move_arm",
+            "action_name": "attach",
             "parameters": {
-            "position": {
-                "type": "PoseParameter",
-                "x": -0.40,
-                "y": -0.09,
-                "z": 1.121,
-                "qx": 0.5,
-                "qy": 0.5,
-                "qz": -0.5,
-                "qw": 0.5
+            "model_1": {
+                "type": "StringParameter",
+                "value": "pipettle"
             },
-            "constrain": {
-                "type": "ConstrainParameter",
-                "is_constrain": true,
-                "x_axis_tolerance": 0.1,
-                "y_axis_tolerance": 0.1,
-                "z_axis_tolerance": 0.1
+            "link_1": {
+                "type": "StringParameter",
+                "value": "pipettle_base"
+            },
+            "model_2": {
+                "type": "StringParameter",
+                "value": "ground_plane"
+            },
+            "link_2": {
+                "type": "StringParameter",
+                "value": "link"
             }
             }
         },
         {
-            "action_name": "operate",
+            "action_name": "move_arm_cartesian",
             "parameters": {
-                "start_flag": {
-                "type": "StringParameter",
-                "value": "start"
-                }
+              "displacement": {
+                "type": "CartesianPathParameter",
+                "delta_x": 0.185,
+                "delta_y": 0.0,
+                "delta_z": 0.0
+              },
+              "constrain": {
+                "type": "ConstrainParameter",
+                "is_constrain": false,
+                "x_axis_tolerance": 0.1,
+                "y_axis_tolerance": 0.1,
+                "z_axis_tolerance": 0.1
+              }
             }
         }
     ]

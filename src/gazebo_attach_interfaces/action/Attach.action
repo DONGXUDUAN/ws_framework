@@ -1,0 +1,13 @@
+# 目标（Goal）
+string model_name_1
+string link_name_1
+string model_name_2
+string link_name_2
+---
+# 结果（Result）
+bool success
+string message
+---
+# 反馈（Feedback）
+# 如果需要，可以添加反馈字段，例如：
+# float32 progress
