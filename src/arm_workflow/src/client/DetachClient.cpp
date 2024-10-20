@@ -10,7 +10,7 @@ public:
   using Detach = gazebo_attach_interfaces::action::Detach;
   using GoalHandleDetach = rclcpp_action::ClientGoalHandle<Detach>;
 
-  DetachClient() : Node("detach_client")
+  DetachClient() : Node("detach_client"), goal_sent_(false)
   {
     client_ptr_ = rclcpp_action::create_client<Detach>(this, "detach");
 
@@ -48,7 +48,21 @@ private:
     auto send_goal_options = rclcpp_action::Client<Detach>::SendGoalOptions();
     send_goal_options.result_callback =
       std::bind(&DetachClient::result_callback, this, std::placeholders::_1);
-    client_ptr_->async_send_goal(goal_msg, send_goal_options);
+
+    this->goal_sent_ = false;  // 重置状态
+    future_goal_handle_ = client_ptr_->async_send_goal(goal_msg, send_goal_options);
+
+    // 添加定时器以检查目标响应
+    this->timer_ = this->create_wall_timer(
+      std::chrono::seconds(5), std::bind(&DetachClient::check_goal_response, this));
+  }
+
+  void check_goal_response()
+  {
+    if (!goal_sent_) {
+      RCLCPP_WARN(this->get_logger(), "未收到目标响应，重新发送目标...");
+      this->send_goal();  // 重新发送目标
+    }
   }
 
   void result_callback(const GoalHandleDetach::WrappedResult & result)
@@ -59,12 +73,15 @@ private:
         break;
       case rclcpp_action::ResultCode::ABORTED:
         RCLCPP_ERROR(this->get_logger(), "Action被中止");
+        rclcpp::shutdown();
         return;
       case rclcpp_action::ResultCode::CANCELED:
         RCLCPP_ERROR(this->get_logger(), "Action被取消");
+        rclcpp::shutdown();
         return;
       default:
         RCLCPP_ERROR(this->get_logger(), "未知的结果代码");
+        rclcpp::shutdown();
         return;
     }
 
@@ -74,11 +91,16 @@ private:
       RCLCPP_ERROR(this->get_logger(), "分离失败: %s", result.result->message.c_str());
     }
 
-    // 结果返回后关闭节点
+    // 成功收到结果后取消定时器并关闭节点
+    goal_sent_ = true;
+    timer_->cancel();
     rclcpp::shutdown();
   }
 
   rclcpp_action::Client<Detach>::SharedPtr client_ptr_;
+  rclcpp::TimerBase::SharedPtr timer_;
+  std::shared_future<GoalHandleDetach::SharedPtr> future_goal_handle_;  // 存储目标的 future 句柄
+  bool goal_sent_;  // 用于标记目标是否已被服务器响应
 };
 
 int main(int argc, char **argv)

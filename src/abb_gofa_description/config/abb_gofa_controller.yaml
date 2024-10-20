@@ -1,7 +1,7 @@
 ---
 /controller_manager:
   ros__parameters:
-    update_rate: 100  # Hz
+    update_rate: 40  # Hz
     use_sim_time: true
 
     joint_state_broadcaster:
@@ -24,8 +24,8 @@
     state_interfaces:
       - position
       - velocity
-    state_publish_rate: 60.0
-    action_monitor_rate: 20.0
+    state_publish_rate: 20.0
+    action_monitor_rate: 10.0
     allow_partial_joints_goal: false
     constraints:
       stopped_velocity_tolerance: 0.2

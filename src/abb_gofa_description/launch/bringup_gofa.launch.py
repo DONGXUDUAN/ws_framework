@@ -114,7 +114,7 @@ def generate_launch_description():
                     '-entity', "egp64",
                     '-x', '-0.585',
                     '-y', '0.29',
-                    '-z', '1.122',
+                    '-z', '1.125',
                     '-R', '3.1415926',
                     '-P', '0.0',
                     '-Y', '1.5708',
@@ -239,7 +239,6 @@ def generate_launch_description():
             {'link_name_2': 'link'}
         ]
     )
-
     attach_pipettle_node = launch_ros.actions.Node(
         package='arm_workflow',
         executable='attach_client',
@@ -264,24 +263,24 @@ def generate_launch_description():
         openner_state_publisher_node,
         pipettle_state_publisher_node,
         launch_gazebo,
+        attach_bottle_node,
         spawn_gofa_node,
         spawn_egp64_node,
-        spawn_openner_node,
-        spawn_pipettle_node,
-        rviz_node,
-        attach_bottle_node,
-        launch.actions.RegisterEventHandler(
-            event_handler=launch.event_handlers.OnProcessExit(
-                target_action=spawn_pipettle_node,
-                on_exit=[attach_pipettle_node]
-            )
-        ),
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=spawn_egp64_node,
                 on_exit=[attach_egp64_node]
             )
         ),
+        launch.actions.RegisterEventHandler(
+            event_handler=launch.event_handlers.OnProcessExit(
+                target_action=attach_egp64_node,
+                on_exit=[attach_pipettle_node]
+            )
+        ),
+        spawn_openner_node,
+        spawn_pipettle_node,
+        rviz_node,
         egp64_joint_state_broadcaster_spawner,
         egp64_position_controller_spawner,
         abb_gofa_joint_state_broadcaster_spawner,

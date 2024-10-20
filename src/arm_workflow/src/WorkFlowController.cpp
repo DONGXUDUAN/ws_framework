@@ -161,8 +161,10 @@ private:
                 return;
             }else{
                 RCLCPP_INFO(this->get_logger(), "move_arm 执行成功");
+
             }
             current_step_index_ += 1;
+            
         }
         else if (step.action_name == "move_arm_cartesian") {
             bool res = execute_move_arm_cartesian(step.parameters);
@@ -174,6 +176,7 @@ private:
                 RCLCPP_INFO(this->get_logger(), "move_arm_cartesian 执行成功");
             }
             current_step_index_ += 1;
+            
         }
         else if (step.action_name == "move_arm_joint")
         {
@@ -186,6 +189,7 @@ private:
                 RCLCPP_INFO(this->get_logger(), "move_arm_joint 执行成功");
             }
             current_step_index_ += 1;
+            
         }
         else if (step.action_name == "openner") {
             bool res = execute_openner(step.parameters);
@@ -197,6 +201,7 @@ private:
                 RCLCPP_INFO(this->get_logger(), "execute openner 执行成功");
             }
             current_step_index_ += 1;
+            
         }
         else if (step.action_name == "pipettle") {
             bool res = execute_pipettle(step.parameters);
@@ -208,6 +213,7 @@ private:
                 RCLCPP_INFO(this->get_logger(), "execute pipettle 执行成功");
             }
             current_step_index_ += 1;
+            
         }
         else if (step.action_name == "egp64") {
             bool res = execute_egp64(step.parameters);
@@ -219,8 +225,10 @@ private:
                 RCLCPP_INFO(this->get_logger(), "execute egp64 执行成功");
             }
             current_step_index_ += 1;
+            
         }
         else if (step.action_name == "attach") {
+            // std::this_thread::sleep_for(std::chrono::seconds(2));
             bool res = execute_attach(step.parameters);
             if (!res){
                 RCLCPP_ERROR(this->get_logger(), "execute attach 执行失败");
@@ -230,8 +238,10 @@ private:
                 RCLCPP_INFO(this->get_logger(), "execute attach 执行成功");
             }
             current_step_index_ += 1;
+            
         }
         else if (step.action_name == "detach") {
+            // std::this_thread::sleep_for(std::chrono::seconds(2));
             bool res = execute_detach(step.parameters);
             if (!res){
                 RCLCPP_ERROR(this->get_logger(), "execute detach 执行失败");
@@ -241,6 +251,7 @@ private:
                 RCLCPP_INFO(this->get_logger(), "execute detach 执行成功");
             }
             current_step_index_ += 1;
+            
         }
         else {
             RCLCPP_ERROR(this->get_logger(), "未知的Action类型: %s", step.action_name.c_str());

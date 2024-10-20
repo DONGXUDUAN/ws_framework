@@ -16,11 +16,12 @@ public:
   using GoalHandleMoveArm = rclcpp_action::ClientGoalHandle<MoveArm>;
 
   explicit MoveArmActionClient(const rclcpp::NodeOptions & node_options = rclcpp::NodeOptions())
-  : Node("move_arm_client", node_options)
+  : Node("move_arm_client", node_options), goal_sent_(false)
   {
     this->client_ptr_ = rclcpp_action::create_client<MoveArm>(
       this,
       "move_arm");
+
     // 读取参数
     this->declare_parameter<double>("position_x", 0.8);
     this->declare_parameter<double>("position_y", 0.0);
@@ -67,11 +68,27 @@ void send_goal()
     send_goal_options.goal_response_callback = std::bind(&MoveArmActionClient::goal_response_callback, this, std::placeholders::_1);
     send_goal_options.result_callback = std::bind(&MoveArmActionClient::result_callback, this, std::placeholders::_1);
 
-    auto future_goal_handle = this->client_ptr_->async_send_goal(goal_msg, send_goal_options);  
+    goal_sent_ = false;  // 重置目标状态
+    future_goal_handle_ = this->client_ptr_->async_send_goal(goal_msg, send_goal_options);  
+
+    // 添加定时器以检查目标响应
+    this->timer_ = this->create_wall_timer(
+        5s, std::bind(&MoveArmActionClient::check_goal_response, this));
+}
+
+void check_goal_response()
+{
+    if (!goal_sent_) {
+        RCLCPP_WARN(this->get_logger(), "未收到目标响应，重新发送目标...");
+        this->send_goal();  // 重新发送目标
+    }
 }
 
 private:
   rclcpp_action::Client<MoveArm>::SharedPtr client_ptr_;
+  rclcpp::TimerBase::SharedPtr timer_;
+  bool goal_sent_;  // 用于标记目标是否已被服务器响应
+  std::shared_future<GoalHandleMoveArm::SharedPtr> future_goal_handle_;  // 存储目标的 future 句柄
 
 void goal_response_callback(GoalHandleMoveArm::SharedPtr goal_handle)
 {
@@ -79,12 +96,13 @@ void goal_response_callback(GoalHandleMoveArm::SharedPtr goal_handle)
         RCLCPP_ERROR(this->get_logger(), "目标被服务器拒绝");
     } else {
         RCLCPP_INFO(this->get_logger(), "目标已被服务器接受，等待结果");
+        goal_sent_ = true;  // 设置为 true，标记目标已发送成功
+        timer_->cancel();  // 取消定时器
     }
 }
 
-
-  void result_callback(const GoalHandleMoveArm::WrappedResult & result)
-  {
+void result_callback(const GoalHandleMoveArm::WrappedResult & result)
+{
     switch (result.code) {
       case rclcpp_action::ResultCode::SUCCEEDED:
         break;
