@@ -279,6 +279,16 @@
       }
     },
     {
+      "action_name": "egp64",
+        "parameters": {
+          "egp64_joints": {
+            "type": "Egp64JointParameter",
+            "egp64_finger_left_joint": -0.015,
+            "egp64_finger_right_joint":-0.015
+          }
+        }
+    },
+    {
       "action_name": "move_arm_cartesian",
       "parameters": {
         "displacement": {
@@ -301,13 +311,377 @@
         "parameters": {
           "openner_joints": {
             "type": "OpennerJointParameter",
-            "base2link": -0.075,
+            "base2link": -0.085,
             "link2base": 0.0,
             "left_gripper2base": 0.0,
             "right_gripper2base": 0.0,
             "duration": 1.0
           }
         }
+    },
+    {
+      "action_name": "openner",
+        "parameters": {
+          "openner_joints": {
+            "type": "OpennerJointParameter",
+            "base2link": -0.085,
+            "link2base": 6.28,
+            "left_gripper2base": 0.0,
+            "right_gripper2base": 0.0,
+            "duration": 1.0
+          }
+        }
+    },
+    {
+      "action_name": "detach",
+        "parameters": {
+        "model_1": {
+          "type": "StringParameter",
+          "value": "bottle_1"
+        },
+        "link_1": {
+          "type": "StringParameter",
+          "value": "bottle::link"
+        },
+        "model_2": {
+          "type": "StringParameter",
+          "value": "bottle_cap_1"
+        },
+        "link_2": {
+          "type": "StringParameter",
+          "value": "bottle_cap::link"
+        }
+      }
+    },
+    {
+      "action_name": "attach",
+        "parameters": {
+        "model_1": {
+          "type": "StringParameter",
+          "value": "cap_openner"
+        },
+        "link_1": {
+          "type": "StringParameter",
+          "value": "gripper_base"
+        },
+        "model_2": {
+          "type": "StringParameter",
+          "value": "bottle_cap_1"
+        },
+        "link_2": {
+          "type": "StringParameter",
+          "value": "bottle_cap::link"
+        }
+      }
+    },
+    {
+      "action_name": "openner",
+        "parameters": {
+          "openner_joints": {
+            "type": "OpennerJointParameter",
+            "base2link": -0.00,
+            "link2base": 6.28,
+            "left_gripper2base": 0.0,
+            "right_gripper2base": 0.0,
+            "duration": 1.0
+          }
+        }
+    },
+    {
+      "action_name": "move_arm_cartesian",
+      "parameters": {
+        "displacement": {
+          "type": "CartesianPathParameter",
+          "delta_x": 0.1,
+          "delta_y": 0.0,
+          "delta_z": 0.0
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "egp64",
+        "parameters": {
+          "egp64_joints": {
+            "type": "Egp64JointParameter",
+            "egp64_finger_left_joint": -0.008,
+            "egp64_finger_right_joint":-0.008
+          }
+        }
+    },
+    {
+      "action_name": "detach",
+        "parameters": {
+        "model_1": {
+          "type": "StringParameter",
+          "value": "cap_openner"
+        },
+        "link_1": {
+          "type": "StringParameter",
+          "value": "openner_base"
+        },
+        "model_2": {
+          "type": "StringParameter",
+          "value": "bottle_1"
+        },
+        "link_2": {
+          "type": "StringParameter",
+          "value": "bottle::link"
+        }
+      }
+    },
+    {
+      "action_name": "attach",
+        "parameters": {
+        "model_1": {
+          "type": "StringParameter",
+          "value": "bottle_1"
+        },
+        "link_1": {
+          "type": "StringParameter",
+          "value": "bottle::link"
+        },
+        "model_2": {
+          "type": "StringParameter",
+          "value": "egp64"
+        },
+        "link_2": {
+          "type": "StringParameter",
+          "value": "connection"
+        }
+      }
+    },
+    {
+      "action_name": "move_arm_cartesian",
+      "parameters": {
+        "displacement": {
+          "type": "CartesianPathParameter",
+          "delta_x": 0.0,
+          "delta_y": 0.0,
+          "delta_z": 0.0460
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "move_arm_joint",
+      "parameters": {
+        "joints_value": {
+          "type": "JointPathParameter",
+          "joint_0": 1.3265,
+          "joint_1": 0.8029,
+          "joint_2": 0.2269,
+          "joint_3": -3.1241,
+          "joint_4": 1.0297,
+          "joint_5": 1.5533
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "move_arm_cartesian",
+      "parameters": {
+        "displacement": {
+          "type": "CartesianPathParameter",
+          "delta_x": 0.0,
+          "delta_y": 0.0,
+          "delta_z": -0.1
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "egp64",
+        "parameters": {
+          "egp64_joints": {
+            "type": "Egp64JointParameter",
+            "egp64_finger_left_joint": -0.015,
+            "egp64_finger_right_joint":-0.015
+          }
+        }
+    },
+    {
+      "action_name": "attach",
+        "parameters": {
+        "model_1": {
+          "type": "StringParameter",
+          "value": "bottle_1"
+        },
+        "link_1": {
+          "type": "StringParameter",
+          "value": "bottle::link"
+        },
+        "model_2": {
+          "type": "StringParameter",
+          "value": "cap_openner"
+        },
+        "link_2": {
+          "type": "StringParameter",
+          "value": "openner_base"
+        }
+      }
+    },
+    {
+      "action_name": "detach",
+        "parameters": {
+        "model_1": {
+          "type": "StringParameter",
+          "value": "bottle_1"
+        },
+        "link_1": {
+          "type": "StringParameter",
+          "value": "bottle::link"
+        },
+        "model_2": {
+          "type": "StringParameter",
+          "value": "egp64"
+        },
+        "link_2": {
+          "type": "StringParameter",
+          "value": "connection"
+        }
+      }
+    },
+    {
+      "action_name": "move_arm_cartesian",
+      "parameters": {
+        "displacement": {
+          "type": "CartesianPathParameter",
+          "delta_x": 0.0,
+          "delta_y": 0.0,
+          "delta_z": 0.1
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "move_arm_joint",
+      "parameters": {
+        "joints_value": {
+          "type": "JointPathParameter",
+          "joint_0": -0.6109,
+          "joint_1": -0.2094,
+          "joint_2": -2.7576,
+          "joint_3": 0.0,
+          "joint_4": -1.7453,
+          "joint_5": 0.9599
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "move_arm_cartesian",
+      "parameters": {
+        "displacement": {
+          "type": "CartesianPathParameter",
+          "delta_x": 0.0,
+          "delta_y": 0.0,
+          "delta_z": -0.15
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "move_arm_cartesian",
+      "parameters": {
+        "displacement": {
+          "type": "CartesianPathParameter",
+          "delta_x": -0.185,
+          "delta_y": 0.0,
+          "delta_z": 0.0
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "detach",
+        "parameters": {
+        "model_1": {
+          "type": "StringParameter",
+          "value": "egp64"
+        },
+        "link_1": {
+          "type": "StringParameter",
+          "value": "connection"
+        },
+        "model_2": {
+          "type": "StringParameter",
+          "value": "abb_gofa"
+        },
+        "link_2": {
+          "type": "StringParameter",
+          "value": "link_6"
+        }
+      }
+    },
+    {
+      "action_name": "attach",
+        "parameters": {
+        "model_1": {
+          "type": "StringParameter",
+          "value": "egp64"
+        },
+        "link_1": {
+          "type": "StringParameter",
+          "value": "connection"
+        },
+        "model_2": {
+          "type": "StringParameter",
+          "value": "ground_plane"
+        },
+        "link_2": {
+          "type": "StringParameter",
+          "value": "link"
+        }
+      }
     }
   ]
 }

@@ -114,7 +114,7 @@ def generate_launch_description():
                     '-entity', "egp64",
                     '-x', '-0.585',
                     '-y', '0.29',
-                    '-z', '1.125',
+                    '-z', '1.122',
                     '-R', '3.1415926',
                     '-P', '0.0',
                     '-Y', '1.5708',
@@ -162,10 +162,10 @@ def generate_launch_description():
                     '-entity', "pipettle",
                     '-x', '-0.585',
                     '-y', '0.11',
-                    '-z', '1.13',
+                    '-z', '1.123',
                     '-R', '3.1415926',
                     '-P', '0.0',
-                    '-Y', '0.0',
+                    '-Y', '3.1415926',
         ]
     )
 
@@ -247,8 +247,8 @@ def generate_launch_description():
         parameters=[
             {'model_name_1': 'pipettle'},
             {'link_name_1': 'pipettle_base'},
-            {'model_name_2': 'ground_plane'},
-            {'link_name_2': 'link'}
+            {'model_name_2': 'cap_openner'},
+            {'link_name_2': 'openner_base'}
         ]
     )
 
@@ -263,7 +263,7 @@ def generate_launch_description():
         openner_state_publisher_node,
         pipettle_state_publisher_node,
         launch_gazebo,
-        attach_bottle_node,
+        # attach_bottle_node,
         spawn_gofa_node,
         spawn_egp64_node,
         launch.actions.RegisterEventHandler(
@@ -272,14 +272,14 @@ def generate_launch_description():
                 on_exit=[attach_egp64_node]
             )
         ),
-        launch.actions.RegisterEventHandler(
+        spawn_pipettle_node,
+                launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
-                target_action=attach_egp64_node,
+                target_action=spawn_pipettle_node,
                 on_exit=[attach_pipettle_node]
             )
         ),
         spawn_openner_node,
-        spawn_pipettle_node,
         rviz_node,
         egp64_joint_state_broadcaster_spawner,
         egp64_position_controller_spawner,

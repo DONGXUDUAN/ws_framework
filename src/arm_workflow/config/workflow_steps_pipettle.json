@@ -1,173 +1,116 @@
 {
     "workflow_steps": [
         {
-            "action_name": "move_arm",
+            "action_name": "move_arm_joint",
             "parameters": {
-            "position": {
-                "type": "PoseParameter",
-                "x": -0.585,
-                "y": -0.09,
-                "z": 1.125,
-                "qx": 0.5,
-                "qy": 0.5,
-                "qz": -0.5,
-                "qw": 0.5
-            },
-            "constrain": {
+              "joints_value": {
+                "type": "JointPathParameter",
+                "joint_0": -0.1920,
+                "joint_1": -0.4712,
+                "joint_2": -2.7402,
+                "joint_3": 0.0,
+                "joint_4": -1.5184,
+                "joint_5": 1.3963
+              },
+              "constrain": {
                 "type": "ConstrainParameter",
                 "is_constrain": false,
                 "x_axis_tolerance": 0.1,
                 "y_axis_tolerance": 0.1,
                 "z_axis_tolerance": 0.1
+              }
             }
-            }
-        },
-        {
+          },
+          {
             "action_name": "detach",
             "parameters": {
-            "model_1": {
+              "model_1": {
                 "type": "StringParameter",
-                "value": "pipettle"
-            },
-            "link_1": {
+                "value": "egp64"
+              },
+              "link_1": {
                 "type": "StringParameter",
-                "value": "pipettle_base"
-            },
-            "model_2": {
+                "value": "connection"
+              },
+              "model_2": {
                 "type": "StringParameter",
-                "value": "ground_plane"
-            },
-            "link_2": {
+                "value": "cap_openner"
+              },
+              "link_2": {
                 "type": "StringParameter",
-                "value": "link"
+                "value": "openner_base"
+              }
             }
-            }
-        },
-        {
+          },
+          {
             "action_name": "attach",
             "parameters": {
-            "model_1": {
+              "model_1": {
                 "type": "StringParameter",
-                "value": "abb_gofa"
-            },
-            "link_1": {
+                "value": "egp64"
+              },
+              "link_1": {
                 "type": "StringParameter",
-                "value": "link_6"
-            },
-            "model_2": {
+                "value": "connection"
+              },
+              "model_2": {
+                "type": "StringParameter",
+                "value": "cap_openner"
+              },
+              "link_2": {
+                "type": "StringParameter",
+                "value": "openner_base"
+              }
+            }
+          },
+          {
+            "action_name": "detach",
+            "parameters": {
+              "model_1": {
                 "type": "StringParameter",
                 "value": "pipettle"
-            },
-            "link_2": {
+              },
+              "link_1": {
                 "type": "StringParameter",
                 "value": "pipettle_base"
+              },
+              "model_2": {
+                "type": "StringParameter",
+                "value": "cap_openner"
+              },
+              "link_2": {
+                "type": "StringParameter",
+                "value": "openner_base"
+              }
             }
+          },
+          {
+            "action_name": "attach",
+              "parameters": {
+              "model_1": {
+                "type": "StringParameter",
+                "value": "pipettle"
+              },
+              "link_1": {
+                "type": "StringParameter",
+                "value": "pipettle_base"
+              },
+              "model_2": {
+                "type": "StringParameter",
+                "value": "abb_gofa"
+              },
+              "link_2": {
+                "type": "StringParameter",
+                "value": "link_6"
+              }
             }
-        },
-        {
+          },
+          {
             "action_name": "move_arm_cartesian",
             "parameters": {
               "displacement": {
                 "type": "CartesianPathParameter",
                 "delta_x": 0.185,
-                "delta_y": 0.0,
-                "delta_z": 0.0
-              },
-              "constrain": {
-                "type": "ConstrainParameter",
-                "is_constrain": false,
-                "x_axis_tolerance": 0.1,
-                "y_axis_tolerance": 0.1,
-                "z_axis_tolerance": 0.1
-              }
-            }
-        },
-        {
-            "action_name": "move_arm_cartesian",
-            "parameters": {
-              "displacement": {
-                "type": "CartesianPathParameter",
-                "delta_x": 0.0,
-                "delta_y": 0.18,
-                "delta_z": 0.10
-              },
-              "constrain": {
-                "type": "ConstrainParameter",
-                "is_constrain": false,
-                "x_axis_tolerance": 0.1,
-                "y_axis_tolerance": 0.1,
-                "z_axis_tolerance": 0.1
-              }
-            }
-        },
-        {
-            "action_name": "move_arm",
-            "parameters": {
-            "position": {
-                "type": "PoseParameter",
-                "x": 0.201,
-                "y": 0.776,
-                "z": 1.20,
-                "qx": 0.5,
-                "qy": 0.5,
-                "qz": -0.5,
-                "qw": 0.5
-            },
-            "constrain": {
-                "type": "ConstrainParameter",
-                "is_constrain": false,
-                "x_axis_tolerance": 0.1,
-                "y_axis_tolerance": 0.1,
-                "z_axis_tolerance": 0.1
-            }
-            }
-        },
-        {
-            "action_name": "move_arm",
-            "parameters": {
-            "position": {
-                "type": "PoseParameter",
-                "x": -0.40,
-                "y": 0.11,
-                "z": 1.221,
-                "qx": 0.5,
-                "qy": 0.5,
-                "qz": -0.5,
-                "qw": 0.5
-            },
-            "constrain": {
-                "type": "ConstrainParameter",
-                "is_constrain": false,
-                "x_axis_tolerance": 0.1,
-                "y_axis_tolerance": 0.1,
-                "z_axis_tolerance": 0.1
-            }
-            }
-        },
-        {
-            "action_name": "move_arm_cartesian",
-            "parameters": {
-              "displacement": {
-                "type": "CartesianPathParameter",
-                "delta_x": 0.0,
-                "delta_y": -0.18,
-                "delta_z": -0.10
-              },
-              "constrain": {
-                "type": "ConstrainParameter",
-                "is_constrain": false,
-                "x_axis_tolerance": 0.1,
-                "y_axis_tolerance": 0.1,
-                "z_axis_tolerance": 0.1
-              }
-            }
-        },
-        {
-            "action_name": "move_arm_cartesian",
-            "parameters": {
-              "displacement": {
-                "type": "CartesianPathParameter",
-                "delta_x": -0.185,
                 "delta_y": 0.0,
                 "delta_z": 0.0
               },
@@ -180,56 +123,14 @@
               }
             }
           },
-        {
-            "action_name": "datach",
-            "parameters": {
-            "model_1": {
-                "type": "StringParameter",
-                "value": "abb_gofa"
-            },
-            "link_1": {
-                "type": "StringParameter",
-                "value": "link_6"
-            },
-            "model_2": {
-                "type": "StringParameter",
-                "value": "pipettle"
-            },
-            "link_2": {
-                "type": "StringParameter",
-                "value": "pipettle_base"
-            }
-            }
-        },
-        {
-            "action_name": "attach",
-            "parameters": {
-            "model_1": {
-                "type": "StringParameter",
-                "value": "pipettle"
-            },
-            "link_1": {
-                "type": "StringParameter",
-                "value": "pipettle_base"
-            },
-            "model_2": {
-                "type": "StringParameter",
-                "value": "ground_plane"
-            },
-            "link_2": {
-                "type": "StringParameter",
-                "value": "link"
-            }
-            }
-        },
-        {
+          {
             "action_name": "move_arm_cartesian",
             "parameters": {
               "displacement": {
                 "type": "CartesianPathParameter",
-                "delta_x": 0.185,
+                "delta_x": 0.0,
                 "delta_y": 0.0,
-                "delta_z": 0.0
+                "delta_z": 0.20
               },
               "constrain": {
                 "type": "ConstrainParameter",
@@ -239,6 +140,27 @@
                 "z_axis_tolerance": 0.1
               }
             }
-        }
+          },
+        {
+            "action_name": "move_arm_joint",
+            "parameters": {
+              "joints_value": {
+                "type": "JointPathParameter",
+                "joint_0": 1.2915,
+                "joint_1": 0.9076,
+                "joint_2": -0.8203,
+                "joint_3": 0.0,
+                "joint_4": 1.4661,
+                "joint_5": -1.8500
+              },
+              "constrain": {
+                "type": "ConstrainParameter",
+                "is_constrain": false,
+                "x_axis_tolerance": 0.1,
+                "y_axis_tolerance": 0.1,
+                "z_axis_tolerance": 0.1
+              }
+            }
+          }
     ]
 }

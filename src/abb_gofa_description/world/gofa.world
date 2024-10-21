@@ -23,14 +23,22 @@
       </include>
         <pose>-0.6 0.2  0.72 0 0 1.570796</pose>
     </model>
-    <!-- 
+    
     <model name='tube_rack'>
       <static>1</static>
       <include>
         <uri>model://tube_rack</uri>
       </include>
-        <pose>0.0 0.8  0.70 0 0 -1.570796</pose>
-    </model> -->
+        <pose>-0.4 0.8  0.72 0 0 -1.570796</pose>
+    </model>
+
+    <model name='tube'>
+      <static>0</static>
+      <include>
+        <uri>model://tube</uri>
+      </include>
+        <pose>-0.4 0.8 0.73 0 0 0</pose>
+    </model>
 
     <!-- 瓶盘1 -->
     <model name='bottle_plate_1'>
@@ -49,13 +57,13 @@
         <pose>0.245 0.945  0.705 0 0 0</pose>
     </model>
 
-    <model name='bottle_cap_1'>
+    <!-- <model name='bottle_cap_1'>
       <static>0</static>
       <include>
         <uri>model://bottle_cap</uri>
       </include>
         <pose>0.245 0.945  0.780 3.1415926 0 0</pose>
-    </model>
+    </model> -->
 
     <!-- <model name='bottle_2'>
       <static>1</static>
