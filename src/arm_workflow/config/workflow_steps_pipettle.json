@@ -1,166 +1,478 @@
 {
-    "workflow_steps": [
+  "workflow_steps": [
+    {
+      "action_name": "move_arm_joint",
+      "parameters": {
+        "joints_value": {
+          "type": "JointPathParameter",
+          "joint_0": -0.1920,
+          "joint_1": -0.4712,
+          "joint_2": -2.7402,
+          "joint_3": 0.0,
+          "joint_4": -1.5184,
+          "joint_5": 1.3963
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "attach",
+        "parameters": {
+        "model_1": {
+          "type": "StringParameter",
+          "value": "pipettle"
+        },
+        "link_1": {
+          "type": "StringParameter",
+          "value": "pipettle_base"
+        },
+        "model_2": {
+          "type": "StringParameter",
+          "value": "abb_gofa"
+        },
+        "link_2": {
+          "type": "StringParameter",
+          "value": "link_6"
+        }
+      }
+    },
+    {
+      "action_name": "detach",
+      "parameters": {
+        "model_1": {
+          "type": "StringParameter",
+          "value": "pipettle"
+        },
+        "link_1": {
+          "type": "StringParameter",
+          "value": "pipettle_base"
+        },
+        "model_2": {
+          "type": "StringParameter",
+          "value": "cap_openner"
+        },
+        "link_2": {
+          "type": "StringParameter",
+          "value": "openner_base"
+        }
+      }
+    },
+    {
+      "action_name": "move_arm_cartesian",
+      "parameters": {
+        "displacement": {
+          "type": "CartesianPathParameter",
+          "delta_x": 0.0,
+          "delta_y": 0.0,
+          "delta_z": 0.002
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "move_arm_cartesian",
+      "parameters": {
+        "displacement": {
+          "type": "CartesianPathParameter",
+          "delta_x": 0.185,
+          "delta_y": 0.0,
+          "delta_z": 0.0
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "move_arm_cartesian",
+      "parameters": {
+        "displacement": {
+          "type": "CartesianPathParameter",
+          "delta_x": 0.0,
+          "delta_y": 0.0,
+          "delta_z": 0.20
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+  {
+      "action_name": "move_arm_joint",
+      "parameters": {
+        "joints_value": {
+          "type": "JointPathParameter",
+          "joint_0": 1.2915,
+          "joint_1": 0.8724,
+          "joint_2": -0.4538,
+          "joint_3": 0.0,
+          "joint_4": 1.1345,
+          "joint_5": -1.8500
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "move_arm_cartesian",
+      "parameters": {
+        "displacement": {
+          "type": "CartesianPathParameter",
+          "delta_x": 0.0,
+          "delta_y": 0.0,
+          "delta_z": -0.10
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
+    {
+      "action_name": "move_arm_cartesian",
+      "parameters": {
+        "displacement": {
+          "type": "CartesianPathParameter",
+          "delta_x": 0.0,
+          "delta_y": 0.0,
+          "delta_z": 0.10
+        },
+        "constrain": {
+          "type": "ConstrainParameter",
+          "is_constrain": false,
+          "x_axis_tolerance": 0.1,
+          "y_axis_tolerance": 0.1,
+          "z_axis_tolerance": 0.1
+        }
+      }
+    },
         {
-            "action_name": "move_arm_joint",
-            "parameters": {
-              "joints_value": {
-                "type": "JointPathParameter",
-                "joint_0": -0.1920,
-                "joint_1": -0.4712,
-                "joint_2": -2.7402,
-                "joint_3": 0.0,
-                "joint_4": -1.5184,
-                "joint_5": 1.3963
-              },
-              "constrain": {
-                "type": "ConstrainParameter",
-                "is_constrain": false,
-                "x_axis_tolerance": 0.1,
-                "y_axis_tolerance": 0.1,
-                "z_axis_tolerance": 0.1
-              }
-            }
-          },
-          {
-            "action_name": "detach",
-            "parameters": {
-              "model_1": {
-                "type": "StringParameter",
-                "value": "egp64"
-              },
-              "link_1": {
-                "type": "StringParameter",
-                "value": "connection"
-              },
-              "model_2": {
-                "type": "StringParameter",
-                "value": "cap_openner"
-              },
-              "link_2": {
-                "type": "StringParameter",
-                "value": "openner_base"
-              }
-            }
-          },
-          {
-            "action_name": "attach",
-            "parameters": {
-              "model_1": {
-                "type": "StringParameter",
-                "value": "egp64"
-              },
-              "link_1": {
-                "type": "StringParameter",
-                "value": "connection"
-              },
-              "model_2": {
-                "type": "StringParameter",
-                "value": "cap_openner"
-              },
-              "link_2": {
-                "type": "StringParameter",
-                "value": "openner_base"
-              }
-            }
-          },
-          {
-            "action_name": "detach",
-            "parameters": {
-              "model_1": {
-                "type": "StringParameter",
-                "value": "pipettle"
-              },
-              "link_1": {
-                "type": "StringParameter",
-                "value": "pipettle_base"
-              },
-              "model_2": {
-                "type": "StringParameter",
-                "value": "cap_openner"
-              },
-              "link_2": {
-                "type": "StringParameter",
-                "value": "openner_base"
-              }
-            }
-          },
-          {
-            "action_name": "attach",
-              "parameters": {
-              "model_1": {
-                "type": "StringParameter",
-                "value": "pipettle"
-              },
-              "link_1": {
-                "type": "StringParameter",
-                "value": "pipettle_base"
-              },
-              "model_2": {
-                "type": "StringParameter",
-                "value": "abb_gofa"
-              },
-              "link_2": {
-                "type": "StringParameter",
-                "value": "link_6"
-              }
-            }
-          },
-          {
-            "action_name": "move_arm_cartesian",
-            "parameters": {
-              "displacement": {
-                "type": "CartesianPathParameter",
-                "delta_x": 0.185,
-                "delta_y": 0.0,
-                "delta_z": 0.0
-              },
-              "constrain": {
-                "type": "ConstrainParameter",
-                "is_constrain": false,
-                "x_axis_tolerance": 0.1,
-                "y_axis_tolerance": 0.1,
-                "z_axis_tolerance": 0.1
-              }
-            }
-          },
-          {
-            "action_name": "move_arm_cartesian",
-            "parameters": {
-              "displacement": {
-                "type": "CartesianPathParameter",
-                "delta_x": 0.0,
-                "delta_y": 0.0,
-                "delta_z": 0.20
-              },
-              "constrain": {
-                "type": "ConstrainParameter",
-                "is_constrain": false,
-                "x_axis_tolerance": 0.1,
-                "y_axis_tolerance": 0.1,
-                "z_axis_tolerance": 0.1
-              }
-            }
-          },
-        {
-            "action_name": "move_arm_joint",
-            "parameters": {
-              "joints_value": {
-                "type": "JointPathParameter",
-                "joint_0": 1.2915,
-                "joint_1": 0.9076,
-                "joint_2": -0.8203,
-                "joint_3": 0.0,
-                "joint_4": 1.4661,
-                "joint_5": -1.8500
-              },
-              "constrain": {
-                "type": "ConstrainParameter",
-                "is_constrain": false,
-                "x_axis_tolerance": 0.1,
-                "y_axis_tolerance": 0.1,
-                "z_axis_tolerance": 0.1
-              }
+          "action_name": "move_arm_joint",
+          "parameters": {
+            "joints_value": {
+              "type": "JointPathParameter",
+              "joint_0": 2.0944,
+              "joint_1": 0.5411,
+              "joint_2": -0.2967,
+              "joint_3": 0.0,
+              "joint_4": 1.3439,
+              "joint_5": -1.0123
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
             }
           }
-    ]
+        },
+        {
+          "action_name": "move_arm_cartesian",
+          "parameters": {
+            "displacement": {
+              "type": "CartesianPathParameter",
+              "delta_x": 0.0,
+              "delta_y": 0.0,
+              "delta_z": -0.04
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        },
+        {
+          "action_name": "move_arm_cartesian",
+          "parameters": {
+            "displacement": {
+              "type": "CartesianPathParameter",
+              "delta_x": 0.0,
+              "delta_y": 0.0,
+              "delta_z": 0.04
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        },
+        {
+          "action_name": "move_arm_cartesian",
+          "parameters": {
+            "displacement": {
+              "type": "CartesianPathParameter",
+              "delta_x": 0.0,
+              "delta_y": 0.02,
+              "delta_z": 0.0
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        },
+        {
+          "action_name": "move_arm_cartesian",
+          "parameters": {
+            "displacement": {
+              "type": "CartesianPathParameter",
+              "delta_x": 0.0,
+              "delta_y": 0.0,
+              "delta_z": -0.04
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        },
+        {
+          "action_name": "move_arm_cartesian",
+          "parameters": {
+            "displacement": {
+              "type": "CartesianPathParameter",
+              "delta_x": 0.0,
+              "delta_y": 0.0,
+              "delta_z": 0.04
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        },
+        {
+          "action_name": "move_arm_cartesian",
+          "parameters": {
+            "displacement": {
+              "type": "CartesianPathParameter",
+              "delta_x": 0.0,
+              "delta_y": 0.02,
+              "delta_z": 0.0
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        },
+        {
+          "action_name": "move_arm_cartesian",
+          "parameters": {
+            "displacement": {
+              "type": "CartesianPathParameter",
+              "delta_x": 0.0,
+              "delta_y": 0.0,
+              "delta_z": -0.04
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        },
+        {
+          "action_name": "move_arm_cartesian",
+          "parameters": {
+            "displacement": {
+              "type": "CartesianPathParameter",
+              "delta_x": 0.0,
+              "delta_y": 0.0,
+              "delta_z": 0.04
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        },
+        {
+          "action_name": "move_arm_joint",
+          "parameters": {
+            "joints_value": {
+              "type": "JointPathParameter",
+              "joint_0": -0.2793,
+              "joint_1": 0.0,
+              "joint_2": -2.8798,
+              "joint_3": 0.0,
+              "joint_4": -1.8500,
+              "joint_5": 1.3090
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        },
+        {
+          "action_name": "move_arm_cartesian",
+          "parameters": {
+            "displacement": {
+              "type": "CartesianPathParameter",
+              "delta_x": 0.0,
+              "delta_y": 0.0,
+              "delta_z": -0.20
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        },
+        {
+          "action_name": "move_arm_cartesian",
+          "parameters": {
+            "displacement": {
+              "type": "CartesianPathParameter",
+              "delta_x": -0.185,
+              "delta_y": 0.0,
+              "delta_z": 0.0
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        },
+        {
+          "action_name": "move_arm_cartesian",
+          "parameters": {
+            "displacement": {
+              "type": "CartesianPathParameter",
+              "delta_x": 0.0,
+              "delta_y": 0.0,
+              "delta_z": -0.002
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        },
+        {
+          "action_name": "detach",
+            "parameters": {
+            "model_1": {
+              "type": "StringParameter",
+              "value": "pipettle"
+            },
+            "link_1": {
+              "type": "StringParameter",
+              "value": "pipettle_base"
+            },
+            "model_2": {
+              "type": "StringParameter",
+              "value": "abb_gofa"
+            },
+            "link_2": {
+              "type": "StringParameter",
+              "value": "link_6"
+            }
+          }
+        },
+        {
+          "action_name": "attach",
+          "parameters": {
+            "model_1": {
+              "type": "StringParameter",
+              "value": "pipettle"
+            },
+            "link_1": {
+              "type": "StringParameter",
+              "value": "pipettle_base"
+            },
+            "model_2": {
+              "type": "StringParameter",
+              "value": "cap_openner"
+            },
+            "link_2": {
+              "type": "StringParameter",
+              "value": "openner_base"
+            }
+          }
+        },
+        {
+          "action_name": "move_arm_cartesian",
+          "parameters": {
+            "displacement": {
+              "type": "CartesianPathParameter",
+              "delta_x": 0.185,
+              "delta_y": 0.0,
+              "delta_z": 0.0
+            },
+            "constrain": {
+              "type": "ConstrainParameter",
+              "is_constrain": false,
+              "x_axis_tolerance": 0.1,
+              "y_axis_tolerance": 0.1,
+              "z_axis_tolerance": 0.1
+            }
+          }
+        }
+  ]
 }

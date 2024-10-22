@@ -1,0 +1,510 @@
+{
+    "workflow_steps": [
+      {
+        "action_name": "move_arm_joint",
+        "parameters": {
+          "joints_value": {
+            "type": "JointPathParameter",
+            "joint_0": -0.4538,
+            "joint_1": -0.6283,
+            "joint_2": -2.4958,
+            "joint_3": 0.0,
+            "joint_4": -1.5882,
+            "joint_5": 1.1170
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "detach",
+        "parameters": {
+          "model_1": {
+            "type": "StringParameter",
+            "value": "egp64"
+          },
+          "link_1": {
+            "type": "StringParameter",
+            "value": "connection"
+          },
+          "model_2": {
+            "type": "StringParameter",
+            "value": "ground_plane"
+          },
+          "link_2": {
+            "type": "StringParameter",
+            "value": "link"
+          }
+        }
+      },
+      {
+        "action_name": "attach",
+          "parameters": {
+          "model_1": {
+            "type": "StringParameter",
+            "value": "egp64"
+          },
+          "link_1": {
+            "type": "StringParameter",
+            "value": "connection"
+          },
+          "model_2": {
+            "type": "StringParameter",
+            "value": "abb_gofa"
+          },
+          "link_2": {
+            "type": "StringParameter",
+            "value": "link_6"
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_cartesian",
+        "parameters": {
+          "displacement": {
+            "type": "CartesianPathParameter",
+            "delta_x": 0.185,
+            "delta_y": 0.0,
+            "delta_z": 0.0
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_cartesian",
+        "parameters": {
+          "displacement": {
+            "type": "CartesianPathParameter",
+            "delta_x": 0.0,
+            "delta_y": 0.0,
+            "delta_z": 0.15
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_joint",
+        "parameters": {
+          "joints_value": {
+            "type": "JointPathParameter",
+            "joint_0": -1.0821,
+            "joint_1": -0.2967,
+            "joint_2": -3.2463,
+            "joint_3": 0.0698,
+            "joint_4": 0.4538,
+            "joint_5": 1.6057
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_cartesian",
+        "parameters": {
+          "displacement": {
+            "type": "CartesianPathParameter",
+            "delta_x": 0.0,
+            "delta_y": 0.0,
+            "delta_z": -0.1
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "egp64",
+          "parameters": {
+            "egp64_joints": {
+              "type": "Egp64JointParameter",
+              "egp64_finger_left_joint": 0.015,
+              "egp64_finger_right_joint": 0.015
+            }
+          }
+      },
+      {
+        "action_name": "attach",
+          "parameters": {
+          "model_1": {
+            "type": "StringParameter",
+            "value": "tube_3"
+          },
+          "link_1": {
+            "type": "StringParameter",
+            "value": "tube::link"
+          },
+          "model_2": {
+            "type": "StringParameter",
+            "value": "egp64"
+          },
+          "link_2": {
+            "type": "StringParameter",
+            "value": "connection"
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_cartesian",
+        "parameters": {
+          "displacement": {
+            "type": "CartesianPathParameter",
+            "delta_x": 0.0,
+            "delta_y": 0.0,
+            "delta_z": 0.450
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_joint",
+        "parameters": {
+          "joints_value": {
+            "type": "JointPathParameter",
+            "joint_0": 1.7104,
+            "joint_1": -0.0175,
+            "joint_2": -2.6529,
+            "joint_3": 3.0543,
+            "joint_4": 0.4363,
+            "joint_5": -1.3963
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_cartesian",
+        "parameters": {
+          "displacement": {
+            "type": "CartesianPathParameter",
+            "delta_x": 0.0,
+            "delta_y": 0.0,
+            "delta_z": -0.15
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_cartesian",
+        "parameters": {
+          "displacement": {
+            "type": "CartesianPathParameter",
+            "delta_x": 0.0,
+            "delta_y": 0.0,
+            "delta_z": 0.15
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_joint",
+        "parameters": {
+          "joints_value": {
+            "type": "JointPathParameter",
+            "joint_0": 0.8727,
+            "joint_1": -0.0175,
+            "joint_2": -2.6529,
+            "joint_3": 3.0543,
+            "joint_4": 0.4363,
+            "joint_5": -1.3963
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_joint",
+        "parameters": {
+          "joints_value": {
+            "type": "JointPathParameter",
+            "joint_0": 0.8727,
+            "joint_1": -0.0175,
+            "joint_2": -2.6529,
+            "joint_3": 3.0543,
+            "joint_4": 0.4363,
+            "joint_5": -3.4907
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_joint",
+        "parameters": {
+          "joints_value": {
+            "type": "JointPathParameter",
+            "joint_0": 0.8727,
+            "joint_1": -0.0175,
+            "joint_2": -2.6529,
+            "joint_3": 3.0543,
+            "joint_4": 0.4363,
+            "joint_5": -1.3963
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_joint",
+        "parameters": {
+          "joints_value": {
+            "type": "JointPathParameter",
+            "joint_0": -1.1345,
+            "joint_1": -0.1222,
+            "joint_2": -3.0020,
+            "joint_3": 2.7576,
+            "joint_4": -0.0349,
+            "joint_5": -1.0966
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_cartesian",
+        "parameters": {
+          "displacement": {
+            "type": "CartesianPathParameter",
+            "delta_x": 0.0,
+            "delta_y": 0.0,
+            "delta_z": -0.445
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "attach",
+          "parameters": {
+          "model_1": {
+            "type": "StringParameter",
+            "value": "tube_3"
+          },
+          "link_1": {
+            "type": "StringParameter",
+            "value": "tube::link"
+          },
+          "model_2": {
+            "type": "StringParameter",
+            "value": "cap_openner"
+          },
+          "link_2": {
+            "type": "StringParameter",
+            "value": "openner_base"
+          }
+        }
+      },
+      {
+        "action_name": "detach",
+          "parameters": {
+          "model_1": {
+            "type": "StringParameter",
+            "value": "tube_3"
+          },
+          "link_1": {
+            "type": "StringParameter",
+            "value": "tube::link"
+          },
+          "model_2": {
+            "type": "StringParameter",
+            "value": "egp64"
+          },
+          "link_2": {
+            "type": "StringParameter",
+            "value": "connection"
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_cartesian",
+        "parameters": {
+          "displacement": {
+            "type": "CartesianPathParameter",
+            "delta_x": 0.0,
+            "delta_y": 0.0,
+            "delta_z": 0.1
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_joint",
+        "parameters": {
+          "joints_value": {
+            "type": "JointPathParameter",
+            "joint_0": -0.6109,
+            "joint_1": -0.2094,
+            "joint_2": -2.7576,
+            "joint_3": 0.0,
+            "joint_4": -1.7453,
+            "joint_5": 0.9599
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_cartesian",
+        "parameters": {
+          "displacement": {
+            "type": "CartesianPathParameter",
+            "delta_x": 0.0,
+            "delta_y": 0.0,
+            "delta_z": -0.15
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "move_arm_cartesian",
+        "parameters": {
+          "displacement": {
+            "type": "CartesianPathParameter",
+            "delta_x": -0.185,
+            "delta_y": 0.0,
+            "delta_z": 0.0
+          },
+          "constrain": {
+            "type": "ConstrainParameter",
+            "is_constrain": false,
+            "x_axis_tolerance": 0.1,
+            "y_axis_tolerance": 0.1,
+            "z_axis_tolerance": 0.1
+          }
+        }
+      },
+      {
+        "action_name": "detach",
+          "parameters": {
+          "model_1": {
+            "type": "StringParameter",
+            "value": "egp64"
+          },
+          "link_1": {
+            "type": "StringParameter",
+            "value": "connection"
+          },
+          "model_2": {
+            "type": "StringParameter",
+            "value": "abb_gofa"
+          },
+          "link_2": {
+            "type": "StringParameter",
+            "value": "link_6"
+          }
+        }
+      },
+      {
+        "action_name": "attach",
+          "parameters": {
+          "model_1": {
+            "type": "StringParameter",
+            "value": "egp64"
+          },
+          "link_1": {
+            "type": "StringParameter",
+            "value": "connection"
+          },
+          "model_2": {
+            "type": "StringParameter",
+            "value": "ground_plane"
+          },
+          "link_2": {
+            "type": "StringParameter",
+            "value": "link"
+          }
+        }
+      }
+    ]
+  }
+  

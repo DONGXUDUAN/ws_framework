@@ -263,7 +263,7 @@ def generate_launch_description():
         openner_state_publisher_node,
         pipettle_state_publisher_node,
         launch_gazebo,
-        # attach_bottle_node,
+        attach_bottle_node,
         spawn_gofa_node,
         spawn_egp64_node,
         launch.actions.RegisterEventHandler(

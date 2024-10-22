@@ -14,7 +14,6 @@
     <scene>
         <shadows>false</shadows>
     </scene>
-
     <!-- 执行器架 -->
     <model name='executor_bracket'>
       <static>1</static>
@@ -29,17 +28,40 @@
       <include>
         <uri>model://tube_rack</uri>
       </include>
-        <pose>-0.4 0.8  0.72 0 0 -1.570796</pose>
+        <pose>-0.4 0.8  0.71 0 0 -1.570796</pose>
     </model>
 
-    <model name='tube'>
+    <model name='tube_plate'>
+      <static>1</static>
+      <include>
+        <uri>model://bottle_plate</uri>
+      </include>
+        <pose>-0.4 0.8 0.71 3.1415926 0 0</pose>
+    </model>
+
+    <model name='tube_1'>
       <static>0</static>
       <include>
         <uri>model://tube</uri>
       </include>
-        <pose>-0.4 0.8 0.73 0 0 0</pose>
+        <pose>-0.4 0.8  0.71 0 0</pose>
     </model>
 
+    <model name='tube_2'>
+      <static>0</static>
+      <include>
+        <uri>model://tube</uri>
+      </include>
+        <pose>-0.4 0.78  0.71 0 0</pose>
+    </model>
+
+    <model name='tube_3'>
+      <static>0</static>
+      <include>
+        <uri>model://tube</uri>
+      </include>
+        <pose>-0.4 0.76  0.71 0 0</pose>
+    </model>
     <!-- 瓶盘1 -->
     <model name='bottle_plate_1'>
       <static>1</static>
@@ -57,13 +79,22 @@
         <pose>0.245 0.945  0.705 0 0 0</pose>
     </model>
 
-    <!-- <model name='bottle_cap_1'>
+    <model name='bottle_cap_1'>
       <static>0</static>
       <include>
         <uri>model://bottle_cap</uri>
       </include>
         <pose>0.245 0.945  0.780 3.1415926 0 0</pose>
-    </model> -->
+    </model>
+
+
+    <model name='garbage'>
+      <static>1</static>
+      <include>
+        <uri>model://Ecoforms_Plant_Container_12_Pot_Nova</uri>
+      </include>
+        <pose>-0.5 -0.6  0.7080 0 0 0</pose>
+    </model>
 
     <!-- <model name='bottle_2'>
       <static>1</static>
