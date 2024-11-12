@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="tube">
+    <static>false</static>
+    <link name="link">
+      <inertial>
+        <mass>10.0</mass>  <!-- 设置质量为10kg -->
+        <inertia>
+          <ixx>0.05209</ixx>  <!-- 惯性张量 I_xx -->
+          <iyy>0.05209</iyy>  <!-- 惯性张量 I_yy -->
+          <izz>0.000125</izz>  <!-- 惯性张量 I_zz -->
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyz>0</iyz>
+        </inertia>
+      </inertial>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://tube/meshes/tube.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://tube/meshes/tube.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

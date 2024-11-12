@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="bottle">
+  <!-- <static>false</static> -->
+    <link name="link">
+      <inertial>
+        <mass>1.0</mass>  <!-- 设置质量（单位：千克）-->
+      </inertial>
+
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://bottle/meshes/bottle0.9.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://bottle/meshes/bottle0.9.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>
+
